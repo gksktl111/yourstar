@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clearcache": "rm -rf node_modules/ && rm -rf package-lock.json && npm cache clear --force && npm install && npm start"
   },
 
   "proxy": "http://localhost:8080",
