@@ -1,27 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
+import "./fonts/font.css";
+import {InputId, InputPw, LeftDiv, Login, LoginCheck, LoginCheckMessage, PageName, RightDiv} from "./routes/main/main";
+import {useState} from "react";
 
 function App () {
-    const [message, setMessage] = useState("");
+    let [id,setId] = useState("");
+    let [pw,setPw] = useState("");
 
-    useEffect(() => {
-        fetch('/api/hello')
-            .then(response => response.text())
-            .then(message => {
-                setMessage(message);
-            });
-    },[])
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <h1 className="App-title">{message}</h1>
-            </header>
-            <p className="App-intro">
-                To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
-        </div>
+        <>
+            <LeftDiv/>
+            <RightDiv>
+                <PageName>URSTAR</PageName>
+                {/*id와 pw를 저장*/}
+                <InputId onChange={(e) => {
+                    setId(e.target.value)
+                    // console.log(id);
+                }}/>
+                <InputPw onChange={(e)=>{
+                    setPw(e.target.value)
+                    // console.log(pw);
+                }}/>
+                <LoginCheck/>
+                <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
+                <Login onClick={() =>{
+                    console.log(id);
+                    console.log(pw);
+                }
+                }>LOGIN</Login>
+            </RightDiv>
+        </>
     )
 }
 
