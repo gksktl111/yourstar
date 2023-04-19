@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-antrun-" default="main">
-  <target name="main">
-    <copy todir="C:\Users\82106\ij-workspace\yourstar\yourstar\target/classes/public">
-      <fileset dir="C:\Users\82106\ij-workspace\yourstar\yourstar/frontend/build" />
-    </copy>
-  </target>
-</project>
