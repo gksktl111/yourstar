@@ -1,4 +1,5 @@
 import styled, {keyframes} from 'styled-components';
+import {useEffect, useState} from "react";
 
 let LeftDiv = styled.div`
   position: absolute;
@@ -8,11 +9,32 @@ let LeftDiv = styled.div`
   top: 50%;
 
   transform: translate(-50%, -50%);
-  background: url("/img/saucydog.jpg") no-repeat center center fixed;
+  background: url("/img/${props => props.num}.jpg") no-repeat center center fixed;
   background-size: cover;
-  //border: 1px solid #282c34;
   border-radius: 5px;
 `
+
+function LoginImage(){
+    const [imageNum, setImageNum] = useState(1);
+    let cnt = imageNum;
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            cnt = cnt +1;
+            if(cnt === 6) {
+                setImageNum(1);
+                cnt = imageNum;
+            }
+            setImageNum(cnt);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <LeftDiv num={imageNum} />
+    );
+}
+
 
 let RightDiv = styled.div`
   position: absolute;
@@ -22,7 +44,6 @@ let RightDiv = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   
-  background: #FFFFFF;
   background-image: ${props => props.mainPhoto};
   border: 1px solid #D4D4D4;
   border-radius: 5px;
@@ -97,7 +118,7 @@ let Login = styled.button`
   border-radius: 5px;
   outline: none;
   
-  // 버튼에 마우스를 올리면 밝아지는 효과
+  //버튼에 마우스를 올리면 밝아지는 효과
   &:hover {
     opacity: 0.8;
     animation: ${fadeIn} 0.2s ease-in-out;
@@ -123,4 +144,4 @@ let LoginCheckMessage = styled.p`
 `
 
 
-export {LeftDiv,RightDiv,PageName,InputId,InputPw,Login,LoginCheck,LoginCheckMessage}
+export {LoginImage,RightDiv,PageName,InputId,InputPw,Login,LoginCheck,LoginCheckMessage}

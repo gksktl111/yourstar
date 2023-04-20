@@ -1,6 +1,15 @@
 import './App.css';
 import "./fonts/font.css";
-import {InputId, InputPw, LeftDiv, Login, LoginCheck, LoginCheckMessage, PageName, RightDiv} from "./routes/main/main";
+import {
+    InputId,
+    InputPw,
+    Login,
+    LoginCheck,
+    LoginCheckMessage,
+    LoginImage,
+    PageName,
+    RightDiv
+} from "./routes/main/login";
 import {useState} from "react";
 
 function App () {
@@ -9,17 +18,15 @@ function App () {
 
     return (
         <>
-            <LeftDiv/>
+            <LoginImage/>
             <RightDiv>
                 <PageName>URSTAR</PageName>
                 {/*id와 pw를 저장*/}
                 <InputId onChange={(e) => {
                     setId(e.target.value)
-                    // console.log(id);
                 }}/>
                 <InputPw onChange={(e)=>{
                     setPw(e.target.value)
-                    // console.log(pw);
                 }}/>
                 <LoginCheck/>
                 <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
