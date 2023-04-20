@@ -3,14 +3,15 @@ import "./fonts/font.css";
 import {
     InputId,
     InputPw,
-    Login,
+    LoginPage,
     LoginCheck,
     LoginCheckMessage,
     LoginImage,
     PageName,
     RightDiv
-} from "./routes/main/login";
+} from "./routes/login/loginPage";
 import {useState} from "react";
+import { Link, Route, Switch } from 'react-router-dom';
 
 function App () {
     let [id,setId] = useState("");
@@ -30,11 +31,11 @@ function App () {
                 }}/>
                 <LoginCheck/>
                 <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
-                <Login onClick={() =>{
+                <LoginPage onClick={() =>{
                     console.log(id);
                     console.log(pw);
                 }
-                }>LOGIN</Login>
+                }>LOGIN</LoginPage>
             </RightDiv>
         </>
     )

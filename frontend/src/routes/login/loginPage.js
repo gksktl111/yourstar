@@ -12,8 +12,12 @@ let LeftDiv = styled.div`
   background: url("/img/${props => props.num}.jpg") no-repeat center center fixed;
   background-size: cover;
   border-radius: 5px;
-`
 
+  // 일정 크기 이하로 줄어들면 사라짐
+  @media (max-width: 1050px), (max-height: 520px) {
+    display: none;
+  }
+`
 function LoginImage(){
     const [imageNum, setImageNum] = useState(1);
     let cnt = imageNum;
@@ -35,11 +39,12 @@ function LoginImage(){
     );
 }
 
-
 let RightDiv = styled.div`
   position: absolute;
   width: 23%;
+  min-width: 250px;
   height: 75%;
+  min-height: 400px;
   left: 63%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -47,12 +52,18 @@ let RightDiv = styled.div`
   background-image: ${props => props.mainPhoto};
   border: 1px solid #D4D4D4;
   border-radius: 5px;
+
+  @media (max-width: 1050px), (max-height: 520px) {
+    left: 50%;
+  }
 `
 
 let PageName = styled.div`
   position: absolute;
   left: 26%;
   top: 5%;
+  
+  min-width: 250px;
 
   font-family: PyeongChangPeace-Bold;
   font-style: normal;
@@ -60,6 +71,17 @@ let PageName = styled.div`
   line-height: 5rem;
 
   color: #7946FF;
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  // 일정 크기로 줄어들면 폰트 고정
+  @media (max-width: 1050px), (max-height: 520px) {
+    font-size: 28px;
+  }
 `
 
 let InputId = styled.input`
@@ -102,7 +124,7 @@ const fadeIn = keyframes`
   }
 `;
 
-let Login = styled.button`
+let LoginPage = styled.button`
   position: absolute;
   width: 81%;
   height: 6%;
@@ -125,7 +147,6 @@ let Login = styled.button`
   }
 `
 
-
 let LoginCheck = styled.input.attrs({type : "checkbox"})`
   position: absolute;
   width: 60%;
@@ -140,8 +161,13 @@ let LoginCheckMessage = styled.p`
   top: 43%;
   
   font-family: Pretendard-Regular;
-  font-size: 1vw;
+  font-size: 12px;
+  
+  // 드래그 방지 
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `
 
-
-export {LoginImage,RightDiv,PageName,InputId,InputPw,Login,LoginCheck,LoginCheckMessage}
+export {LoginImage,RightDiv,PageName,InputId,InputPw,LoginPage,LoginCheck,LoginCheckMessage}
