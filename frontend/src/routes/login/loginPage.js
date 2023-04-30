@@ -124,7 +124,7 @@ const fadeIn = keyframes`
   }
 `;
 
-let LoginPage = styled.button`
+let LoginButton = styled.button`
   position: absolute;
   width: 81%;
   height: 6%;
@@ -170,4 +170,32 @@ let LoginCheckMessage = styled.p`
   user-select: none;
 `
 
-export {LoginImage,RightDiv,PageName,InputId,InputPw,LoginPage,LoginCheck,LoginCheckMessage}
+function LoginPage(){
+    let [id,setId] = useState("");
+    let [pw,setPw] = useState("");
+
+    return(
+        <>
+        <LoginImage/>
+        <RightDiv>
+        <PageName>URSTAR</PageName>
+        {/*id와 pw를 저장*/}
+        <InputId onChange={(e) => {
+            setId(e.target.value)
+        }}/>
+        <InputPw onChange={(e)=>{
+            setPw(e.target.value)
+        }}/>
+        <LoginCheck/>
+        <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
+        <LoginButton onClick={() =>{
+            console.log(id);
+            console.log(pw);
+        }
+        }>LOGIN</LoginButton>
+        </RightDiv>
+        </>
+    )
+}
+
+export default LoginPage;
