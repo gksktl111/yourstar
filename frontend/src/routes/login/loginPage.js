@@ -18,26 +18,6 @@ let LeftDiv = styled.div`
     display: none;
   }
 `
-function LoginImage(){
-    const [imageNum, setImageNum] = useState(1);
-    let cnt = imageNum;
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            cnt = cnt +1;
-            if(cnt === 6) {
-                setImageNum(1);
-                cnt = imageNum;
-            }
-            setImageNum(cnt);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <LeftDiv num={imageNum} />
-    );
-}
 
 let RightDiv = styled.div`
   position: absolute;
@@ -170,6 +150,28 @@ let LoginCheckMessage = styled.p`
   user-select: none;
 `
 
+// 이미지 전환 애니메이션
+function LoginImage(){
+    const [imageNum, setImageNum] = useState(1);
+    let cnt = imageNum;
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            cnt = cnt +1;
+            if(cnt === 6) {
+                setImageNum(1);
+                cnt = imageNum;
+            }
+            setImageNum(cnt);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <LeftDiv num={imageNum} />
+    );
+}
+
 function LoginPage(){
     let [id,setId] = useState("");
     let [pw,setPw] = useState("");
@@ -180,7 +182,8 @@ function LoginPage(){
         <RightDiv>
         <PageName>URSTAR</PageName>
         {/*id와 pw를 저장*/}
-        <InputId onChange={(e) => {
+        <InputId
+            onChange={(e) => {
             setId(e.target.value)
         }}/>
         <InputPw onChange={(e)=>{
