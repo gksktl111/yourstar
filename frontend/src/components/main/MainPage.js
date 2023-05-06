@@ -1,7 +1,8 @@
 import styled, {keyframes} from 'styled-components';
-import {useEffect, useState} from "react";
 import {Route, Routes, NavLink} from "react-router-dom";
+import Profile from "./Profile.js";
 
+// SideBar 컴포넌트 설정
 let Nav = styled.div`
   position: fixed;
   width: 200px;
@@ -17,9 +18,10 @@ let Nav = styled.div`
 
 // 휴대폰 컴포넌트
 let PhoneNav = styled.div`
-  
+
 `
 
+// 링크 밝아지는 애니메이션
 const fadeOut = keyframes`
   from {
     opacity: 1;
@@ -29,23 +31,24 @@ const fadeOut = keyframes`
   }
 `;
 
+// Nav의 칸 크기 설정
 let NavSection = styled.div`
   width: 88.5%;
   height: 6%;
-  
+
   display: flex;
 
   background-color: white;
-  
+
   //border-bottom: 1px solid black;
   //border: 1px solid black;
-  
-  border-radius: 5px  ;
-  
+
+  border-radius: 5px;
+
   justify-content: center;
   align-items: center;
   background-size: cover;
-  
+
   margin: 20px;
   margin-left: 10px;
 
@@ -61,61 +64,65 @@ let NavSection = styled.div`
   }
 `
 
+// Nav의 빈공간이 필요해서 만듬
 let NavSectionBlank = styled.div`
   width: 88.5%;
   height: 6%;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
   background-size: cover;
-  
+
   margin: 20px;
   margin-left: 10px;
 `
 
+// Nav위에 메인 이미지
 let NavMainImg = styled.div`
   position: absolute;
-  
+
   width: 70px;
   height: 70px;
-  
-  
+
+
   background-image: url("/img/urstar.png");
   background-size: cover;
-  
+
 `
 
+// Nav내부에 이미지 삽입
 let NavImg = styled.div`
   position: absolute;
-  
+
   width: 25px;
   height: 25px;
-  
+
   left: 10px;
-  
+
   background-image: url("/img/${props => props.img}.png");
   background-size: cover;
-  
+
   border-radius: 5px;
-  
+
   margin-left: 10px;
-  
+
 `
 
+// Nav 텍스트
 let NavTag = styled.span`
   position: absolute;
-  
+
   left: 65px;
-  
+
   font-family: Pretendard-Regular;
-  
-  text-align: left;
 `
 
+// 오른쪽의 컨텐츠
 let Content = styled.div`
   position: absolute;
-  width: 100%;
+  left: 200px;
+  width: 87%;
   height: 90%;
   background-color: black;
 `
@@ -127,57 +134,66 @@ let MusicPlayer = styled.div`
   top: 90%;
   background-color: #0854f6;
 `
-function NavBar(){
 
-    return(
+const NavStyle = {
+    color: 'black',
+}
+
+function MainPage() {
+
+    return (
         <>
-            <Content></Content>
             <Nav>
                 <NavSectionBlank>
                     <NavMainImg/>
                 </NavSectionBlank>
 
-                <NavSectionBlank/>
-
-                <NavSection>
-                    <NavLink to="/main" activeClassName="selected">
-                        <NavImg img={"home"} />
+                <NavLink to={"/main"} style={{ color : "black" }}>
+                    <NavSection>
+                        <NavImg img={"home"}/>
                         <NavTag>홈</NavTag>
-                    </NavLink>
-                </NavSection>
+                    </NavSection>
+                </NavLink>
 
-                <NavSection>
-                    <NavLink to="/user" activeClassName="selected">
-                        <NavImg img={"user"} />
+                <NavLink to={"/main/profile"} style={{ color : "black" }}>
+                    <NavSection>
+                        <NavImg img={"profile"}/>
                         <NavTag>프로필</NavTag>
-                    </NavLink>
-                </NavSection>
+                    </NavSection>
+                </NavLink>
 
-                <NavSection>
-                    <NavLink to="/email" activeClassName="selected">
-                        <NavImg img={"email"} />
+                <NavLink to={"/main/email"} style={{ color : "black" }}>
+                    <NavSection>
+                        <NavImg img={"email"}/>
                         <NavTag>메시지</NavTag>
-                    </NavLink>
-                </NavSection>
+                    </NavSection>
+                </NavLink>
 
-                <NavSection>
-                    <NavLink to="/music" activeClassName="selected">
-                        <NavImg img={"music"} />
+                <NavLink to={"/main/music"} style={{ color : "black" }}>
+                    <NavSection>
+                        <NavImg img={"music"}/>
                         <NavTag>플레이리스트</NavTag>
-                    </NavLink>
-                </NavSection>
+                    </NavSection>
+                </NavLink>
 
-                <NavSection>
-                    <NavLink to="/settings" activeClassName="selected">
-                        <NavImg img={"setting"} />
+                <NavLink to={"/main/setting"} style={{ color : "black" }}>
+                    <NavSection>
+                        <NavImg img={"setting"}/>
                         <NavTag>설정</NavTag>
-                    </NavLink>
-                </NavSection>
-
-                <MusicPlayer></MusicPlayer>
+                    </NavSection>
+                </NavLink>
             </Nav>
+
+            <Routes>
+                <Route path="/main" element={<MainPage/>}/>
+                <Route path="/main/profile" element={<Profile/>}/>
+            </Routes>
+
+            <Content/>
+
+            <MusicPlayer/>
         </>
     )
 }
 
-export default NavBar;
+export default MainPage;

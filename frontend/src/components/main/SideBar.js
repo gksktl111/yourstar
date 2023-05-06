@@ -1,6 +1,8 @@
 import styled, {keyframes} from 'styled-components';
-import {useEffect, useState} from "react";
+import {Route, Routes, NavLink} from "react-router-dom";
 
+
+// SideBar 컴포넌트 설정
 let Nav = styled.div`
   position: fixed;
   width: 200px;
@@ -19,6 +21,7 @@ let PhoneNav = styled.div`
   
 `
 
+// 링크 밝아지는 애니메이션
 const fadeOut = keyframes`
   from {
     opacity: 1;
@@ -28,6 +31,7 @@ const fadeOut = keyframes`
   }
 `;
 
+// Nav의 칸 크기 설정
 let NavSection = styled.div`
   width: 88.5%;
   height: 6%;
@@ -60,6 +64,7 @@ let NavSection = styled.div`
   }
 `
 
+// Nav의 빈공간이 필요해서 만듬
 let NavSectionBlank = styled.div`
   width: 88.5%;
   height: 6%;
@@ -73,7 +78,7 @@ let NavSectionBlank = styled.div`
   margin-left: 10px;
 `
 
-
+// Nav위에 메인 이미지
 let NavMainImg = styled.div`
   position: absolute;
   
@@ -86,6 +91,7 @@ let NavMainImg = styled.div`
   
 `
 
+// Nav내부에 이미지 삽입
 let NavImg = styled.div`
   position: absolute;
   
@@ -103,6 +109,7 @@ let NavImg = styled.div`
   
 `
 
+// SideBar 텍스트
 let NavTag = styled.span`
   position: absolute;
   
@@ -113,9 +120,11 @@ let NavTag = styled.span`
   text-align: left;
 `
 
+// 오른쪽의 컨텍츠
 let Content = styled.div`
   position: absolute;
-  width: 100%;
+  left: 200px;
+  width: 90%;
   height: 90%;
   background-color: black;
 `
@@ -128,10 +137,14 @@ let MusicPlayer = styled.div`
   background-color: #0854f6;
 `
 
-function FeedPage(){
+const NavStyle ={
+    color : 'black',
+}
+
+function SideBar(){
+
     return(
         <>
-            <Content></Content>
             <Nav>
                 <NavSectionBlank>
                     <NavMainImg/>
@@ -140,38 +153,45 @@ function FeedPage(){
                 <NavSectionBlank/>
 
                 <NavSection>
-                    <NavImg
-                        img={"home"}/>
-                    <NavTag>홈</NavTag>
+                    <NavLink exact to={"/main"}>
+                        <NavImg img={"home"} />
+                        <NavTag>홈</NavTag>
+                    </NavLink >
                 </NavSection>
 
                 <NavSection>
-                    <NavImg
-                        img={"user"}/>
-                    <NavTag>프로필</NavTag>
+                    <NavLink to={"/main/profile"}>
+                        <NavImg img={"profile"} />
+                        <NavTag>프로필</NavTag>
+                    </NavLink>
                 </NavSection>
 
                 <NavSection>
-                    <NavImg
-                        img={"email"}/>
+                    <NavImg img={"email"} />
                     <NavTag>메시지</NavTag>
                 </NavSection>
 
                 <NavSection>
-                    <NavImg
-                        img={"music"}/>
+                    <NavImg img={"music"} />
                     <NavTag>플레이리스트</NavTag>
                 </NavSection>
 
                 <NavSection>
-                    <NavImg
-                        img={"setting"}/>
+                    <NavImg img={"setting"} />
                     <NavTag>설정</NavTag>
                 </NavSection>
             </Nav>
-            <MusicPlayer></MusicPlayer>
+
+            <Content>
+                <Routes>
+                    <Route exact path="/main">
+                    </Route>
+                    <Route path="/main/profile">
+                    </Route>
+                </Routes>
+            </Content>
         </>
     )
 }
 
-export default FeedPage;
+export default SideBar;
