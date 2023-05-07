@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 import {Route, Routes, NavLink} from "react-router-dom";
 
 
-// SideBar 컴포넌트 설정
+// Aa 컴포넌트 설정
 let Nav = styled.div`
   position: fixed;
   width: 200px;
@@ -81,35 +81,35 @@ let NavSectionBlank = styled.div`
 // Nav위에 메인 이미지
 let NavMainImg = styled.div`
   position: absolute;
-  
+
   width: 70px;
   height: 70px;
-  
-  
-  background-image: url("/img/urstar.png");
+
+
+  background-image: url("/frontend/src/img/urstar.png");
   background-size: cover;
-  
+
 `
 
 // Nav내부에 이미지 삽입
 let NavImg = styled.div`
   position: absolute;
-  
+
   width: 25px;
   height: 25px;
-  
+
   left: 10px;
-  
-  background-image: url("/img/${props => props.img}.png");
+
+  background-image: url("/frontend/src/img/${props => props.img}.png");
   background-size: cover;
-  
+
   border-radius: 5px;
-  
+
   margin-left: 10px;
-  
+
 `
 
-// SideBar 텍스트
+// Aa 텍스트
 let NavTag = styled.span`
   position: absolute;
   
@@ -141,7 +141,7 @@ const NavStyle ={
     color : 'black',
 }
 
-function SideBar(){
+function Aa(){
 
     return(
         <>
@@ -194,4 +194,4 @@ function SideBar(){
     )
 }
 
-export default SideBar;
+export default Aa;

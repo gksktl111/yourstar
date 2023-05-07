@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 import {Route, Routes, NavLink} from "react-router-dom";
 import Profile from "./Profile.js";
 
-// SideBar 컴포넌트 설정
+// Aa 컴포넌트 설정
 let Nav = styled.div`
   position: fixed;
   width: 200px;
@@ -86,7 +86,7 @@ let NavMainImg = styled.div`
   height: 70px;
 
 
-  background-image: url("/img/urstar.png");
+  background-image: url("/frontend/src/img/urstar.png");
   background-size: cover;
 
 `
@@ -100,7 +100,7 @@ let NavImg = styled.div`
 
   left: 10px;
 
-  background-image: url("/img/${props => props.img}.png");
+  background-image: url("/frontend/src/img/${props => props.img}.png");
   background-size: cover;
 
   border-radius: 5px;

@@ -9,7 +9,7 @@ let LeftDiv = styled.div`
   top: 50%;
 
   transform: translate(-50%, -50%);
-  background: url("/img/${props => props.num}.jpg") no-repeat center center fixed;
+  background: url("/frontend/src/img/${props => props.num}.jpg") no-repeat center center fixed;
   background-size: cover;
   border-radius: 5px;
 

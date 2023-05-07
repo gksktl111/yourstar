@@ -1,16 +1,26 @@
-import './App.css';
-import "./components/fonts/font.css";
-
-import {BrowserRouter} from 'react-router-dom';
-import Authorized from "./components/Authorized";
+import React from "react";
+import Sidebar from "./components/Sidebar";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Mail from "./pages/Mail";
+import PlayList from "./pages/PlayList";
+import Setting from "./pages/Setting";
 
 function App() {
 
     return (
         <>
-            <BrowserRouter>
-                <Au></Au>
-            </BrowserRouter>
+            <Sidebar>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/home" element={<Home/>}/>
+                    <Route path="/profile" element={<Profile/>}/>
+                    <Route path="/mail" element={<Mail/>}/>
+                    <Route path="/playList" element={<PlayList/>}/>
+                    <Route path="/setting" element={<Setting/>}/>
+                </Routes>
+            </Sidebar>
         </>
     )
 }

@@ -1,7 +1,6 @@
 package com.example.yourstar.domains;
 
-// 임포트 할때 jakarta로 임포트 해야됨 보니까 버전 차이로 인한 오류 같음(boot 3.x 부터는 javax)
-
+// 부트를 2.5.0으로 내려서 문제 해결함
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
