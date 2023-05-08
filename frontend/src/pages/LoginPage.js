@@ -9,7 +9,7 @@ let LeftDiv = styled.div`
   top: 50%;
 
   transform: translate(-50%, -50%);
-  background: url("/frontend/src/img/${props => props.num}.jpg") no-repeat center center fixed;
+  background: url("/assets/img/${props => props.num}.jpg") no-repeat center center fixed;
   background-size: cover;
   border-radius: 5px;
 
@@ -79,6 +79,7 @@ let InputId = styled.input`
   border-radius: 3px;
   outline: none;
 `
+
 let InputPw = styled.input`
   position: absolute;
   width: 79%;
@@ -153,14 +154,15 @@ let LoginCheckMessage = styled.p`
 // 이미지 전환 애니메이션
 function LoginImage(){
     const [imageNum, setImageNum] = useState(1);
-    let cnt = imageNum;
+    let cnt = 1;
 
     useEffect(() => {
         const interval = setInterval(() => {
-            cnt = cnt +1;
+            cnt = cnt + 1;
+            console.log(imageNum);
             if(cnt === 6) {
                 setImageNum(1);
-                cnt = imageNum;
+                cnt = 1;
             }
             setImageNum(cnt);
         }, 5000);

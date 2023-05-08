@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 
-const Profile = () => {
+function TestApi() {
     const [msg, setMsg] = useState([]);
     useEffect(() => {
         fetch("/profile")
@@ -8,8 +8,7 @@ const Profile = () => {
             .then((data) => {setMsg(data);})
     }, []);
     return (
-        <div>
-            <h1>프로필 페이지</h1>
+        <div className="App">
             <header className="App-header">
                 <ul>
                     {msg.map((content, idx) => <li key={`${idx} - ${content}`}>{content}</li>)}
@@ -17,6 +16,6 @@ const Profile = () => {
             </header>
         </div>
     );
-};
+}
 
-export default Profile;
+export default TestApi;

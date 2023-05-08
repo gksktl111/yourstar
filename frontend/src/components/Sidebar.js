@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '../App.css';
+import './Sidebar.css';
 import {BiHomeAlt} from "react-icons/bi";
 import {FiMail, FiSettings} from "react-icons/fi"
 import {CgProfile} from "react-icons/cg"
@@ -51,9 +51,8 @@ const Sidebar = ({children}) => {
                 {
                     menuItem.map((item, index) => (
                         <NavLink to={item.path} key={index}
-                                 className="link" activeClassName="active">
+                                 className="link" activeclassname="active">
                             <div className = "icon">{item.icon}</div>
-
                             <div style={{display: isOpen ? "block" : "none"}} className = "link_text">{item.name}</div>
                         </NavLink>
                     ))
