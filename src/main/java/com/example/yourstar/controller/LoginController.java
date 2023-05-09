@@ -11,6 +11,7 @@ public class LoginController {
 
     @PostMapping("/login/check")
     // post로 보내면 리퀘스트바디로 받아야함
+
     public boolean loginCheck(@RequestBody Map<String, String> data) {
         String id = data.get("id");
         String pw = data.get("pw");
