@@ -23,13 +23,13 @@ import javax.persistence.Table;
 // 해당클래스를 entity 클래스라고 설정하고 이름은 User로
 @Entity(name = "User")
 // db의 User 테이블과 클래스를 매핑 시킴
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
     // id를 pk로 사용함
     @Id
-    private String id;
-    private String pw;
+    private String userId;
+    private String userName;
     private String name;
     private String sex;
     private int age;
