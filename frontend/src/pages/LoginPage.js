@@ -2,7 +2,9 @@ import styled, {keyframes} from 'styled-components';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
 import IdFindModal from "../components/login/IdFindModal";
+import {idFindModalOn} from "../store/store";
 
 let LeftDiv = styled.div`
   position: absolute;
@@ -48,7 +50,8 @@ let PageName = styled.span`
 
   min-width: 140px;
   
-  font-family: PyeongChangPeace-Bold;
+  font-family: 'PyeongChangPeace-Bold', sans-serif;
+  font-weight: 700;
   font-style: normal;
   font-size: 2.5vw;
   line-height: 5rem;
@@ -76,7 +79,7 @@ let InputId = styled.input`
 
   background: #F4F4F4;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 3px;
@@ -84,7 +87,7 @@ let InputId = styled.input`
 
   ::placeholder {
     color: #A0A0A0;
-    font-family: Pretendard-Regular;
+    font-family: 'Pretendard', sans-serif;
     font-size: 14px;
   }
   
@@ -104,7 +107,7 @@ let InputPw = styled.input.attrs({type: "password"})`
 
   background: #F4F4F4;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 3px;
@@ -112,7 +115,7 @@ let InputPw = styled.input.attrs({type: "password"})`
 
   ::placeholder {
     color: #A0A0A0;
-    font-family: Pretendard-Regular;
+    font-family: 'Pretendard', sans-serif;
     font-size: 14px;
   }
 
@@ -142,7 +145,7 @@ let LoginButton = styled.button`
   color: white;
   background: #7946FF;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 5px;
@@ -171,7 +174,7 @@ let FindId = styled.button`
   color: #000000;
   background: #ffffff;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   font-size: 0.5vw;
 
@@ -199,7 +202,7 @@ let FindPw = styled.button`
   color: #000000;
   background: #ffffff;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   font-size: 0.5vw;
 
@@ -227,8 +230,8 @@ let SignUp = styled.button`
 
   color: #000000;
   background-color: #ffffff;
-  
-  font-family: Pretendard-Regular;
+
+  font-family: 'Pretendard', sans-serif;
 
   font-size: 1.0vw;
 
@@ -274,7 +277,10 @@ function LoginPage() {
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
 
-    const [isIdFindModalOpen, setIsIdFindModalOpen] = useState(false);
+    //const [isIdFindModalOpen, setIsIdFindModalOpen] = useState(false);
+    let state =  useSelector((state) => {return state});
+    let dispatch = useDispatch();
+
     const [isPwFindModalOpen, setIsPwFindModalOpen] = useState(false);
     const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
@@ -321,11 +327,16 @@ function LoginPage() {
                 <LoginButton
                     onClick={loginCheck}
                 >로그인</LoginButton>
-                <FindId>아이디 찾기</FindId>
+                <FindId onClick={() => {
+                    dispatch(idFindModalOn())
+                }}>
+                    아이디 찾기</FindId>
                 <FindPw>비밀번호 찾기</FindPw>
                 <SignUp>회원이 아니신가요?</SignUp>
             </RightDiv>
 
+            {/*아이디 찾기 모달창*/}
+            {state.isIdFindModalOpen === true ?  <IdFindModal/> : null}
         </>
     )
 }

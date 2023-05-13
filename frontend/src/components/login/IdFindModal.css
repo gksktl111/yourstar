@@ -1,11 +1,257 @@
-.login-find-modal {
+/* 모달 창 배경 */
+.modal_background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 투명도 50%의 검은색 배경 */
+
+    z-index: 1; /* 모달 창보다 아래에 위치 */
+}
+
+
+/* 모달 창 */
+.login_find_modal_container {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 800px;
-    background-color: #fff;
-    border-radius: 10px;
-    z-index: 9999;
+    width: 450px;
+    height: 550px;
+
+    background: #ffffff;
+    border-radius: 20px;
+
+    z-index: 2; /* 모달 창보다 위에 위치 */
+}
+
+.login_find_modal_close {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    width: 8%;
+    height: 6%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 100%;
+
+    transition: background-color 0.2s ease-out; /* 배경색 애니메이션 효과 속성 */
+    background-color: #ffffff; /* 기본 배경색 설정 */
+}
+
+/* close 호버 애니메이션 */
+.login_find_modal_close:hover {
+    background-color: darkgrey; /* 마우스 오버시 배경색 변경 */
+}
+
+
+.login_find_modal_context {
+    position: fixed;
+    width: 100%;
+    top: 10%;
+
+    font-family: 'Pretendard', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_input1{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 20%;
+    left: 17.5%;
+
+    border: 1px solid #D4D4D4;
+    border-radius: 5px;
+    outline: none;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+}
+
+.login_find_modal_input1_result{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 26%;
+    left: 17.5%;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_button1{
+    position: fixed;
+    width: 65.5%;
+    height: 5%;
+    top: 32%;
+    left: 17.5%;
+
+    color: #ffffff;
+    background: #7946FF;
+
+    border: 1px solid #D4D4D4;
+    border-radius: 5px;
+    outline: none;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+.login_find_modal_button1:hover {
+    opacity: 0.8;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.login_find_modal_question{
+    position: fixed;
+    width: 65.5%;
+    height: 5%;
+    top: 40%;
+    left: 17.5%;
+
+    color: #000000;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_input2{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 45%;
+    left: 17.5%;
+
+    border: 1px solid #D4D4D4;
+    border-radius: 5px;
+    outline: none;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+}
+
+.login_find_modal_question_result{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 51%;
+    left: 17.5%;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_button2{
+    position: fixed;
+    width: 65.5%;
+    height: 5%;
+    top: 57%;
+    left: 17.5%;
+
+    color: #ffffff;
+    background: #7946FF;
+
+    border: 1px solid #D4D4D4;
+    border-radius: 5px;
+    outline: none;
+
+    font-family: 'Pretendard', sans-serif;
+    font-size: 15px;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_show_id{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 65%;
+    left: 17.5%;
+
+    font-family: 'Pretendard', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.login_find_modal_show_id_result{
+    position: fixed;
+    width: 65%;
+    height: 5%;
+    top: 73%;
+
+    font-weight: bold;
+    font-size: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
