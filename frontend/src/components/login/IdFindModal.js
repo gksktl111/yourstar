@@ -9,10 +9,10 @@ const IdFindModal = () => {
     // 회원정보 찾기 관련 스테이트
     // on/off
     const [showInputResult, setShowInputResult] = useState(false);
-    // 회원정보 input 값
-    const [inputIdValue, setInputIdValue] = useState('');
-    // idSearchResult 값
-    const [idSearchResult, setIdSearchResult] = useState('');
+    // 회원 휴대폰 번호 input 값
+    const [inputNumValue, setInputNumValue] = useState('');
+    // 휴대폰 번호 검색 결과값
+    const [numSearchResult, setNumSearchResult] = useState('');
 
     // 질문 관련 스테이트
     // on/off
@@ -28,25 +28,25 @@ const IdFindModal = () => {
     const [showIdResult, setShowIdResult] =useState('');
 
 
-    // 회원정보 검사
-    const handleIdSearchButtonClick = () => {
+    // 휴대폰번호 검사
+    const handleNumSearch = () => {
         // 회원정보 인풋의 내용을 가져옴
         // 나중에 서버에서 사용자 정보 가져오기
 
         // console.log(inputValue)
-        if (inputIdValue === "123") {
+        if (inputNumValue === "01066628752") {
             setShowInputResult(true);
             setShowQuestion(true);
-            setIdSearchResult("확인되었습니다!");
+            setNumSearchResult("확인되었습니다!");
         } else {
             setShowInputResult(true);
             setShowQuestion(false)
-            setIdSearchResult("회원정보가 없습니다.");
+            setNumSearchResult("회원정보가 없습니다.");
         }
     };
 
     // 질문 관련 검사
-    const handleQuestionSearchButtonClick = () => {
+    const handleQuestionSearch = () => {
         // 서버에서 질문 가져와서 검사 후 아이디 까지 가져오기
         // 나중에 서버에서 사용자 정보 가져오기
 
@@ -81,20 +81,25 @@ const IdFindModal = () => {
                 <input
                     className="login_find_modal_input1"
                     placeholder={"휴대폰 번호"}
-                    value={inputIdValue}
+                    value={inputNumValue}
                     onChange={(e) => {
-                        setInputIdValue(e.target.value);
+                        setInputNumValue(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleNumSearch();
+                        }
                     }}
                 />
 
                 {/*인풋1의 결과 출력*/}
                 <div className="login_find_modal_input1_result">
-                    {showInputResult ? idSearchResult : ''}
+                    {showInputResult ? numSearchResult : ''}
                 </div>
 
                 {/*사용자 검색 버튼*/}
                 <button className="login_find_modal_button1"
-                        onClick={handleIdSearchButtonClick}>
+                        onClick={handleNumSearch}>
                     사용자 검색
                 </button>
 
@@ -104,20 +109,28 @@ const IdFindModal = () => {
                         {/*20자 이내로 작성하기*/}
                         당신의 어릴적 별명은?
                     </div>
+
                     {/*질문 답변 검사*/}
                     <input className='login_find_modal_input2'
                            placeholder={"답변을 적어주세요!"}
                            value={inputQuestionValue}
                            onChange={(e) => {
                                setInputQuestionValue(e.target.value);
-                           }}>
+                           }}
+                           onKeyDown={(e) => {
+                               if (e.key === 'Enter') {
+                                   handleQuestionSearch();
+                               }
+                           }}
+                    >
                     </input>
+
                     {/*아이디 찾기 결과 출력*/}
                     <div className="login_find_modal_question_result">
                         {showQuestion ? questionResult : ''}
                     </div>
                     <button className="login_find_modal_button2"
-                            onClick={handleQuestionSearchButtonClick}>
+                            onClick={handleQuestionSearch}>
                         확인
                     </button>
                 </> : null}

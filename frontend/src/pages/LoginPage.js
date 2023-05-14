@@ -4,7 +4,8 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import IdFindModal from "../components/login/IdFindModal";
-import {idFindModalOn} from "../store/store";
+import {idFindModalOn, pwFindModalOn} from "../store/store";
+import PwFindModal from "../components/login/PwFindModal";
 
 let LeftDiv = styled.div`
   position: absolute;
@@ -277,12 +278,8 @@ function LoginPage() {
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
 
-    //const [isIdFindModalOpen, setIsIdFindModalOpen] = useState(false);
     let state =  useSelector((state) => {return state});
     let dispatch = useDispatch();
-
-    const [isPwFindModalOpen, setIsPwFindModalOpen] = useState(false);
-    const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
     const handleInputId = (e) => {
         setInputId(e.target.value);
@@ -331,12 +328,18 @@ function LoginPage() {
                     dispatch(idFindModalOn())
                 }}>
                     아이디 찾기</FindId>
-                <FindPw>비밀번호 찾기</FindPw>
+                <FindPw onClick = {() => {
+                    dispatch(pwFindModalOn())
+                }}
+                >비밀번호 찾기</FindPw>
                 <SignUp>회원이 아니신가요?</SignUp>
             </RightDiv>
 
             {/*아이디 찾기 모달창*/}
             {state.isIdFindModalOpen === true ?  <IdFindModal/> : null}
+            
+            {/*비밀번호 찾기 모달창*/}
+            {state.isPwFindModalOpen === true ?  <PwFindModal/> : null}
         </>
     )
 }
