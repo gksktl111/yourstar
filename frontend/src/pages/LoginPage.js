@@ -4,8 +4,9 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import IdFindModal from "../components/login/IdFindModal";
-import {idFindModalOn, pwFindModalOn} from "../store/store";
+import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/LoginModalstore";
 import PwFindModal from "../components/login/PwFindModal";
+import SignUpModal from "../components/login/SignUpModal";
 
 let LeftDiv = styled.div`
   position: absolute;
@@ -332,7 +333,10 @@ function LoginPage() {
                     dispatch(pwFindModalOn())
                 }}
                 >비밀번호 찾기</FindPw>
-                <SignUp>회원이 아니신가요?</SignUp>
+                <SignUp onClick = {() => {
+                    dispatch(signUpModalOn())
+                }}
+                >회원이 아니신가요?</SignUp>
             </RightDiv>
 
             {/*아이디 찾기 모달창*/}
@@ -340,6 +344,9 @@ function LoginPage() {
             
             {/*비밀번호 찾기 모달창*/}
             {state.isPwFindModalOpen === true ?  <PwFindModal/> : null}
+
+            {/*회원가입 모달창*/}
+            {state.isSignUpModalOpen === true ? <SignUpModal/> : null}
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './IdFindModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
-import {idFindModalOff} from "../../store/store";
+import {idFindModalOff} from "../../store/LoginModalstore";
 
 const IdFindModal = () => {
     const dispatch = useDispatch();

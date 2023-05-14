@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import './PwFindModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
-import {pwFindModalOff} from "../../store/store";
+import {pwFindModalOff} from "../../store/LoginModalstore";
 
 const PwFindModal = () => {
     const dispatch = useDispatch();
+
     // 회원정보 찾기 관련 스테이트
     // on/off
     const [showInputResult, setShowInputResult] = useState(false);
