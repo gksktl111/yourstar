@@ -37,11 +37,11 @@ const PwFindModal = () => {
         if (inputIdValue === "gksktl111") {
             setShowInputResult(true);
             setShowEmail(true);
-            setIdSearchResult("확인되었습니다!");
+            setIdSearchResult("확인 되었습니다!");
         } else {
             setShowInputResult(true);
             setShowEmail(false)
-            setIdSearchResult("회원정보가 없습니다.");
+            setIdSearchResult(<span style={{color : "red"}}>회원 정보가 없습니다.</span>);
         }
     };
 
@@ -56,11 +56,11 @@ const PwFindModal = () => {
             setShowInputResult(true);
             setShowEmail(true);
             setShowSend(true);
-            setEmailResult("확인되었습니다!");
+            setEmailResult("확인 되었습니다!");
         } else {
             setShowInputResult(true);
             setShowSend(false)
-            setEmailResult("정보가 다릅니다!");
+            setEmailResult(<span style={{color : "red"}}>다시 확인해주세요.</span>);
         }
     };
 
@@ -88,7 +88,7 @@ const PwFindModal = () => {
                     }}
                     // 엔터로 확인 가능
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === 'Enter' || e.key === "Tab") {
                             handleIdSearch();
                         }
                     }}
@@ -120,7 +120,7 @@ const PwFindModal = () => {
                                setInputEmailValue(e.target.value);
                            }}
                            onKeyDown={(e) => {
-                               if (e.key === 'Enter') {
+                               if (e.key === 'Enter'|| e.key === "Tab") {
                                    handleEmailSearch();
                                }
                            }}
