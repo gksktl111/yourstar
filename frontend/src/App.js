@@ -1,43 +1,44 @@
-import './App.css';
-import "./fonts/font.css";
-import {
-    InputId,
-    InputPw,
-    LoginPage,
-    LoginCheck,
-    LoginCheckMessage,
-    LoginImage,
-    PageName,
-    RightDiv
-} from "./routes/login/loginPage";
-import {useState} from "react";
-import { Link, Route, Switch } from 'react-router-dom';
+import React from "react";
+import Sidebar from "./components/Sidebar";
+import {Route, Routes, useLocation} from "react-router-dom";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Mail from "./pages/Mail";
+import PlayList from "./pages/PlayList";
+import Setting from "./pages/Setting";
+import LoginPage from "./pages/LoginPage";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import MusicPlayer from "./components/MusicPlayer";
 
-function App () {
-    let [id,setId] = useState("");
-    let [pw,setPw] = useState("");
+function App() {
+
+    const location = useLocation();
+
+    // 로그인 페이지에서는 사이드바를 렌더링하지 않습니다.
+    if (location.pathname === '/login') {
+        return (
+            <Routes>
+                <Route path="/login" element={<LoginPage/>}/>
+            </Routes>
+        );
+    }
 
     return (
-        <>
-            <LoginImage/>
-            <RightDiv>
-                <PageName>URSTAR</PageName>
-                {/*id와 pw를 저장*/}
-                <InputId onChange={(e) => {
-                    setId(e.target.value)
-                }}/>
-                <InputPw onChange={(e)=>{
-                    setPw(e.target.value)
-                }}/>
-                <LoginCheck/>
-                <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
-                <LoginPage onClick={() =>{
-                    console.log(id);
-                    console.log(pw);
-                }
-                }>LOGIN</LoginPage>
-            </RightDiv>
-        </>
+        <div>
+            <Sidebar>
+                <Routes>
+                    <Route element={<PrivateRoutes/>}>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/profile" element={<Profile/>}/>
+                        <Route path="/mail" element={<Mail/>}/>
+                        <Route path="/playList" element={<PlayList/>}/>
+                        <Route path="/setting" element={<Setting/>}/>
+                    </Route>
+                    <Route path="/login" element={<LoginPage/>}/>
+                </Routes>
+            </Sidebar>
+            <MusicPlayer/>
+        </div>
     )
 }
 
