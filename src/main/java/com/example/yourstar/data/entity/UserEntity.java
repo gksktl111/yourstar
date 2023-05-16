@@ -22,7 +22,7 @@ public class UserEntity {
     String userId;
 
     @Column(name = "user_name")
-    String user_Name;
+    String userName;
 
     @Column(name = "user_email")
     String userEmail;
