@@ -11,34 +11,34 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
-
     const location = useLocation();
 
-    // 로그인 페이지에서는 사이드바를 렌더링하지 않습니다.
-    if (location.pathname === '/login') {
+    // 로그인 페이지에서는 사이드바와 뮤직 플레이어를 렌더링하지 않습니다.
+    if (location.pathname === "/login") {
         return (
             <Routes>
-                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/login" element={<LoginPage />} />
             </Routes>
         );
     }
 
     return (
-        <div>
+        <>
             <Sidebar>
                 <Routes>
-                    <Route element={<PrivateRoutes/>}>
+                    <Route path="/login" element={<LoginPage/>}/>
+
+                    <Route path={"/"} element={<PrivateRoutes/>}>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/mail" element={<Mail/>}/>
                         <Route path="/playList" element={<PlayList/>}/>
                         <Route path="/setting" element={<Setting/>}/>
                     </Route>
-                    <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
             </Sidebar>
             <MusicPlayer/>
-        </div>
+        </>
     )
 }
 
