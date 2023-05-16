@@ -8,6 +8,7 @@ import PlayList from "./pages/PlayList";
 import Setting from "./pages/Setting";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
 
@@ -17,13 +18,13 @@ function App() {
     if (location.pathname === '/login') {
         return (
             <Routes>
-                <Route exact path="/login" element={<LoginPage/>}/>
+                <Route path="/login" element={<LoginPage/>}/>
             </Routes>
         );
     }
 
     return (
-        <>
+        <div>
             <Sidebar>
                 <Routes>
                     <Route element={<PrivateRoutes/>}>
@@ -33,10 +34,11 @@ function App() {
                         <Route path="/playList" element={<PlayList/>}/>
                         <Route path="/setting" element={<Setting/>}/>
                     </Route>
-                    <Route exact path="/login" element={<LoginPage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
             </Sidebar>
-        </>
+            <MusicPlayer/>
+        </div>
     )
 }
 

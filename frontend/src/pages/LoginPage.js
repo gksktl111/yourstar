@@ -1,5 +1,12 @@
 import styled, {keyframes} from 'styled-components';
 import {useEffect, useState} from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import IdFindModal from "../components/login/IdFindModal";
+import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/LoginModalstore";
+import PwFindModal from "../components/login/PwFindModal";
+import SignUpModal from "../components/login/SignUpModal";
 
 let LeftDiv = styled.div`
   position: absolute;
@@ -28,7 +35,7 @@ let RightDiv = styled.div`
   left: 63%;
   top: 50%;
   transform: translate(-50%, -50%);
-  
+
   background-image: ${props => props.mainPhoto};
   border: 1px solid #D4D4D4;
   border-radius: 5px;
@@ -38,14 +45,15 @@ let RightDiv = styled.div`
   }
 `
 
-let PageName = styled.div`
+let PageName = styled.span`
   position: absolute;
-  left: 26%;
+  left: 28%;
   top: 5%;
-  
-  min-width: 250px;
 
-  font-family: PyeongChangPeace-Bold;
+  min-width: 140px;
+  
+  font-family: 'PyeongChangPeace-Bold', sans-serif;
+  font-weight: 700;
   font-style: normal;
   font-size: 2.5vw;
   line-height: 5rem;
@@ -57,7 +65,7 @@ let PageName = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  
+
   // 일정 크기로 줄어들면 폰트 고정
   @media (max-width: 1050px), (max-height: 520px) {
     font-size: 28px;
@@ -73,14 +81,26 @@ let InputId = styled.input`
 
   background: #F4F4F4;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 3px;
   outline: none;
+
+  ::placeholder {
+    color: #A0A0A0;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+  }
+  
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `
 
-let InputPw = styled.input`
+let InputPw = styled.input.attrs({type: "password"})`
   position: absolute;
   width: 79%;
   height: 6%;
@@ -89,11 +109,23 @@ let InputPw = styled.input`
 
   background: #F4F4F4;
 
-  font-family: Pretendard-Regular;
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 3px;
   outline: none;
+
+  ::placeholder {
+    color: #A0A0A0;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+  }
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `
 
 const fadeIn = keyframes`
@@ -110,41 +142,110 @@ let LoginButton = styled.button`
   width: 81%;
   height: 6%;
   left: 9.5%;
-  top: 55%;
+  top: 45%;
 
   color: white;
   background: #7946FF;
-  
-  font-family: Pretendard-Regular;
+
+  font-family: 'Pretendard', sans-serif;
 
   border: 1px solid #D4D4D4;
   border-radius: 5px;
   outline: none;
-  
+
   //버튼에 마우스를 올리면 밝아지는 효과
   &:hover {
     opacity: 0.8;
     animation: ${fadeIn} 0.2s ease-in-out;
   }
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `
 
-let LoginCheck = styled.input.attrs({type : "checkbox"})`
+let FindId = styled.button`
   position: absolute;
-  width: 60%;
-  height: 3.5%;
-  left: -17%;
-  top: 45%;
+  width: 20%;
+  height: 6%;
+  left: 24.5%;
+  top: 52.5%;
+
+  color: #000000;
+  background: #ffffff;
+
+  font-family: 'Pretendard', sans-serif;
+
+  font-size: 0.5vw;
+
+  border: none;
+
+  //버튼에 마우스를 올리면 커지는 효과
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `
 
-let LoginCheckMessage = styled.p`
+let FindPw = styled.button`
   position: absolute;
-  left: 20%;
-  top: 43%;
-  
-  font-family: Pretendard-Regular;
-  font-size: 12px;
-  
-  // 드래그 방지 
+  width: 20%;
+  height: 6%;
+  left: 55.5%;
+  top: 52.5%;
+
+  color: #000000;
+  background: #ffffff;
+
+  font-family: 'Pretendard', sans-serif;
+
+  font-size: 0.5vw;
+
+  border: none;
+  outline: none;
+
+  //버튼에 마우스를 올리면 커지는 효과
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  // 드래그 방지
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`
+
+let SignUp = styled.button`
+  position: absolute;
+  width: 81%;
+  height: 6%;
+  left: 9.5%;
+  top: 60%;
+
+  color: #000000;
+  background-color: #ffffff;
+
+  font-family: 'Pretendard', sans-serif;
+
+  font-size: 1.0vw;
+
+  border: none;
+  outline: none;
+
+  //버튼에 마우스를 올리면 커지는 효과
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  // 드래그 방지
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -152,7 +253,7 @@ let LoginCheckMessage = styled.p`
 `
 
 // 이미지 전환 애니메이션
-function LoginImage(){
+function LoginImage() {
     const [imageNum, setImageNum] = useState(1);
     let cnt = 1;
 
@@ -160,7 +261,7 @@ function LoginImage(){
         const interval = setInterval(() => {
             cnt = cnt + 1;
             console.log(imageNum);
-            if(cnt === 6) {
+            if (cnt === 6) {
                 setImageNum(1);
                 cnt = 1;
             }
@@ -170,35 +271,84 @@ function LoginImage(){
     }, []);
 
     return (
-        <LeftDiv num={imageNum} />
+        <LeftDiv num={imageNum}/>
     );
 }
 
-function LoginPage(){
-    let [id,setId] = useState("");
-    let [pw,setPw] = useState("");
+function LoginPage() {
+    const [inputId, setInputId] = useState("");
+    const [inputPw, setInputPw] = useState("");
 
-    return(
+    let state =  useSelector((state) => {return state});
+    let dispatch = useDispatch();
+
+    const handleInputId = (e) => {
+        setInputId(e.target.value);
+    };
+
+    const handleInputPw = (e) => {
+        setInputPw(e.target.value);
+    };
+
+    const navigate = useNavigate();
+
+    // 로그인 검사
+    const loginCheck = async () => {
+        await axios.post('/login/check', {
+            id: inputId,
+            pw: inputPw
+        }).then((response) => {
+            // 응답이 true면 로그인체크 후 메인페이지로 이동
+            if (response.data === true) {
+                localStorage.setItem('logincheck', true);
+                navigate('/');
+            } else {
+                // 실패하면 오류 메시지
+                alert('회원정보가 다릅니다')
+            }
+        }).catch(function () {
+                console.log('실패함')
+        })
+    }
+
+
+    return (
         <>
-        <LoginImage/>
-        <RightDiv>
-        <PageName>URSTAR</PageName>
-        {/*id와 pw를 저장*/}
-        <InputId
-            onChange={(e) => {
-            setId(e.target.value)
-        }}/>
-        <InputPw onChange={(e)=>{
-            setPw(e.target.value)
-        }}/>
-        <LoginCheck/>
-        <LoginCheckMessage>로그인 정보 저장하기</LoginCheckMessage>
-        <LoginButton onClick={() =>{
-            console.log(id);
-            console.log(pw);
-        }
-        }>LOGIN</LoginButton>
-        </RightDiv>
+            <LoginImage/>
+            <RightDiv>
+                <PageName>URSTAR</PageName>
+                {/*id와 pw를 저장*/}
+                <InputId
+                    placeholder="아이디"
+                    onChange={handleInputId}/>
+                <InputPw
+                    placeholder="비밀번호"
+                    onChange={handleInputPw}/>
+                <LoginButton
+                    onClick={loginCheck}
+                >로그인</LoginButton>
+                <FindId onClick={() => {
+                    dispatch(idFindModalOn())
+                }}>
+                    아이디 찾기</FindId>
+                <FindPw onClick = {() => {
+                    dispatch(pwFindModalOn())
+                }}
+                >비밀번호 찾기</FindPw>
+                <SignUp onClick = {() => {
+                    dispatch(signUpModalOn())
+                }}
+                >회원이 아니신가요?</SignUp>
+            </RightDiv>
+
+            {/*아이디 찾기 모달창*/}
+            {state.isIdFindModalOpen === true ?  <IdFindModal/> : null}
+            
+            {/*비밀번호 찾기 모달창*/}
+            {state.isPwFindModalOpen === true ?  <PwFindModal/> : null}
+
+            {/*회원가입 모달창*/}
+            {state.isSignUpModalOpen === true ? <SignUpModal/> : null}
         </>
     )
 }
