@@ -298,11 +298,13 @@ function LoginPage() {
             id: inputId,
             pw: inputPw
         }).then((response) => {
-            if(response.data == false){
-                alert('회원정보가 다릅니다')
-            }else {
+            // 응답이 true면 로그인체크 후 메인페이지로 이동
+            if (response.data === true) {
                 localStorage.setItem('logincheck', true);
                 navigate('/');
+            } else {
+                // 실패하면 오류 메시지
+                alert('회원정보가 다릅니다')
             }
         }).catch(function () {
                 console.log('실패함')
