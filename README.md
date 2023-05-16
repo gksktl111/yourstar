@@ -7,4 +7,7 @@
 3. 수정사항이 생기면 수정후 ./mvnw clean install 통해서 꼭 빌드 후 서버를 실행 해야 한다
 4. 서버 시작은 java -jar target/yourstar-0.0.1-SNAPSHOT.jar  키워드로 시작하고 localhost:8080 불러오기
 5. 나는 노희철
+<<<<<<< HEAD
 6. asdadasdasdasdsadasdad
+=======
+6. asdadasdasdasdsad
