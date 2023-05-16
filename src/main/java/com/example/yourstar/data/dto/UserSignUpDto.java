@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserSignUpDto {
 
-    private  String userId;
-    private  String userName;
-    private  String userEmail;
-    private  String userPw;
-    private  String userGender;
-    private  int userAge;
+    private  String id;
+    private  String name;
+    private  String email;
+    private  String pw;
+    private  String gender;
+    private  int age;
     private  int postCount;
     private  String phone;
     private  String introduce;

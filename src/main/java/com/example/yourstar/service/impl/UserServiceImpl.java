@@ -26,12 +26,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String signUp(UserSignUpDto userSignUpDto) {
         try{
-            String userId = userSignUpDto.getUserId();
-            String userName= userSignUpDto.getUserName();
-            String userEmail = userSignUpDto.getUserEmail();
-            String userPw = userSignUpDto.getUserPw();
-            String userGender = userSignUpDto.getUserGender();
-            int userAge = userSignUpDto.getUserAge();
+            String userId = userSignUpDto.getId();
+            String userName= userSignUpDto.getName();
+            String userEmail = userSignUpDto.getEmail();
+            String userPw = userSignUpDto.getPw();
+            String userGender = userSignUpDto.getGender();
+            int userAge = userSignUpDto.getAge();
             int postCount = userSignUpDto.getPostCount();
             String phone = userSignUpDto.getPhone();
             String introduce = userSignUpDto.getIntroduce();
@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public String logIn(UserLogInDto userLogInDto) {
         try{
-            UserEntity user = userDao.getUser(userLogInDto.getUserId());
-            if (user.getUserPw().equals(userLogInDto.getUserPw())){
+            UserEntity user = userDao.getUser(userLogInDto.getId());
+            if (user.getUserPw().equals(userLogInDto.getPw())){
                 return "success";
             }else {
                 return "failed";
