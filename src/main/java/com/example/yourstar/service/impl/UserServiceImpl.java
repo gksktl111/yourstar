@@ -1,6 +1,7 @@
 package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.UserDao;
+import com.example.yourstar.data.dao.VerificationCodeDao;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
 import com.example.yourstar.data.entity.UserEntity;
@@ -16,12 +17,19 @@ import java.sql.Timestamp;
 public class UserServiceImpl implements UserService {
 
     UserDao userDao;
+    VerificationCodeDao verificationCodeDao;
     @Autowired
-    public  UserServiceImpl(UserDao userDao){
+    public  UserServiceImpl(UserDao userDao,VerificationCodeDao verificationCodeDao){
         this.userDao = userDao;
+        this.verificationCodeDao =verificationCodeDao;
     }
+
     @Autowired
     private JavaMailSender javaMailSender;
+
+
+
+
 
     @Override
     public String signUp(UserSignUpDto userSignUpDto) {
@@ -60,29 +68,35 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     @Override
-    public String sendMail(String userMail) {
+    public String FindId(String userEmail) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        String ranNum;
         try{
-            // 1. 메일 수신자 설정
-            simpleMailMessage.setTo(userMail);
+             if (userDao.findEmail(userEmail).getUserEmail().equals(userEmail)){
+                 UserEntity user = userDao.findEmail(userEmail); // 이메일로 userid 가져오기
 
-            // 2. 메일 제목 설정
-            simpleMailMessage.setSubject("urstar 이메일 인증 번호");
-            int randomVal = (int)(Math.random() * 1000000);
-            ranNum = Integer.toString(randomVal);
-            String contents = "urstar 인증 번호는 " + ranNum + " 입니다";
+                 // 1. 메일 수신자 설정
+                 simpleMailMessage.setTo(userEmail);
 
-            // 3. 메일 내용 설정
-            simpleMailMessage.setText(contents);
+                 // 2. 메일 제목 설정
+                 simpleMailMessage.setSubject("urstar 아이디 찾기 결과");
 
-            // 4. 메일 전송
-            javaMailSender.send(simpleMailMessage);
+                 // 3. 메일 내용 설정
+                 String contents = "urstar 아이디는 " + user.getUserId() + " 입니다";
+                 simpleMailMessage.setText(contents);
+
+                 // 4. 메일 전송
+                 javaMailSender.send(simpleMailMessage);
+                 return  "success";
+            }else {
+                 return "failed";
+             }
+
         }catch (Exception e) {
             e.printStackTrace();
             return "failed";
         }
-        return ranNum;
     }
 }

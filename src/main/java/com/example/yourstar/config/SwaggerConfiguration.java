@@ -29,7 +29,7 @@ public class SwaggerConfiguration {
     private static final String API_NAME = "Programmers Spring Boot Application";
     private static final String API_VERSION = "1.0.0";
     private static final String API_DESCRIPTION = "프로그래머스 스프링 부트 애플리케이션입니다.";
-
+    // 테스트용 api, 서버실행 후 링크로 이동
     // 접속 경로 : http://localhost:8080/swagger-ui/
     @Bean
     public Docket api() {
