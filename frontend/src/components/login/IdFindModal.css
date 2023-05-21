@@ -1,3 +1,11 @@
+* {
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* 모달 창 배경 */
 .modal_background {
     position: fixed;
@@ -60,12 +68,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .login_find_modal_input1{
@@ -94,12 +96,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .login_find_modal_button1{
@@ -118,12 +114,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 @keyframes fadeIn {
@@ -154,10 +144,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }

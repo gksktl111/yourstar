@@ -1,3 +1,11 @@
+* {
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* 모달 창 배경 */
 .modal_background {
     position: fixed;
@@ -71,12 +79,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /*이메일*/
@@ -90,12 +92,6 @@
     font-family: 'Pretendard', sans-serif;
     font-weight: bold;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_email{
@@ -123,12 +119,6 @@
     color: green;
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /*전화번호*/
@@ -142,12 +132,6 @@
     font-family: 'Pretendard', sans-serif;
     font-weight: bold;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_number{
@@ -175,12 +159,6 @@
     color: green;
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /*아이디*/
@@ -194,12 +172,6 @@
     font-family: 'Pretendard', sans-serif;
     font-weight: bold;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_id{
@@ -227,12 +199,6 @@
     color: green;
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /*비밀번호*/
@@ -246,12 +212,6 @@
     font-family: 'Pretendard', sans-serif;
     font-weight: bold;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_pw_check{
@@ -280,11 +240,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /*비밀번호 재확인*/
@@ -299,11 +254,6 @@
     font-weight: bold;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_pw_double_check{
@@ -332,11 +282,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /* 이름 */
@@ -351,11 +296,6 @@
     font-weight: bold;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_name{
@@ -384,11 +324,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 
@@ -404,11 +339,6 @@
     font-weight: bold;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_select_gender{
@@ -437,11 +367,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /* 나이 */
@@ -456,11 +381,6 @@
     font-weight: bold;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_input_age{
@@ -496,11 +416,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 
@@ -524,11 +439,6 @@
     font-weight: bold;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .sign_up_modal_button_result{
@@ -542,11 +452,6 @@
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
 
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 @keyframes fadeIn {

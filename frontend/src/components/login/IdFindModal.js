@@ -3,6 +3,7 @@ import './IdFindModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
 import {idFindModalOff} from "../../store/LoginModalstore";
+import axios from "axios";
 
 const IdFindModal = () => {
     const dispatch = useDispatch();
@@ -16,24 +17,29 @@ const IdFindModal = () => {
     // 메일 발송 스테이트
     const [showEmailSend, setShowEmailSend] = useState(false);
 
+    const style1 = {
+        color: "red"
+    }
+
     // 이메일 검사
-    const handleEmailSearch = () => {
-        // 회원정보 인풋의 내용을 가져옴
-        // 나중에 서버에서 사용자 정보 가져오기
+    // 나중에 서버에서 사용자 정보 가져오기
 
-        const style1 = {
-            color : "red"
-        }
-
-        // console.log(inputValue)
-        if (inputEmailValue === "gksktl111@naver.com") {
-            setEmailSearchResult("확인 되었습니다!");
-            setShowEmailSend("임시ID를 보냈습니다!")
-        } else {
-            setEmailSearchResult(<span style={style1}>회원정보가 없습니다.</span>);
-            setShowEmailSend("")
-        }
-    };
+    // 이메일 검사후 메일발송
+    const emailCheck = async () => {
+        await axios.post('/user/mailcheck', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                setEmailSearchResult("확인 되었습니다!");
+                setShowEmailSend("임시ID를 보냈습니다!")
+            } else {
+                setEmailSearchResult(<span style={style1}>회원정보가 없습니다.</span>);
+                setShowEmailSend("")
+            }
+        }).catch(function (error) {
+            console.log('실패함',error)
+        })
+    }
 
     return (
         <div className="modal_background">
@@ -58,7 +64,7 @@ const IdFindModal = () => {
                     }}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === 'Tab') {
-                            handleEmailSearch();
+                            emailCheck();
                         }
                     }}
                 />
@@ -70,7 +76,7 @@ const IdFindModal = () => {
 
                 {/*사용자 검색 버튼*/}
                 <button className="login_find_modal_button1"
-                        onClick={handleEmailSearch}>
+                        onClick={emailCheck}>
                     사용자 검색
                 </button>
 

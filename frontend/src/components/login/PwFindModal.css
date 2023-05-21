@@ -1,3 +1,11 @@
+* {
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* 모달 창 배경 */
 .modal_background {
     position: fixed;
@@ -61,12 +69,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .pw_find_modal_input1{
@@ -95,12 +97,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .pw_find_modal_button1{
@@ -119,12 +115,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 @keyframes fadeIn {
@@ -152,12 +142,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .pw_find_modal_input2{
@@ -186,12 +170,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .pw_find_modal_button2{
@@ -210,12 +188,6 @@
 
     font-family: 'Pretendard', sans-serif;
     font-size: 15px;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .pw_find_modal_show_pw{
@@ -232,10 +204,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* 드래그 방지 */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }

@@ -8,7 +8,7 @@ const PrivateRoute = ({ component: component, ...rest }) => {
 
     // 예시로 사용 하는 토큰
     // 다시 막고 싶으면 스토리지에서 삭제해야됨
-    localStorage.setItem("token", true);
+    // localStorage.setItem("token", true);
     const token = localStorage.getItem("token");
     return token ? <Outlet /> : <Navigate to="/login" />;
 };
