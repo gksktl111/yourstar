@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import IdFindModal from "../components/login/IdFindModal";
-import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/LoginModalstore";
+import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/Store";
 import PwFindModal from "../components/login/PwFindModal";
 import SignUpModal from "../components/login/SignUpModal";
 

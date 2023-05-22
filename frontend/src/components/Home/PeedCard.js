@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import "./PeedCard.css";
 import {BsBookmarkDash, BsBookmarkDashFill, BsDot, BsSave, BsThreeDots} from "react-icons/bs";
 import {AiFillStar, AiOutlineComment, AiOutlineShareAlt, AiOutlineStar} from "react-icons/ai";
+import PeedOption from "./PeedOption";
+import {useDispatch, useSelector} from "react-redux";
+import {optionModalOn} from "../../store/Store";
 
 const PeedCard = () => {
     // 게시글의 게시 시간
@@ -24,6 +27,10 @@ const PeedCard = () => {
     // 댓글 적기 시작하면 "게시" div 보여주기
     const [saveComment, setSaveComment] = useState("");
 
+    // 피드 옵션 관련
+    let state =  useSelector((state) => {return state});
+    let dispatch = useDispatch();
+    
     // 좋아요 클릭
     const handleLikeClick = () => {
         if (isLiked === true) {
@@ -49,8 +56,6 @@ const PeedCard = () => {
         setShowFullText(!showFullText);
     };
 
-
-
     // 본문 예시
     const peed_text = "이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
 
@@ -66,8 +71,10 @@ const PeedCard = () => {
                         {/*피드 올린후 경과시간 시간,일,주,달,년 으로 구분해야됨*/}
                         {elapsedHours}
                     </time>
-                    <button className='peed_option'>
-                        <></>
+                    <button className='peed_option'
+                            onClick={() =>
+                            { dispatch(optionModalOn())}
+                    }>
                         <BsThreeDots style={{paddingLeft: "35px"}}/>
                     </button>
                 </div>
@@ -137,8 +144,8 @@ const PeedCard = () => {
                             게시
                         </div> : null
                     }
-
                 </div>
+                {state.isOptionModalOpen === true ? <PeedOption/> : null}
             </div>
         </div>
     );

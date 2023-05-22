@@ -42,6 +42,20 @@ let isSignUpModalOpen = createSlice({
     }
 })
 
+// 피드 햄버거 아이콘 오픈
+let isOptionModalOpen = createSlice({
+    name : "isOptionModalOpen",
+    initialState : false,
+    reducers : {
+        optionModalOn(){
+            return true
+        },
+        optionModalOff(){
+            return false
+        }
+    }
+})
+
 // 아이디 찾기 액션
 export let {idFindModalOn, idFindModalOff} = isIdFindModalOpen.actions
 
@@ -51,11 +65,15 @@ export let {pwFindModalOn,pwFindModalOff} = isPwFindModalOpen.actions
 // 회원가입 액션
 export let {signUpModalOn, signUpModalOff} = isSignUpModalOpen.actions
 
+// 피드 햄버거 아이콘 액션
+export let {optionModalOn, optionModalOff} = isOptionModalOpen.actions
+
 
 export default configureStore({
     reducer: {
         isIdFindModalOpen : isIdFindModalOpen.reducer,
         isPwFindModalOpen : isPwFindModalOpen.reducer,
-        isSignUpModalOpen : isSignUpModalOpen.reducer
+        isSignUpModalOpen : isSignUpModalOpen.reducer,
+        isOptionModalOpen : isOptionModalOpen.reducer
     }
 })

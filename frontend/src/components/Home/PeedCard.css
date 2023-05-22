@@ -122,6 +122,7 @@
 .peed_share_icon:hover,
 .peed_save_icon:hover{
     color: darkgrey;
+    cursor: pointer;
 }
 
 .peed_like_icon.clicked{
@@ -141,6 +142,8 @@
     margin-bottom: 10px;
     color: grey;
     font-size: 15px;
+
+    cursor: pointer;
 }
 
 .peed_textarea_container {

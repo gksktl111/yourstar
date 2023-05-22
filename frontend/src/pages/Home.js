@@ -5,10 +5,12 @@ import axios from "axios";
 import PeedCard from "../components/Home/PeedCard";
 
 const Home = () => {
+    // 피드관련
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(0); // 현재 페이지 번호 (페이지네이션)
     const [ref, inView] = useInView();
+
 
     // 무한 스크롤
     // 지정한 타겟 div가 화면에 보일 때 마다 서버에 요청을 보냄
@@ -68,7 +70,6 @@ const Home = () => {
             </div>
             <div style={{height: '10%'}}></div>
             <div ref={ref} style={{height: '20%', backgroundColor: 'red'}}>
-
             </div>
         </>
     );

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './SignUpModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
-import {signUpModalOff} from "../../store/LoginModalstore";
+import {signUpModalOff} from "../../store/Store";
 import axios from "axios";
 
 const SignUpModal = () => {
