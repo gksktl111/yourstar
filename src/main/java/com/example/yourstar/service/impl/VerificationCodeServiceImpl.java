@@ -27,7 +27,6 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
         try{
-
             System.out.println("받은 이메일 : " + userEmail);
             System.out.println("검색한 이메일 : " + userDao.findEmail(userEmail).getUserEmail());
             if (userDao.findEmail(userEmail).getUserEmail().trim().equals(userEmail.trim())){
@@ -74,5 +73,4 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         verificationCodeDao.removeVerificationCode(checkCodeDto.getUserEmail());
         return "success";
     }
-
 }

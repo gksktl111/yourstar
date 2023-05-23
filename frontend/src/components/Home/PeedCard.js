@@ -5,6 +5,7 @@ import {AiFillStar, AiOutlineComment, AiOutlineShareAlt, AiOutlineStar} from "re
 import PeedOption from "./PeedOption";
 import {useDispatch, useSelector} from "react-redux";
 import {optionModalOn} from "../../store/Store";
+import PeedMore from "./PeedMore";
 
 const PeedCard = () => {
     // 게시글의 게시 시간
@@ -146,6 +147,8 @@ const PeedCard = () => {
                     }
                 </div>
                 {state.isOptionModalOpen === true ? <PeedOption/> : null}
+                {/*<PeedMore/>*/}
+                {/*{state.isCommentModalOpen === false ? <PeedMore/> : null}*/}
             </div>
         </div>
     );
