@@ -4,6 +4,7 @@ import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
+import com.example.yourstar.data.dto.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,19 @@ public class UserServiceImpl implements UserService {
 
         }catch (Exception e) {
             e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    @Override
+    public String update(UserUpdateDto userUpdateDto) {
+        try{
+            UserEntity user = userDao.getUser(userUpdateDto.getId());
+            if(user != null){
+                this.userDao.updateUser(user, userUpdateDto.getEmail(), userUpdateDto.getPw(), userUpdateDto.getPhone(), userUpdateDto.getIntroduce());
+            }
+            return "success";
+        }catch (Exception e){
             return "failed";
         }
     }
