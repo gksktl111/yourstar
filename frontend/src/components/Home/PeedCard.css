@@ -1,0 +1,216 @@
+.peed_container {
+    width: 450px;
+    height: 680px;
+
+    margin-top: 20px;
+    margin-left: 15vw; /* 현재 브라우저 창의 가로크기에 대한 비율로 왼쪽 여백 설정 */
+}
+
+.peed {
+    width: 450px;
+    height: 680px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.peed_top_section {
+    /*중앙정렬*/
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+
+    border: none;
+
+    /*드래그 방지*/
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.peed_profile{
+    width: 35px;
+    height: 35px;
+
+    border-radius: 100%;
+
+    margin: 10px 10px;
+
+    cursor: pointer;
+}
+
+.user_name{
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.peed_option{
+    height: 55px;
+    width: 50px;
+    margin-left: 258px;
+
+    font-size: 15px;
+
+    background-color: #ffffff;
+    border: none;
+
+    cursor: pointer;
+}
+
+.peed_option:hover {
+    color: darkgrey;
+}
+
+.peed_media_section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.peed_media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.peed_icon_section{
+    height: 50px;
+}
+
+.peed_like_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    padding-right: 10px;
+
+    border: none;
+}
+
+.peed_comment_icon,
+.peed_share_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    margin: 10px 10px;
+
+    border: none;
+}
+
+.peed_save_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    margin-left: 269px;
+
+    border: none;
+}
+
+
+.peed_like_icon:hover,
+.peed_comment_icon:hover,
+.peed_share_icon:hover,
+.peed_save_icon:hover{
+    color: darkgrey;
+    cursor: pointer;
+}
+
+.peed_like_icon.clicked{
+    color: #ce2cce;
+    animation: shake 0.5s ease-in-out;
+}
+
+.liked_user{
+    margin-bottom: 10px;
+}
+
+.peed_text{
+    margin-bottom: 10px;
+}
+
+.peed_comment{
+    margin-bottom: 10px;
+    color: grey;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.peed_textarea_container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.peed_textarea {
+    width: 90%;
+    padding: 10px 0;
+    border: none;
+    resize: none;
+    outline: none;
+    margin-bottom: 12px;
+    line-height: 18px;
+    font-size: 14px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+.peed_textarea_post{
+    color: #38a3e5;
+    font-weight: bold;
+
+}
+
+.peed_textarea_post:hover{
+    color: #073e59;
+}
+
+/*흔들리는 애니메이션*/
+@keyframes shake {
+    0%{
+        transform: rotate(0deg);
+    }
+    20%{
+        transform: rotate(20deg);
+    }
+    40%{
+        transform: rotate(-20deg);
+    }
+    60%{
+        transform: rotate(20deg);
+    }
+    80%{
+        transform: rotate(-20deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+/* 애니메이션 효과 추가 */
+@media (max-width: 800px) {
+    .peed_container {
+        margin-left: -10px; /* 현재 브라우저 창의 가로크기에 대한 비율로 왼쪽 여백 설정 */
+    }
+    .peed_option{
+        height: 55px;
+        width: 50px;
+        margin-left: 250px;
+
+        font-size: 15px;
+
+        background-color: #ffffff;
+        border: none;
+
+        cursor: pointer;
+    }
+}

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import IdFindModal from "../components/login/IdFindModal";
-import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/LoginModalstore";
+import {idFindModalOn, pwFindModalOn, signUpModalOn} from "../store/Store";
 import PwFindModal from "../components/login/PwFindModal";
 import SignUpModal from "../components/login/SignUpModal";
 
@@ -294,14 +294,14 @@ function LoginPage() {
 
     // 로그인 검사
     const loginCheck = async () => {
-        await axios.post('/login/check', {
+        await axios.post('/user/login', {
             id: inputId,
             pw: inputPw
         }).then((response) => {
-            // 응답이 true면 로그인체크 후 메인페이지로 이동
-            if (response.data === true) {
-                localStorage.setItem('logincheck', true);
-                navigate('/');
+            // 응답이 success면 로그인체크 후 메인페이지로 이동
+            if (response.data === "success") {
+                localStorage.setItem('token', true);
+                navigate("/");
             } else {
                 // 실패하면 오류 메시지
                 alert('회원정보가 다릅니다')
@@ -323,7 +323,13 @@ function LoginPage() {
                     onChange={handleInputId}/>
                 <InputPw
                     placeholder="비밀번호"
-                    onChange={handleInputPw}/>
+                    onChange={handleInputPw}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === 'Tab') {
+                            loginCheck();
+                        }
+                    }}
+                />
                 <LoginButton
                     onClick={loginCheck}
                 >로그인</LoginButton>

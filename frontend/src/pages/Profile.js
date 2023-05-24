@@ -1,21 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import "./Profile.css"
 
 const Profile = () => {
-    const [msg, setMsg] = useState([]);
-    useEffect(() => {
-        fetch("/profile")
-            .then((res) => {return res.json();})
-            .then((data) => {setMsg(data);})
-    }, []);
     return (
-        <div>
-            <h1>프로필 페이지</h1>
-            <header className="App-header">
-                <ul>
-                    {msg.map((content, idx) => <li key={`${idx} - ${content}`}>{content}</li>)}
-                </ul>
-            </header>
-        </div>
+        <>
+            <div className = "profile_top_section">asd</div>
+            <div className = "profile_middle_section"></div>
+            <div className = "profile_bottom_section"></div>
+        </>
     );
 };
 

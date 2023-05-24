@@ -1,0 +1,25 @@
+
+.profile_top_section {
+    height: 30%;
+    width: 90%;
+    background-color: black;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /*테스트용*/
+}
+
+.profile_middle_section {
+    height: 10%;
+    width: 90%;
+    background-color: blue;
+    margin: 0 auto;
+}
+
+.profile_bottom_section {
+    height: 50%;
+    width: 90%;
+    background-color: green;
+    margin: 0 auto;
+}

@@ -33,4 +33,11 @@ public class UserDaoImpl implements UserDao {
         userRepository.deleteById(userId);
         return  userEntity;
     }
+
+    @Override
+    public UserEntity findEmail(String userEmail) {
+        return userRepository.findByUserEmail(userEmail);
+    }
+
+
 }

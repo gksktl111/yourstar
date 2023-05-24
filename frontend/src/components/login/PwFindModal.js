@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './PwFindModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
-import {pwFindModalOff} from "../../store/LoginModalstore";
+import {pwFindModalOff} from "../../store/Store";
 
 const PwFindModal = () => {
     const dispatch = useDispatch();
