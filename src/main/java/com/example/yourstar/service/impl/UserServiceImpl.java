@@ -4,6 +4,7 @@ import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
+import com.example.yourstar.data.dto.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,6 @@ import java.sql.Timestamp;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-
     PasswordEncoder passwordEncoder;
     UserDao userDao;
     VerificationCodeDao verificationCodeDao;
@@ -97,4 +96,28 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public String update(String userId,UserUpdateDto userUpdateDto) {
+        try{
+            UserEntity user = userDao.getUser(userId);
+            if(user != null){
+                this.userDao.updateUser(user, userUpdateDto.getEmail(), passwordEncoder.encode(userUpdateDto.getPw()), userUpdateDto.getPhone(), userUpdateDto.getIntroduce());
+            }
+            return "success";
+        }catch (Exception e){
+            return "failed";
+        }
+    }
+
+    @Override
+    public String deleteUser(String userId) {
+        try{
+            userDao.deleteUser(userId);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+    }
 }

@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import './SignUpModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
-import {signUpModalOff} from "../../store/LoginModalstore";
+import {signUpModalOff} from "../../store/Store";
+import axios from "axios";
 
 const SignUpModal = () => {
     const dispatch = useDispatch();
@@ -203,21 +204,21 @@ const SignUpModal = () => {
     const handleAgeCheck = () => {
         // 나이는 범위 정하기
 
-        if(inputAgeValue === ""){
-            setAgeCheckResult(<span style={{color : "red"}}>나이를 확인해주세요.</span>)
+        if (inputAgeValue === "") {
+            setAgeCheckResult(<span style={{color: "red"}}>나이를 확인해주세요.</span>)
             return;
         }
 
         if (inputAgeValue >= 8 && inputAgeValue <= 110) {
             setAgeCheckResult("확인 되었습니다!")
-        }else{
-            setAgeCheckResult(<span style={{color : "red"}}>정말이세요?</span>)
+        } else {
+            setAgeCheckResult(<span style={{color: "red"}}>정말이세요?</span>)
         }
     }
 
     // 올클리어시 서버로 전달 가능
-    // 회원 가입 하기
-    const handleSignUp = () => {
+    // 입력창을 다 입력했는지 검사
+    const handleContextCheck = () => {
         if (
             emailSearchResult === "확인 되었습니다!" &&
             numberSearchResult === "확인 되었습니다!" &&
@@ -228,17 +229,34 @@ const SignUpModal = () => {
             genderCheckResult === "확인 되었습니다!" &&
             ageCheckResult === "확인 되었습니다!"
         ) {
-            // 다음 단계로 진행할 수 있는 조건이 충족된 것으로 처리
-            // 여기서 서버로 전송
-            alert("회원 가입을 축하합니다!")
-            dispatch(signUpModalOff())
-        } else {
-            // 입력값이 모두 확인되지 않는 경우
-            alert("입력값을 확인해주세요!")
+            // 다입력했으면 true 리턴
+            return true;
         }
-
     }
 
+    // 로그인 검사
+    const signUpCheck = async () => {
+        await axios.post('/user/signup', {
+            // 여기서 회원 정보 넘겨줘야함
+            // id: inputId,
+            // pw: inputPw
+        }).then((response) => {
+
+            // 응답이 success면 축하메시지 띄운후 가입 창 닫기
+            if (response.data === "success") {
+                alert("회원 가입을 축하합니다!")
+                dispatch(signUpModalOff())
+            } else {
+                // 실패하면 오류 메시지
+                alert('오류')
+            }
+        }).catch(function () {
+            console.log('실패함')
+        })
+    }
+    
+    // 이메일 인증 만들기
+    
     return (
         <div className="modal_background">
             <div className="sign_up_modal_container">
@@ -479,8 +497,19 @@ const SignUpModal = () => {
                 </div>
 
                 {/*가입하기 버튼*/}
-                <button className="sign_up_modal_button"
-                        onClick={handleSignUp}>
+
+                <button
+                    className="sign_up_modal_button"
+                    onClick={() => {
+                        if (handleContextCheck() === true) {
+                            // 아직 서버랑 연결 안됨
+                            signUpCheck()
+                        }else{
+                            alert('입력정보를 다시 확인해주세요')
+                        }
+
+                    }
+                    }>
                     회원가입
                 </button>
 

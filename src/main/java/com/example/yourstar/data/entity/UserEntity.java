@@ -1,6 +1,7 @@
 package com.example.yourstar.data.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -48,3 +49,4 @@ public class UserEntity {
     @Column(name = "join_date")
     Timestamp joinDate;
 }
+

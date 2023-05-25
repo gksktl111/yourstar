@@ -67,6 +67,10 @@
             <version>2.9.2</version>
         </dependency>
 
+
+        <!-- swagger 테스트 용 -->
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>

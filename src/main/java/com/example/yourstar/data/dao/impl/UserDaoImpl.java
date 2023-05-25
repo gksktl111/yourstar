@@ -23,15 +23,22 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserEntity getUser(String userId) {
-        UserEntity userEntity = userRepository.getById(userId);
-        return userEntity;
+        return userRepository.getById(userId);
     }
 
     @Override
-    public UserEntity deleteUser(String userId) {
-        UserEntity userEntity = userRepository.getById(userId);
+    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
-        return  userEntity;
+    }
+
+    @Override
+    public UserEntity updateUser(UserEntity userEntity, String email, String pw, String phone, String introduce){
+        userEntity.setUserEmail(email);
+        userEntity.setUserPw(pw);
+        userEntity.setPhone(phone);
+        userEntity.setIntroduce(introduce);
+        this.userRepository.updateById(userEntity.getUserId(), email, pw, phone, introduce);
+        return userEntity;
     }
 
     @Override

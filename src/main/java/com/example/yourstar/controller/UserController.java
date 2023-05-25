@@ -3,10 +3,12 @@ package com.example.yourstar.controller;
 import com.example.yourstar.data.dto.CheckCodeDto;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
+import com.example.yourstar.data.dto.UserUpdateDto;
 import com.example.yourstar.service.UserService;
 import com.example.yourstar.service.VerificationCodeService;
 import com.example.yourstar.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -79,4 +81,20 @@ public class UserController {
         }
     }
 
+    @PutMapping(value ="/update")// 정보 수정
+    public String update(Authentication authentication, @RequestBody UserUpdateDto userUpdateDto){
+
+        if(userService.update(authentication.getName(),userUpdateDto).equals("success")){
+            System.out.println("수정되었습니다");
+            return "success";
+        }else {
+            System.out.println("수정 실패");
+            return "failed";
+        }
+    }
+
+    @PostMapping(value = "/delate")
+    public  String deleteUser(Authentication authentication){
+        return userService.deleteUser(authentication.getName());
+    }
 }
