@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface UserRepository  extends JpaRepository<UserEntity, String> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
     UserEntity findByUserEmail(String eMail); // 해당 이메일의 정보 DB에서 가져오기
     @Modifying
     @Transactional
