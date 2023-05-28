@@ -82,7 +82,7 @@ export let {signUpModalOn, signUpModalOff} = isSignUpModalOpen.actions
 export let {optionModalOn, optionModalOff} = isOptionModalOpen.actions
 
 // 피드 코멘트 액션
-export let {commentModalOn, commentModalOff} = isOptionModalOpen.actions
+export let {commentModalOn, commentModalOff} = isCommentModalOpen.actions
 
 
 export default configureStore({

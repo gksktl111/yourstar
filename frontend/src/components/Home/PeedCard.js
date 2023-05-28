@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./PeedCard.css";
 import {BsBookmarkDash, BsBookmarkDashFill, BsDot, BsSave, BsThreeDots} from "react-icons/bs";
 import {AiFillStar, AiOutlineComment, AiOutlineShareAlt, AiOutlineStar} from "react-icons/ai";
 import PeedOption from "./PeedOption";
 import {useDispatch, useSelector} from "react-redux";
-import {optionModalOn} from "../../store/Store";
+import {commentModalOn, optionModalOn} from "../../store/Store";
 import PeedMore from "./PeedMore";
 
 const PeedCard = () => {
@@ -25,13 +25,16 @@ const PeedCard = () => {
     const [isSaved, setIsSaved] = useState(false);
     // "더보기" 클릭 여부
     const [showFullText, setShowFullText] = useState(false);
+    const [isLongText, setIsLongText] = useState(false);
     // 댓글 적기 시작하면 "게시" div 보여주기
     const [saveComment, setSaveComment] = useState("");
 
     // 피드 옵션 관련
-    let state =  useSelector((state) => {return state});
+    let state = useSelector((state) => {
+        return state
+    });
     let dispatch = useDispatch();
-    
+
     // 좋아요 클릭
     const handleLikeClick = () => {
         if (isLiked === true) {
@@ -57,12 +60,40 @@ const PeedCard = () => {
         setShowFullText(!showFullText);
     };
 
+    // 피드텍스트 길이 계산
+    const getTextHeight = (text) => {
+        const lineHeight = 20;
+        const lines = text.split('\n').length;
+        const extraHeight = 10;
+        return lineHeight * lines + extraHeight;
+    };
+
     // 본문 예시
-    const peed_text = "이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
+    const peed_text = "이 밴드 \n정말 좋아요! 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
+
+
+    // 피드텍스트 길이 계산 후 isLongText 상태 업데이트
+    useEffect(() => {
+        if (peed_text.length > 20) {
+            setIsLongText(true);
+        }
+    }, [peed_text]);
+
+    useEffect(() => {
+        const element = document.querySelector('.peed_text');
+        setIsLongText(peed_text.split("\n").length > 1 || element.scrollHeight > 60);
+    }, []);
+
 
     return (
         <div className="peed_container">
-            <div className='peed'>
+            <div className='peed'
+                 // 본문의 길이 따라서 피드의 길이가 정해짐
+                 style={{
+                     height: showFullText
+                         ? getTextHeight(peed_text) + 670
+                         : 670,
+                 }}>
                 {/*피드 상단*/}
                 <div className="peed_top_section">
                     <img src="/assets/img/3.jpg" alt="오류" className="peed_profile"/>
@@ -73,9 +104,10 @@ const PeedCard = () => {
                         {elapsedHours}
                     </time>
                     <button className='peed_option'
-                            onClick={() =>
-                            { dispatch(optionModalOn())}
-                    }>
+                            onClick={() => {
+                                dispatch(optionModalOn())
+                            }
+                            }>
                         <BsThreeDots style={{paddingLeft: "35px"}}/>
                     </button>
                 </div>
@@ -86,10 +118,14 @@ const PeedCard = () => {
                 </div>
                 {/*좋아요 댓글 공유 저장등 아이콘 모음*/}
                 <div className='peed_icon_section'>
-                    <button className={`peed_like_icon ${isLiked ? "clicked" : ""}`} onClick={handleLikeClick}>
+                    <button className={`peed_like_icon ${isLiked ? "clicked" : ""}`}
+                            onClick={handleLikeClick}>
                         {isLiked ? <AiFillStar className='liked_star'/> : <AiOutlineStar/>}
                     </button>
-                    <button className='peed_comment_icon'>
+                    <button className='peed_comment_icon'
+                            onClick={() => {
+                                dispatch(commentModalOn())
+                            }}>
                         <AiOutlineComment/>
                     </button>
                     <button className='peed_share_icon'>
@@ -101,6 +137,7 @@ const PeedCard = () => {
                             <BsBookmarkDash style={{paddingLeft: "11px"}}/>}
                     </button>
                 </div>
+
                 {/*좋아요를 인원 표시*/}
                 <div className="liked_user">
                     <span>
@@ -110,27 +147,48 @@ const PeedCard = () => {
                         <span>이 좋아합니다.</span>
                     </span>
                 </div>
-                {/*피드의 본문 표시*/}
-                <div className="peed_text">
-                    {/* 본문의 일부만 표시 20자*/}
-                    {/*나중에는 엔터를 기점으로 더보기 표시하기*/}
-                    {showFullText ? peed_text : peed_text.slice(0, 20)}
-                    {/*"더보기" 버튼 표시 여부*/}
-                    {!showFullText && peed_text.length > 20 && (
-                        <span
-                            style={{color: "grey", cursor: "pointer"}}
-                            onClick={handleToggleText}>
-                            <br/>
-                            더보기
-                        </span>
+
+
+                <div className="peed_text"
+                     style={{
+                         maxHeight: showFullText || !isLongText ? 'none' : '2.7em'}}>
+                    {/* 본문의 일부만 표시 시 */}
+                    {!showFullText && (
+                        <div style={{overflow: "hidden"}}>
+                            {peed_text.split("\n").map((text, index) =>
+                                <p key={index}>{text}</p>
+                            )}
+
+                        </div>
                     )}
+
+                    {/* 전체 본문 표시 */}
+                    {peed_text.split('\n').map((text, index) => (
+                        <p key={index} style={{ marginBottom: '0' }}>
+                            {text}
+                        </p>
+                    ))}
+
+
                 </div>
+                {/* 더보기/접기 버튼 */}
+                {isLongText && (
+                    <span className={"text_more"}
+                          onClick={handleToggleText}
+                    >
+                            {showFullText ? "...접기" : "...더보기"}
+                        </span>
+                )}
                 {/*댓글 볼수있음 피드를 모달창으로 띄어줌*/}
                 <div>
-                    <span className="peed_comment">
+                    <span className="peed_comment"
+                          onClick={() => {
+                              dispatch(commentModalOn())
+                          }}>
                         댓글 24개 모두 보기
                     </span>
                 </div>
+
                 {/*엔터누르면 댓글 전송되도록 만들기*/}
                 <div className="peed_textarea_container">
                     <textarea className="peed_textarea"
@@ -141,14 +199,14 @@ const PeedCard = () => {
                     {/*댓글 작성할때 게시 버튼 나오도록 만듬*/}
                     {saveComment !== "" ?
                         <div className="peed_textarea_post"
-                            >
+                        >
                             게시
                         </div> : null
                     }
                 </div>
+
                 {state.isOptionModalOpen === true ? <PeedOption/> : null}
-                {/*<PeedMore/>*/}
-                {/*{state.isCommentModalOpen === false ? <PeedMore/> : null}*/}
+                {state.isCommentModalOpen === true ? <PeedMore/> : null}
             </div>
         </div>
     );

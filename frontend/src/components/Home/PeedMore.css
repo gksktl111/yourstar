@@ -89,6 +89,7 @@
 
     font-size: 0.9rem;
     font-weight: bold;
+    margin-right: 5px;
 }
 
 .follow_btn{
@@ -96,6 +97,8 @@
 
     color: #0095f6;
     font-weight: bold;
+
+    margin-left: 5px;
 
     cursor: pointer;
 }
@@ -114,28 +117,130 @@
 }
 
 .peed_mor_middle_section{
-    height: 70%;
+    height: 65%;
     overflow-y: auto;
 
 }
 
+li{
+    margin-bottom: 10px;
+}
 
-.peed_more_context{
-    /*중앙정렬*/
-    display: flex;
-    height: 10%;
-    width: 100%;
 
+.peed_more_text{
     margin-top: 10px;
     margin-bottom: 10px;
 
-    font-size: 15px;
+    word-wrap: break-word;
 }
 
-.peed_more_text {
-    width: auto;
+/*흔들리는 애니메이션*/
+@keyframes shake {
+    0%{
+        transform: rotate(0deg);
+    }
+    20%{
+        transform: rotate(20deg);
+    }
+    40%{
+        transform: rotate(-20deg);
+    }
+    60%{
+        transform: rotate(20deg);
+    }
+    80%{
+        transform: rotate(-20deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
 
-    word-wrap: break-word;
+.comment_footer{
+    font-size: 13px;
+
+    margin-left: 65px;
+
+    cursor: pointer;
+}
+
+/*좌우 너비 주기*/
+.comment_like_sum,
+.comment_option{
+    margin: 10px;
+}
+
+.peed_more_bottom_section{
+    display: flex;
+    height: 8%;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.peed_more_like_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 5px;
+
+    border: none;
+}
+
+.peed_more_comment_icon,
+.peed_more_share_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    margin: 10px 5px;
+
+    border: none;
+}
+
+.peed_more_save_icon{
+    font-size: 30px;
+
+    background-color: white;
+
+    margin-top: 10px;
+    margin-left: auto;
+
+    border: none;
+}
+
+
+.peed_more_like_icon:hover,
+.peed_more_comment_icon:hover,
+.peed_more_share_icon:hover,
+.peed_more_save_icon:hover{
+    color: darkgrey;
+    cursor: pointer;
+}
+
+.peed_more_like_icon.clicked{
+    color: #ce2cce;
+    animation: shake 0.5s ease-in-out;
+}
+
+.peed_more_liked_user{
+    margin-left: 15px;
+
+    font-size: 14px;
+}
+
+.peed_more_time{
+    font-size: 10px;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.peed_comment_form{
+    height: 10%;
+
+    background-color: blue;
 }
 
 @media screen and (min-width: 600px) {
