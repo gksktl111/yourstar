@@ -4,32 +4,30 @@ import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
+import com.example.yourstar.data.dto.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    PasswordEncoder passwordEncoder;
     UserDao userDao;
     VerificationCodeDao verificationCodeDao;
     @Autowired
-    public  UserServiceImpl(UserDao userDao,VerificationCodeDao verificationCodeDao){
+    public  UserServiceImpl(UserDao userDao,VerificationCodeDao verificationCodeDao, PasswordEncoder passwordEncoder){
         this.userDao = userDao;
         this.verificationCodeDao =verificationCodeDao;
+        this.passwordEncoder = passwordEncoder;
     }
-
     @Autowired
     private JavaMailSender javaMailSender;
-
-
-
-
 
     @Override
     public String signUp(UserSignUpDto userSignUpDto) {
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
             String userId = userSignUpDto.getId();
             String userName= userSignUpDto.getName();
             String userEmail = userSignUpDto.getEmail();
-            String userPw = userSignUpDto.getPw();
+            String userPw = passwordEncoder.encode(userSignUpDto.getPw());
             String userGender = userSignUpDto.getGender();
             int userAge = userSignUpDto.getAge();
             int postCount = userSignUpDto.getPostCount();
@@ -57,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public String logIn(UserLogInDto userLogInDto) {
         try{
             UserEntity user = userDao.getUser(userLogInDto.getId());
-            if (user.getUserPw().equals(userLogInDto.getPw())){
+            if (passwordEncoder.matches(userLogInDto.getPw(),user.getUserPw())){
                 return "success";
             }else {
                 return "failed";
@@ -67,8 +65,6 @@ public class UserServiceImpl implements UserService {
             return "failed";
         }
     }
-
-
 
     @Override
     public String FindId(String userEmail) {
@@ -95,6 +91,31 @@ public class UserServiceImpl implements UserService {
              }
 
         }catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+
+    @Override
+    public String update(String userId,UserUpdateDto userUpdateDto) {
+        try{
+            UserEntity user = userDao.getUser(userId);
+            if(user != null){
+                this.userDao.updateUser(user, userUpdateDto.getEmail(), passwordEncoder.encode(userUpdateDto.getPw()), userUpdateDto.getPhone(), userUpdateDto.getIntroduce());
+            }
+            return "success";
+        }catch (Exception e){
+            return "failed";
+        }
+    }
+
+    @Override
+    public String deleteUser(String userId) {
+        try{
+            userDao.deleteUser(userId);
+            return "success";
+        }catch (Exception e){
             e.printStackTrace();
             return "failed";
         }
