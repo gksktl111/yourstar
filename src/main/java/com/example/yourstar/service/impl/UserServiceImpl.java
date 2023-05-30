@@ -8,6 +8,7 @@ import com.example.yourstar.data.dto.UserSignUpDto;
 import com.example.yourstar.data.dto.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
@@ -69,30 +70,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String FindId(String userEmail) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        try{
-             if (userDao.findEmail(userEmail).getUserEmail().equals(userEmail)){
-                 UserEntity user = userDao.findEmail(userEmail); // 이메일로 userid 가져오기
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage(); // 이메일 api
+        log.info("유저 이메일 findId impl: {}",userEmail);
+        UserEntity user = userDao.findEmail(userEmail); // 이메일 검색해서 user엔티티 가져옴
+        if (user != null) { // 이메일로 유저가 검색이 되서 null이 아니면
+            log.info("userDao.findEmail(userEmail) null 아님");
+            // 1. 메일 수신자 설정
+            simpleMailMessage.setTo(userEmail);
 
-                 // 1. 메일 수신자 설정
-                 simpleMailMessage.setTo(userEmail);
+            // 2. 메일 제목 설정
+            simpleMailMessage.setSubject("urstar 아이디 찾기 결과");
 
-                 // 2. 메일 제목 설정
-                 simpleMailMessage.setSubject("urstar 아이디 찾기 결과");
+            // 3. 메일 내용 설정
+            String contents = "urstar 아이디는 " + user.getUserId() + " 입니다";
+            simpleMailMessage.setText(contents);
 
-                 // 3. 메일 내용 설정
-                 String contents = "urstar 아이디는 " + user.getUserId() + " 입니다";
-                 simpleMailMessage.setText(contents);
-
-                 // 4. 메일 전송
-                 javaMailSender.send(simpleMailMessage);
-                 return  "success";
-            }else {
-                 return "failed";
-             }
-
-        }catch (Exception e) {
-            e.printStackTrace();
+            // 4. 메일 전송
+            javaMailSender.send(simpleMailMessage);
+            log.info("이메일 전송 성공");
+            return  "success";
+        } else { // user가 null이면
+            log.info("이메일 유저 없음");
             return "failed";
         }
     }

@@ -84,6 +84,7 @@ public class UserController {
 
     @PostMapping(value = "/findid") // 아이디 찾기
     public  String idFind(@RequestBody String userMail){
+        log.info("psot 이메일 : {}",userMail);
         try{
             return userService.FindId(userMail);
         }catch (Exception e){
@@ -133,6 +134,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getUserProfileImage(Authentication authentication) {
         // 1. 사용자 프로필 정보를 가져옵니다.
         Optional<UserProfileEntity> userProfileOptional = userProfileRepository.findById(authentication.getName());
+
         // 2. 사용자 프로필이 존재하면
         if (userProfileOptional.isPresent()) {
             UserProfileEntity userProfileEntity = userProfileOptional.get();
@@ -151,6 +153,4 @@ public class UserController {
         // 3. 이미지 또는 사용자 프로필이 존재하지 않으면 에러 상태를 반환합니다.
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-
-
 }
