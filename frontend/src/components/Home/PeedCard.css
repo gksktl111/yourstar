@@ -1,15 +1,13 @@
 .peed_container {
-    width: 450px;
-    height: 680px;
+    /* 현재 브라우저 창의 가로크기에 대한 비율로 왼쪽 여백 설정 */
 
     margin-top: 20px;
-    margin-left: 15vw; /* 현재 브라우저 창의 가로크기에 대한 비율로 왼쪽 여백 설정 */
+    margin-left: 15vw;
 }
 
 .peed {
     width: 450px;
-    height: 680px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .peed_top_section {
@@ -111,7 +109,7 @@
 
     background-color: white;
 
-    margin-left: 269px;
+    margin-left: 268px;
 
     border: none;
 }
@@ -135,8 +133,20 @@
 }
 
 .peed_text{
+    position: relative;
+    height: auto;
     margin-bottom: 10px;
+    overflow: hidden;
 }
+
+.text_more {
+    position: relative;
+    font-size: 14px;
+    color: grey;
+    cursor: pointer;
+    background-color: white;
+}
+
 
 .peed_comment{
     margin-bottom: 10px;

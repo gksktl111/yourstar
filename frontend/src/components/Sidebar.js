@@ -19,7 +19,7 @@ const Sidebar = ({children}) => {
             icon: <CgProfile/>
         },
         {
-            path: "/mail",
+            path: "/message",
             name: "메시지",
             icon: <FiMail/>
         },
