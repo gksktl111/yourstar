@@ -32,6 +32,5 @@ public class VerificationCodeDaoImpl implements VerificationCodeDao {
     @Override
     public void removeVerificationCode(String userEmail) { // 인증이 완료되었을 경우 메모리 관리를 위해 Session에 저장된 인증번호 삭제
         session.removeAttribute(PREFIX + userEmail);
-        log.info("{} 세션 인증번호 삭제",userEmail);
     }
 }

@@ -88,8 +88,10 @@ public class UserController {
     @PostMapping(value = "/checkid") // 아이디 유무 체크
     public String checkUserId(@RequestBody UserIdDto userIdDto){
         if(userService.checkUserId(userIdDto.getUserId())){
+            log.info("{} 가입된 유저입니다",userIdDto.getUserId());
             return "success";
         }
+        log.info("{} 가입되지 않은 유저입니다",userIdDto.getUserId());
         return  "failed";
     }
 
