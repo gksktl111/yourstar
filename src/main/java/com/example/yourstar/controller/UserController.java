@@ -51,7 +51,6 @@ public class UserController {
 
     @PostMapping(value = "/login")// 로그인
     public  String logIn(@RequestBody UserLogInDto userLogInDto){
-
             if (userService.logIn((userLogInDto)).equals("success")) {
                 return jwtUtil.generateToken(userLogInDto.getId());
             }else{
@@ -83,10 +82,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/findid") // 아이디 찾기
-    public  String idFind(@RequestBody String userMail){
-        log.info("psot 이메일 : {}",userMail);
+    public  String idFind(@RequestBody FindIdDto findIdDto){
+        log.info("psot 이메일 : {}",findIdDto.getUserEmail());
         try{
-            return userService.FindId(userMail);
+            return userService.FindId(findIdDto.getUserEmail());
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("없는 이메일");
