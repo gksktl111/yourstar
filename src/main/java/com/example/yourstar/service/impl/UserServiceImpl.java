@@ -2,6 +2,7 @@ package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
+import com.example.yourstar.data.dto.UpdateUserProfileDto;
 import com.example.yourstar.data.dto.UserLogInDto;
 import com.example.yourstar.data.dto.UserSignUpDto;
 import com.example.yourstar.data.dto.UserUpdateDto;
@@ -119,5 +120,22 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return "failed";
         }
+    }
+
+    @Override
+    public boolean checkUserId(String userId) {
+        return userDao.checkUserId(userId);
+    }
+
+    @Override
+    public String updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto) {
+        try{
+            userDao.updateUserProfile(userId, updateUserProfileDto);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+
     }
 }

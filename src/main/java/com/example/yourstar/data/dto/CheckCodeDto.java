@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckCodeDto {
+public class  CheckCodeDto {
     private  String userEmail;
     private  int verificationCode;
 }

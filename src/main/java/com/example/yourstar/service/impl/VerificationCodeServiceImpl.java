@@ -42,7 +42,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
                 String contents = "urstar 인증 번호는 " + randomNum + " 입니다";
                 System.out.println("메일 내용 생성");
 
-                verificationCodeDao.createVerification(userEmail,randomNum);
+                verificationCodeDao.createVerification(userEmail,randomNum); // 랜덤 숫지 세션 저장
                 System.out.println("session에 저장");
 
                 // 3. 메일 내용 설정
