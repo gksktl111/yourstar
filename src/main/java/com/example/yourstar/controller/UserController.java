@@ -40,62 +40,37 @@ public class UserController {
 
     @PostMapping(value = "/signup") // 회원가입 유저 저장
     public String signUp(@RequestBody UserSignUpDto userSignUpDto){
-        if (userService.signUp(userSignUpDto).equals("success")){
-            System.out.println("회원가입 성공");
-            return "success";
-        }else {
-            System.out.println("회원가입 실패");
-            return "failed";
-        }
+        return userService.signUp(userSignUpDto);
     }
 
     @PostMapping(value = "/login")// 로그인
     public  String logIn(@RequestBody UserLogInDto userLogInDto){
-            if (userService.logIn((userLogInDto)).equals("success")) {
-                return jwtUtil.generateToken(userLogInDto.getId());
+            if (userService.logIn((userLogInDto)).equals("success")) { // 로그인을 성공하면
+                return jwtUtil.generateToken(userLogInDto.getId()); // 토큰 생성 후 리턴
             }else{
-            System.out.println("로그인 살패");
+            log.info("로그인 : 실패");
             return "failed";
         }
     }
 
     @PostMapping(value = "/sendcode") // 이메일로 인증 코드 전송
-    public  String sendCode(@RequestBody String usereMail){
-        try{
-            return verificationCodeService.sendEmail(usereMail);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("코드 전송 실패");
-            return "failed";
-        }
+    public  String sendCode(@RequestBody UserEmailDto userEmailDto){
+        return verificationCodeService.sendEmail(userEmailDto.getUserEmail());
     }
 
     @PostMapping(value = "/checkcode") // 인증 코드 검증
     public  String codeCheck(@RequestBody CheckCodeDto checkCodeDto){
-        try{
             return verificationCodeService.verifyEmail(checkCodeDto);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("검증 실패");
-            return "failed";
-        }
     }
 
     @PostMapping(value = "/findid") // 아이디 찾기
-    public  String idFind(@RequestBody FindIdDto findIdDto){
-        log.info("psot 이메일 : {}",findIdDto.getUserEmail());
-        try{
-            return userService.FindId(findIdDto.getUserEmail());
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("없는 이메일");
-            return "failed";
-        }
+    public  String idFind(@RequestBody UserEmailDto userEmailDto){
+        log.info("psot 이메일 : {}",userEmailDto.getUserEmail());
+        return userService.FindId(userEmailDto.getUserEmail());
     }
 
     @PutMapping(value ="/update")// 정보 수정
     public String update(Authentication authentication, @RequestBody UserUpdateDto userUpdateDto){
-
         if(userService.update(authentication.getName(),userUpdateDto).equals("success")){
             System.out.println("수정되었습니다");
             return "success";
@@ -109,9 +84,10 @@ public class UserController {
     public  String deleteUser(Authentication authentication){
         return userService.deleteUser(authentication.getName());
     }
+
     @PostMapping(value = "/checkid") // 아이디 유무 체크
-    public String checkUserId(String userId){
-        if(userService.checkUserId(userId)){
+    public String checkUserId(@RequestBody UserIdDto userIdDto){
+        if(userService.checkUserId(userIdDto.getUserId())){
             return "success";
         }
         return  "failed";
