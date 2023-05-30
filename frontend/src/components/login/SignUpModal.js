@@ -49,16 +49,17 @@ const SignUpModal = () => {
     // ageCheckResult 값
     const [ageCheckResult, setAgeCheckResult] = useState('');
 
+
+    // 이메일 정규식 위반시 스타일
+    const style2 = {
+        color: "red",
+        fontSize: "10px"
+    }
+
     // 이메일 검사
-    const handleEmailSearch = () => {
+    const handleEmailSearch = async () => {
         // 이메일 정규식 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)
         const emailRegexp = /^[a-z0-9_-]{5,20}(\.[a-z0-9_-]+)*@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-
-        // 이메일 정규식 위반시 스타일
-        const style2 = {
-            color: "red",
-            fontSize: "10px"
-        }
 
         // 이메일 검사
         // 이메일 형식이 맞지 않으면 오류 메시지 출력 후 함수 종료
@@ -75,15 +76,25 @@ const SignUpModal = () => {
             return;
         }
 
-        // TODO: 서버와 통신해서 이메일 중복 검사
-
-        if (inputEmailValue === "gksktl111@naver.com") {
-            setEmailSearchResult(<span style={style2}>이미 존재하는 메일입니다.</span>);
-            return;
-        }
-
-        setEmailSearchResult("확인 되었습니다!");
+        // 서버와 통신해서 이메일 중복 검사 진행
+        emailCheck();
     };
+
+    const emailCheck = async () => {
+        // 여기 바꿔야됨
+        await axios.post('/user/findid', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                setEmailSearchResult("확인 되었습니다!");
+            } else {
+                setEmailSearchResult(<span style={style2}>회원정보가 없습니다.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함', error)
+        })
+    }
+
 
     // 전화번호 검사
     const handleNumberSearch = () => {
@@ -254,9 +265,9 @@ const SignUpModal = () => {
             console.log('실패함')
         })
     }
-    
+
     // 이메일 인증 만들기
-    
+
     return (
         <div className="modal_background">
             <div className="sign_up_modal_container">
@@ -504,7 +515,7 @@ const SignUpModal = () => {
                         if (handleContextCheck() === true) {
                             // 아직 서버랑 연결 안됨
                             signUpCheck()
-                        }else{
+                        } else {
                             alert('입력정보를 다시 확인해주세요')
                         }
 

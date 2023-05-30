@@ -26,7 +26,7 @@ const IdFindModal = () => {
 
     // 이메일 검사후 메일발송
     const emailCheck = async () => {
-        await axios.post('/user/mailcheck', {
+        await axios.post('/user/findid', {
             email: inputEmailValue,
         }).then((response) => {
             if (response.data === "success") {

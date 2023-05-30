@@ -299,8 +299,8 @@ function LoginPage() {
             pw: inputPw
         }).then((response) => {
             // 응답이 success면 로그인체크 후 메인페이지로 이동
-            if (response.data === "success") {
-                localStorage.setItem('token', true);
+            if (response.data !== "failed") {
+                localStorage.setItem('token', "Bearer "+response.data);
                 navigate("/");
             } else {
                 // 실패하면 오류 메시지
