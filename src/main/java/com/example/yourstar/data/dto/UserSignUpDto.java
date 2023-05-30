@@ -15,5 +15,7 @@ public class UserSignUpDto {
     private  String pw;
     private  String gender;
     private  int age;
+    private  int postCount;
     private  String phone;
+    private  String introduce;
 }
