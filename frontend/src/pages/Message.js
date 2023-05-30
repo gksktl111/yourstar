@@ -1,5 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
+import Picker from "emoji-picker-react";
 import './Message.css';
+import {BsEmojiSmile} from "react-icons/bs";
+import {SlNote} from "react-icons/sl";
+import {FiMail} from "react-icons/fi";
 
 const Message = () => {
 
@@ -9,7 +13,7 @@ const Message = () => {
 
     // 메시지 저장 스테이트
     const [inputMessage, setInputMessage] = useState('');
-
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     
     // 가상의 사용자 ID를 나타내는 상수를 추가합니다.
     const MY_USER_ID = 1;
@@ -145,6 +149,39 @@ const Message = () => {
         scrollToBottom();
     }, [chatContent]);
 
+    // 이모티콘 선택기를 토글하는 함수
+    const toggleEmojiPicker = () => {
+        setShowEmojiPicker(!showEmojiPicker);
+    };
+
+    // 이모티콘을 텍스트 에어리어에 삽입하는 함수
+    const addEmoji = (e, emojiObject) => {
+        // 여기에 이전 내용 대신 객체에서 'emoji' 속성을 사용해야 합니다.
+        setInputMessage((prevMessage) => prevMessage + e.emoji);
+    };
+
+    // 이모티콘 창 말고 다른곳 누르면 없어지기
+    const useOutsideClick = (ref, callback) => {
+        const handleClick = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                callback();
+            }
+        };
+
+        useEffect(() => {
+            document.addEventListener("mousedown", handleClick);
+
+            return () => {
+                document.removeEventListener("mousedown", handleClick);
+            };
+        });
+    };
+
+    const emojiPickerRef = useRef();
+    useOutsideClick(emojiPickerRef, () => {
+        setShowEmojiPicker(false);
+    });
+
 
     return (
         <div className="message-layout">
@@ -155,6 +192,8 @@ const Message = () => {
                         <span className='my-name'>
                             als_rb_1214
                         </span>
+                        {/*여기서 채팅창 추가하기*/}
+                        <SlNote style={{ fontSize : "25px" , marginLeft : "150px", cursor : "pointer"}}/>
                         <br/>
                     </div>
                     <span style={{fontSize: '15px', fontWeight: "bold"}}>
@@ -177,7 +216,7 @@ const Message = () => {
                         ))}
                     </div>
                 </div>
-                <div className="message-wrapper">
+                {selectedUser ? <div className="message-wrapper">
                     <div className="message-user">
                         <div className="user-profile-image">
                             <img
@@ -212,6 +251,14 @@ const Message = () => {
                     </div>
 
                     <div className="message-input">
+                        <button type="button" onClick={toggleEmojiPicker}>
+                            <BsEmojiSmile style={{fontSize : "30px", marginRight : "20px"}}/>
+                        </button>
+                        {showEmojiPicker && (
+                            <div ref={emojiPickerRef} className="emoji-picker">
+                                <Picker onEmojiClick={addEmoji} />
+                            </div>
+                        )}
                         <textarea
                             placeholder="Send message..."
                             value={inputMessage}
@@ -232,7 +279,9 @@ const Message = () => {
                             전송
                         </button>
                     </div>
-                </div>
+                </div> : <div className={"no-user-selected"}>
+                    메시지를 보낼 사람을 선택해 주세요!
+                </div>}
             </div>
         </div>
     );

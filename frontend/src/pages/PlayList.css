@@ -1,0 +1,275 @@
+.playlist {
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+.playlist-title {
+    font-size: 30px;
+    margin-bottom: 1.5rem;
+}
+
+.song-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 추가됨 */
+    padding-bottom: 20px;
+}
+
+.arrow-btn {
+    cursor: pointer;
+    background: none; /* 추가됨 */
+    border: none; /* 추가됨 */
+    font-size: 30px;
+    font-weight: bold;
+    color: #222;
+
+    transition: opacity 0.5s ease;
+}
+
+.hidden {
+    opacity: 0;
+    cursor: default;
+}
+
+.song-card {
+    width: 30%; /* 추가됨 */
+    margin-right: 5%; /* 추가됨 */
+    margin-bottom: 4%;
+    display: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.thumbnail {
+    position: relative;
+    width: 100%; /* 추가된 코드 */
+    padding-top: 100%; /* 추가된 코드 */
+    overflow: hidden; /* 추가된 코드 */
+}
+
+.thumbnail img {
+    position: absolute;
+    top: 0; /* 추가된 코드 */
+    left: 0; /* 추가된 코드 */
+    width: 100%; /* 수정된 코드 */
+    height: 100%; /* 수정된 코드 */
+    object-fit: cover; /* 추가된 코드 */
+}
+
+.thumbnail .rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.song-details {
+    padding: 1rem;
+}
+
+.title,
+.artist {
+    margin: 0;
+}
+
+.artist {
+    color: gray;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.slider {
+    position: relative; /* 추가됨 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: auto;
+    overflow: hidden;
+}
+
+.slider-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dot {
+    display: inline-block;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: lightgray;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* 차트 헤더 */
+.chart-header {
+    display: flex;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+
+    font-size: 0.8rem;
+}
+
+.checkbox-header {
+    margin-left: 15px;
+    width: 1.5%;
+    text-align: left;
+}
+
+.rank-header {
+    width: 7.2%;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.track-album-header {
+    width: 10.7%;
+    text-align: left;
+}
+
+.artist-header {
+    width: 30.1%;
+    text-align: left;
+
+}
+
+.list-controls-header {
+    width: 45.5%;
+    display: flex;
+    gap: 2.3rem;
+    justify-content: flex-end;
+}
+
+
+/*차트*/
+
+.music-chart {
+    margin-top: 50px;
+}
+
+.music-chart h2 {
+    font-size: 24px;
+    margin-left: 10px;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chart-container > div {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.chart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.chart-item input {
+    margin-right: 10px;
+}
+
+/* 추가된 CSS 코드 */
+.cover_wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer
+}
+
+.cover_image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10%;
+
+    margin-left: 10px;
+}
+
+.rank_title_artist_wrapper {
+    flex-grow: 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 10px;
+}
+
+.rank {
+    display: flex;
+    width: 3rem;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.title-artist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+
+    cursor: pointer
+
+}
+
+.chart-title,
+.chart-artist {
+    margin: 0;
+
+    cursor: pointer
+
+}
+
+.chart-artist {
+    color: gray;
+    font-size: 14px;
+}
+
+
+.icons-right {
+    font-size: 2rem;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.icons-right:last-child {
+    margin-right: 0;
+}
+
+.load-more-btn{
+    margin-top: 100px;
+}

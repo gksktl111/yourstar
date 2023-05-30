@@ -9,6 +9,7 @@ import Setting from "./pages/Setting";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import MusicPlayer from "./components/MusicPlayer";
+import SearchResults from "./components/PlayList/SearchResults";
 
 function App() {
     const location = useLocation();
@@ -35,6 +36,8 @@ function App() {
                         <Route path="/playList" element={<PlayList/>}/>
                         <Route path="/setting" element={<Setting/>}/>
                     </Route>
+
+                    <Route path="/search" element={<SearchResults/>} />
                 </Routes>
             </Sidebar>
             <MusicPlayer/>
