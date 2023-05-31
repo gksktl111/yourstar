@@ -36,14 +36,9 @@ public class UserEntity {
     @Column(name = "user_age")
     int userAge;
 
-    @Column(name = "post_count")
-    int postCount;
 
     @Column(name = "phone")
     String phone;
-
-    @Column(name = "introduce")
-    String introduce;
 
     @Column(name = "join_date")
     Timestamp joinDate;

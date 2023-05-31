@@ -80,7 +80,6 @@ const IdFindModal = () => {
                 {/* 로딩 중 상태 표시*/}
                 {isLoading && (
                     <div className="loading-spinner">
-                        <img src={spinnerImage} alt="spinner" />
                         <p>Loading...</p>
                     </div>
                 )}

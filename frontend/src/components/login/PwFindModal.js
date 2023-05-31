@@ -29,7 +29,7 @@ const PwFindModal = () => {
     const [showSend, setShowSend] = useState(false);
 
 
-    // 회원정보 검사
+    // id 검사
     const handleIdSearch = async () => {
         // post 주소는 바뀔수있음
         await axios.post('/user/findid', {
@@ -49,11 +49,11 @@ const PwFindModal = () => {
         })
     };
 
-    // 이메일로 검사를 보냄
+    // 이메일로 pw 보냄
     const handleEmailSearch = async () => {
         // post 주소는 바뀔수있음
         await axios.post('/user/findid', {
-            id: inputEmailValue,
+            email: inputEmailValue,
         }).then((response) => {
             if (response.data === "success") {
                     setShowInputResult(true);

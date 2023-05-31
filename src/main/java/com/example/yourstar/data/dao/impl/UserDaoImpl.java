@@ -41,7 +41,6 @@ public class UserDaoImpl implements UserDao {
         userEntity.setUserEmail(email);
         userEntity.setUserPw(pw);
         userEntity.setPhone(phone);
-        userEntity.setIntroduce(introduce);
         this.userRepository.updateById(userEntity.getUserId(), email, pw, phone, introduce);
         return userEntity;
     }
