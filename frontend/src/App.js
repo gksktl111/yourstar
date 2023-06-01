@@ -45,10 +45,9 @@ function App() {
                     </Route>
                     
                     {/*관리자 로그인 하면 해당 페이지*/}
-                    <Route path={"/"} element={<AdminRoutes/>}>
-                        <Route path="admin" element={<div>add</div>}/>
-                    </Route>
-
+                    <Route path={"/admin"} element={<AdminRoutes/>}>
+                        <Route path="/admin" element={<Home/>}/>
+                    </Route >
                 </Routes>
             </Sidebar>
             <MusicPlayer/>

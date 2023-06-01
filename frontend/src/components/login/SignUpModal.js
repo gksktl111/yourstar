@@ -144,7 +144,6 @@ const SignUpModal = () => {
         }).catch(function (error) {
             console.log('실패함', error)
         })
-
     }
 
     // 비밀번호 확인
@@ -155,7 +154,7 @@ const SignUpModal = () => {
         if (passwordRegex.test(inputPwValue)) {
             setPwCheckResult("확인 되었습니다!")
         } else {
-            setPwCheckResult(<span style={style3}>8~20자의 영문자, 숫자, 특수문자를 포함해야 사용 가능합니다.</span>)
+            setPwCheckResult(<span style={style2}>8~20자의 영문자, 숫자, 특수문자를 포함해야 사용 가능합니다.</span>)
         }
     }
 
@@ -221,17 +220,26 @@ const SignUpModal = () => {
             ageCheckResult === "확인 되었습니다!")
         ) {
             return alert("정보를 다시 확인해주세요!");
+
         }
 
         // TODO 입력에 문제가 없단면 서버로 데이터를 전송해 저장하고 완료 메시지를 띄운후 창 닫기
 
+        // 컨트롤러 연결해보기
         await axios.post('/user/findid', {
             email: inputEmailValue,
+            number: inputNumberValue,
+            id: inputIdValue,
+            pw: inputPwValue,
+            name: inputNameValue,
+            gender: selectGenderValue,
+            age : inputAgeValue
         }).then((response) => {
             if (response.data === "success") {
-                setIdSearchResult("확인 되었습니다!");
+                alert("회원가입을 축합니다!");
+                dispatch(signUpModalOff());
             } else {
-                setIdSearchResult(<span style={style3}>중복되는 아이디 입니다.</span>);
+                alert("정보를 다시 확인해주세요!");
             }
         }).catch(function (error) {
             console.log('실패함', error)

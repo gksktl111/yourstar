@@ -5,6 +5,7 @@ import {BsBookmarkDash, BsBookmarkDashFill, BsDot, BsThreeDots} from "react-icon
 import {commentModalOff, optionModalOff, optionModalOn} from "../../store/Store";
 import {AiFillStar, AiOutlineComment, AiOutlineShareAlt, AiOutlineStar} from "react-icons/ai";
 import PeedMoreComment from "./PeedMoreComment";
+import {Navigate} from "react-router-dom";
 
 const PeedMore = () => {
     const dispatch = useDispatch();
@@ -65,7 +66,8 @@ const PeedMore = () => {
                         {/*두개 누르면 상대방 프로필로 넘어가기*/}
                         <img src="/assets/img/3.jpg" alt="오류" className="peed_more_profile"/>
 
-                        {/*여기서 개인별 프로필 주소 */}
+                        {/*여기서 개인별 프로필 주소 
+                        여기서 프로필 주소를 서버로 넘겨서 해당 프로필 정보를 가져와서 보여줌*/}
                         <a href="http://localhost:3000/aad" className="peed_more_name">
                             alsrb_1214
                         </a>
