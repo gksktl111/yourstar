@@ -48,10 +48,14 @@ main {
 
 .logo {
     display: block;
-    font-size: 30px;
+    font-size: 70px;
+    height: 50px;
+    margin-left: 30px;
+    color: #7946FF;
+    font-family: 'Cafe24Shiningstar', sans-serif;
 }
 
-.link {
+.link{
     display: flex;
     align-items: center;
     color: #000000;
@@ -62,17 +66,18 @@ main {
     cursor: pointer;
 }
 
+
 .link:hover {
     border-radius: 10px;
-    background: #e0e0e0;
-    color: #000000;
+    background: #e8e8e8;
+    color: #7946FF;
     transition: all 0.5s;
 }
 
 .active {
     border-radius: 10px;
-    background: #e0e0e0;
-    color: #000000;
+    background: #e8e8e8;
+    color: #7946FF;
 }
 
 @media (min-width: 801px) {

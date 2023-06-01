@@ -131,9 +131,8 @@ const SignUpModal = () => {
             return;
         }
 
-        // TODO: 중복 검사 로직 추가 (여기서는 test 아이디가 중복됐다고 가정함)
-
-        await axios.post('/user/findid', {
+        // TODO: 중복 검사 로직
+        await axios.post('/user/checkid', {
             email: inputEmailValue,
         }).then((response) => {
             if (response.data === "success") {

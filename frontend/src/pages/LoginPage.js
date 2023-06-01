@@ -51,11 +51,11 @@ let PageName = styled.span`
   top: 5%;
 
   min-width: 140px;
-  
-  font-family: 'PyeongChangPeace-Bold', sans-serif;
+
+  font-family: 'Cafe24Shiningstar', sans-serif;
   font-weight: 700;
   font-style: normal;
-  font-size: 2.5vw;
+  font-size: 5vw;
   line-height: 5rem;
 
   color: #7946FF;
@@ -68,7 +68,7 @@ let PageName = styled.span`
 
   // 일정 크기로 줄어들면 폰트 고정
   @media (max-width: 1050px), (max-height: 520px) {
-    font-size: 28px;
+    font-size: 58px;
   }
 `
 

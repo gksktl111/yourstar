@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/ex/Sidebar";
 import {Route, Routes, useLocation} from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -8,9 +8,10 @@ import PlayList from "./pages/PlayList";
 import Setting from "./pages/Setting";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import MusicPlayer from "./components/MusicPlayer";
+import MusicPlayer from "./components/ex/MusicPlayer";
 import SearchResults from "./components/PlayList/SearchResults";
 import AdminRoutes from "./utils/AdminRoutes";
+import NewPeed from "./components/NewPeed/NewPeed"
 
 function App() {
     const location = useLocation();
@@ -40,6 +41,7 @@ function App() {
                         <Route path="profile" element={<Profile/>}/>
                         <Route path="message" element={<Message/>}/>
                         <Route path="playList" element={<PlayList/>}/>
+                        <Route path="newPeed" element={<NewPeed/>}/>
                         <Route path="setting" element={<Setting/>}/>
                         <Route path="search" element={<SearchResults/>}/>
                     </Route>
