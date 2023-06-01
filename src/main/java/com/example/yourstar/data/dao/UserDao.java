@@ -10,6 +10,5 @@ public interface UserDao {
     void deleteUser(String userId); // 아이디에 해당하는 정보를  DB에서 삭제
     UserEntity findEmail(String userEmail);
     UserEntity updateUser(UserEntity user, String email, String pw, String phone, String introduce); // 이메일로 user 정보 검색
-    boolean checkUserId(String userid);
     void updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto);
 }

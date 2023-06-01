@@ -137,11 +137,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkUserId(String userId) {
-        return userDao.checkUserId(userId);
-    }
-
-    @Override
     public String updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto) {
         try{
             userDao.updateUserProfile(userId, updateUserProfileDto);

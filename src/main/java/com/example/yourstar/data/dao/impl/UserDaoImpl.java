@@ -46,11 +46,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean checkUserId(String userid) {
-        return userRepository.existsById(userid);
-    }
-
-    @Override
     public void updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto) {
         UserProfileEntity userProfileEntity;
         if(userProfileRepository.findById(userId).orElse(null)==null){

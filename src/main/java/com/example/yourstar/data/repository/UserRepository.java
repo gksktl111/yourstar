@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 
 public interface UserRepository  extends JpaRepository<UserEntity, String> {
     UserEntity findByUserEmail(String eMail); // 해당 이메일의 정보 DB에서 가져오기
+    boolean existsByUserEmail(String userEmail); // 이메일 유무 확인
+    boolean existsByPhone(String phone); // 전 전화번호 유부 확인
     @Modifying
     @Transactional
     @Query("UPDATE UserEntity user SET userEmail = ?1, userPw = ?2, phone = ?3, introduce = ?4 WHERE userId = ?5")

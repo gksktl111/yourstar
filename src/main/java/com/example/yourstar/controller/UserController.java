@@ -3,6 +3,7 @@ package com.example.yourstar.controller;
 import com.example.yourstar.data.dto.*;
 import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.data.repository.UserProfileRepository;
+import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.UserService;
 import com.example.yourstar.service.VerificationCodeService;
 import com.example.yourstar.util.JwtUtil;
@@ -29,13 +30,15 @@ public class UserController {
     private VerificationCodeService verificationCodeService;
     private JwtUtil jwtUtil;
     private UserProfileRepository userProfileRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService,VerificationCodeService verificationCodeService,JwtUtil jwtUtil,UserProfileRepository userProfileRepository){
+    public UserController(UserService userService,VerificationCodeService verificationCodeService,JwtUtil jwtUtil,UserProfileRepository userProfileRepository,UserRepository userRepository){
         this.userService = userService;
         this.verificationCodeService =verificationCodeService;
         this.jwtUtil =jwtUtil;
         this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping(value = "/signup") // 회원가입 유저 저장
@@ -85,14 +88,18 @@ public class UserController {
         return userService.deleteUser(authentication.getName());
     }
 
-    @PostMapping(value = "/checkid") // 아이디 유무 체크
-    public String checkUserId(@RequestBody UserIdDto userIdDto){
-        if(userService.checkUserId(userIdDto.getUserId())){
-            log.info("{} 가입된 유저입니다",userIdDto.getUserId());
-            return "success";
-        }
-        log.info("{} 가입되지 않은 유저입니다",userIdDto.getUserId());
-        return  "failed";
+    @PostMapping(value = "/checkId") // 아이디 유무 체크
+    public boolean checkUserId(@RequestBody UserIdDto userIdDto){
+        return userRepository.existsById(userIdDto.getUserId());
+    }
+    @PostMapping(value = "/checkEmail")
+    public  boolean checkEmail(@RequestBody UserEmailDto userEmailDto){
+        return userRepository.existsByUserEmail(userEmailDto.getUserEmail());
+    }
+
+    @PostMapping(value = "/checkPhone")
+    public  boolean checkPhone(@RequestBody PhoneDto phoneDto){
+        return userRepository.existsByPhone(phoneDto.getPhone());
     }
 
     // 프로필 업로드

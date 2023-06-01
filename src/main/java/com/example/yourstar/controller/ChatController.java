@@ -1,14 +1,15 @@
 package com.example.yourstar.controller;
 
 import com.example.yourstar.data.dto.ChatMessageDto;
+import com.example.yourstar.data.dto.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -38,11 +39,11 @@ public class ChatController {
         template.convertAndSend(destination, message); // destination 경로에 mwssages 전달(클라이언트에 메시지 전송)
     }
 
-    @GetMapping("/past-messages")
-    public List<ChatMessageDto> getPastMessages(@RequestParam String otherPerson,Authentication authentication ) {
-        log.info("로그인 유저 : {}",authentication.getName()); // 로그인한 유저(jwt로 구분)
-        log.info("채팅 상대방 유저 : {}",otherPerson); // 상대방 유저
-        return chatService.getMessagesBetweenUsers(otherPerson,authentication.getName());
+    @PostMapping("/past-messages")
+    public List<ChatMessageDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
+        log.info("채팅 유저(나) : {}",authentication.getName()); // 로그인한 유저(jwt로 구분)
+        log.info("채팅 상대방 유저 : {}",otherPerson.getUserId()); // 상대방 유저
+        return chatService.getMessagesBetweenUsers(otherPerson.getUserId(),authentication.getName());
     }
 }
 
