@@ -49,16 +49,22 @@ const SignUpModal = () => {
     // ageCheckResult 값
     const [ageCheckResult, setAgeCheckResult] = useState('');
 
+    // 이메일 정규식 위반시 스타일
+    const style2 = {
+        color: "red",
+        fontSize: "10px"
+    }
+
+    // 글자 크기떄문에 색깔바꾸기용 하나만듬
+    const style3 = {
+        color: "red",
+    }
+
+
     // 이메일 검사
-    const handleEmailSearch = () => {
+    const handleEmailSearch = async () => {
         // 이메일 정규식 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)
         const emailRegexp = /^[a-z0-9_-]{5,20}(\.[a-z0-9_-]+)*@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-
-        // 이메일 정규식 위반시 스타일
-        const style2 = {
-            color: "red",
-            fontSize: "10px"
-        }
 
         // 이메일 검사
         // 이메일 형식이 맞지 않으면 오류 메시지 출력 후 함수 종료
@@ -75,52 +81,49 @@ const SignUpModal = () => {
             return;
         }
 
-        // TODO: 서버와 통신해서 이메일 중복 검사
-
-        if (inputEmailValue === "gksktl111@naver.com") {
-            setEmailSearchResult(<span style={style2}>이미 존재하는 메일입니다.</span>);
-            return;
-        }
-
-        setEmailSearchResult("확인 되었습니다!");
+        // TODO: 서버와 통신해서 이메일 중복 검사 진행
+        // 여기 바꿔야됨
+        await axios.post('/user/findid', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                setEmailSearchResult("확인 되었습니다!");
+            } else {
+                setEmailSearchResult(<span style={style2}>존재하는 회원정보입니다.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함', error)
+        })
     };
 
     // 전화번호 검사
-    const handleNumberSearch = () => {
+    const handleNumberSearch = async () => {
         const regex = /^010\d{4}\d{4}$/;
-
-        const style2 = {
-            color: "red",
-        }
 
         // 전화번호 유효성 검사 및 유효하지 않을 때 처리
         if (!regex.test(inputNumberValue)) {
-            setNumberSearchResult(<span style={style2}>전화번호를 다시 확인해주세요.</span>);
+            setNumberSearchResult(<span style={style3}>전화번호를 다시 확인해주세요.</span>);
             return;
         }
 
         // TODO: 서버와 통신해서 전화번호 중복 검사
-
-        // 전화번호가 중복되는 경우 처리
-        if (inputNumberValue === "01066628752") {
-            setNumberSearchResult(<span style={style2}>중복되는 번호 입니다.</span>);
-            return;
-        }
-
-        // 전화번호가 중복되지 않는 경우 처리
-        setNumberSearchResult("확인 되었습니다!");
+        await axios.post('/user/number', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                setNumberSearchResult("확인 되었습니다!");
+            } else {
+                setNumberSearchResult(<span style={style2}>중복되는 번호 입니다.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함', error)
+        })
     }
 
     // 아이디 검사
-    const handleIdSearch = () => {
+    const handleIdSearch = async () => {
         // 8~20자의 영문 소문자, 숫자만 사용 가능합니다.
         const idRegex = /^[a-z0-9]{8,20}$/;
-
-        // 정규식 위반시 스타일
-        const style2 = {
-            color: "red",
-            fontSize: "10px"
-        }
 
         // 입력한 아이디가 정규식에 맞는지 확인
         if (!idRegex.test(inputIdValue)) {
@@ -129,24 +132,24 @@ const SignUpModal = () => {
         }
 
         // TODO: 중복 검사 로직 추가 (여기서는 test 아이디가 중복됐다고 가정함)
-        if (inputIdValue === "gksktl111") {
-            setIdSearchResult("중복되는 아이디입니다.");
-        } else {
-            // 여기서 서버로 보내기
-            setIdSearchResult("확인 되었습니다!");
-        }
+
+        await axios.post('/user/findid', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                setIdSearchResult("확인 되었습니다!");
+            } else {
+                setIdSearchResult(<span style={style3}>중복되는 아이디 입니다.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함', error)
+        })
     }
 
     // 비밀번호 확인
     const handlePwCheck = () => {
         // 정규식 비밀번호는 8~20자의 영문자, 숫자, 특수문자를 포함
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,20}).*$/;
-
-        // 정규식 위반시 스타일
-        const style2 = {
-            color: "red",
-            fontSize: "10px"
-        }
 
         if (passwordRegex.test(inputPwValue)) {
             setPwCheckResult("확인 되었습니다!")
@@ -157,18 +160,11 @@ const SignUpModal = () => {
 
     // 비밀번호 재확인
     const handlePwDoubleCheck = () => {
-
-        // 비밀번호가 다를시 스타일
-        const style2 = {
-            color: "red",
-        }
-
         // 비밀번호 재확인
         if (inputPwValue === inputPwDoubleValue && inputPwValue !== '') {
-            // 여기서 서버로 보내기
             setPwDoubleCheckResult("확인 되었습니다!")
         } else {
-            setPwDoubleCheckResult(<span style={style2}>비밀번호를 확인해 주세요.</span>)
+            setPwDoubleCheckResult(<span style={style3}>비밀번호를 확인해 주세요.</span>)
         }
     }
 
@@ -176,12 +172,6 @@ const SignUpModal = () => {
     const handleNameCheck = () => {
         // 5~20자의 영문 대 소문자, 숫자, 언더바만 사용 가능합니다.
         const Regex = /^[\w]{5,20}$/;
-
-        // 정규식 위반시 스타일
-        const style2 = {
-            color: "red",
-            fontSize: "10px"
-        }
 
         if (Regex.test(inputNameValue)) {
             setNameCheckResult('확인 되었습니다!');
@@ -205,58 +195,61 @@ const SignUpModal = () => {
         // 나이는 범위 정하기
 
         if (inputAgeValue === "") {
-            setAgeCheckResult(<span style={{color: "red"}}>나이를 확인해주세요.</span>)
+            setAgeCheckResult(<span style={style3}>나이를 확인해주세요.</span>)
             return;
         }
 
         if (inputAgeValue >= 8 && inputAgeValue <= 110) {
             setAgeCheckResult("확인 되었습니다!")
         } else {
-            setAgeCheckResult(<span style={{color: "red"}}>정말이세요?</span>)
+            setAgeCheckResult(<span style={style3}>정말이세요?</span>)
         }
     }
 
     // 올클리어시 서버로 전달 가능
     // 입력창을 다 입력했는지 검사
-    const handleContextCheck = () => {
-        if (
-            emailSearchResult === "확인 되었습니다!" &&
+    const handleContextCheck = async () => {
+        // 하나라도 거짓이면 리턴
+        if (!(emailSearchResult === "확인 되었습니다!" &&
             numberSearchResult === "확인 되었습니다!" &&
             idSearchResult === "확인 되었습니다!" &&
             pwCheckResult === "확인 되었습니다!" &&
             pwDoubleCheckResult === "확인 되었습니다!" &&
             nameCheckResult === "확인 되었습니다!" &&
             genderCheckResult === "확인 되었습니다!" &&
-            ageCheckResult === "확인 되었습니다!"
+            ageCheckResult === "확인 되었습니다!")
         ) {
-            // 다입력했으면 true 리턴
-            return true;
+            return alert("정보를 다시 확인해주세요!");
+
         }
-    }
 
-    // 로그인 검사
-    const signUpCheck = async () => {
-        await axios.post('/user/signup', {
-            // 여기서 회원 정보 넘겨줘야함
-            // id: inputId,
-            // pw: inputPw
+        // TODO 입력에 문제가 없단면 서버로 데이터를 전송해 저장하고 완료 메시지를 띄운후 창 닫기
+
+        // 컨트롤러 연결해보기
+        await axios.post('/user/findid', {
+            email: inputEmailValue,
+            number: inputNumberValue,
+            id: inputIdValue,
+            pw: inputPwValue,
+            name: inputNameValue,
+            gender: selectGenderValue,
+            age : inputAgeValue
         }).then((response) => {
-
-            // 응답이 success면 축하메시지 띄운후 가입 창 닫기
             if (response.data === "success") {
-                alert("회원 가입을 축하합니다!")
-                dispatch(signUpModalOff())
+                alert("회원가입을 축합니다!");
+                dispatch(signUpModalOff());
             } else {
-                // 실패하면 오류 메시지
-                alert('오류')
+                alert("정보를 다시 확인해주세요!");
             }
-        }).catch(function () {
-            console.log('실패함')
+        }).catch(function (error) {
+            console.log('실패함', error)
         })
+
     }
-    
+
+
     // 이메일 인증 만들기
-    
+
     return (
         <div className="modal_background">
             <div className="sign_up_modal_container">
@@ -500,16 +493,7 @@ const SignUpModal = () => {
 
                 <button
                     className="sign_up_modal_button"
-                    onClick={() => {
-                        if (handleContextCheck() === true) {
-                            // 아직 서버랑 연결 안됨
-                            signUpCheck()
-                        }else{
-                            alert('입력정보를 다시 확인해주세요')
-                        }
-
-                    }
-                    }>
+                    onClick={() => {handleContextCheck()}}>
                     회원가입
                 </button>
 

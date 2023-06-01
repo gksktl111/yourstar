@@ -71,7 +71,6 @@ const PeedCard = () => {
     // 본문 예시
     const peed_text = "이 밴드 \n정말 좋아요! 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
 
-
     // 피드텍스트 길이 계산 후 isLongText 상태 업데이트
     useEffect(() => {
         if (peed_text.length > 20) {
