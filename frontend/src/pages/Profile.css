@@ -101,7 +101,7 @@
 }
 
 .profile_my_saved{
-    margin: 0 20%; /* 좌우 20px의 마진 */
+    margin: 0 22%;
 }
 
 .profile_my_post,
@@ -132,10 +132,11 @@
 }
 
 .new-peed{
+    position: absolute;;
     font-size: 40px;
 
     margin-top: -5%;
-    margin-left: 95%;
+    margin-left: 70%;
 
     cursor: pointer;
 }
