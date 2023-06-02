@@ -10,6 +10,11 @@ import java.sql.Blob;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostUpdateDto {
+    private String userId;
     private String contents;
     private Blob meta;
+
+    public String getPostId() {
+        return userId;
+    }
 }

@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "clearcache": "rm -rf node_modules/ && rm -rf package-lock.json && npm cache clear --force && npm install && npm start"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:8081",
   "eslintConfig": {
     "extends": [
       "react-app",

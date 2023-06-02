@@ -27,10 +27,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserEntity deleteUser(String userId) {
-        UserEntity userEntity = userRepository.getById(userId);
+    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
-        return userEntity;
     }
 
     @Override

@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDto {
-
-    private String email;
-    private String pw;
-    private String phone;
-    private String introduce;
+public class PostShareDto {
+    private long postId;
+    private long shareCount;
 }
