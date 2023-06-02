@@ -51,11 +51,11 @@ let PageName = styled.span`
   top: 5%;
 
   min-width: 140px;
-  
-  font-family: 'PyeongChangPeace-Bold', sans-serif;
+
+  font-family: 'Cafe24Shiningstar', sans-serif;
   font-weight: 700;
   font-style: normal;
-  font-size: 2.5vw;
+  font-size: 5vw;
   line-height: 5rem;
 
   color: #7946FF;
@@ -68,7 +68,7 @@ let PageName = styled.span`
 
   // 일정 크기로 줄어들면 폰트 고정
   @media (max-width: 1050px), (max-height: 520px) {
-    font-size: 28px;
+    font-size: 58px;
   }
 `
 
@@ -299,8 +299,8 @@ function LoginPage() {
             pw: inputPw
         }).then((response) => {
             // 응답이 success면 로그인체크 후 메인페이지로 이동
-            if (response.data === "success") {
-                localStorage.setItem('token', true);
+            if (response.data !== "failed") {
+                localStorage.setItem('token', "Bearer "+response.data);
                 navigate("/");
             } else {
                 // 실패하면 오류 메시지

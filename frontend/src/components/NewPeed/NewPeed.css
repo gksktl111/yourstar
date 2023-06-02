@@ -1,0 +1,131 @@
+* {
+    /* 드래그 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 모달 창 배경 */
+.modal_background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0,0, 0.5); /* 투명도 50%의 검은색 배경 */
+
+    z-index: 1; /* 모달 창보다 아래에 위치 */
+}
+
+/* 모달 창 */
+.new-peed-modal {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 75%;
+
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+
+
+
+    z-index: 2; /* 모달 창보다 위에 위치 */
+
+}
+
+.new-peed-modal::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+.new-peed-header {
+    width: 100%;
+    text-align: center;
+}
+
+.new-peed-modal-left,
+.new-peed-modal-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.new-peed-file-preview {
+    margin-bottom: 10px;
+}
+
+.new-peed-file-name {
+    font-size: 32px;
+    text-align: center;
+    color: #444;
+}
+
+.new-peed-modal-close {
+    position: fixed;
+    top: 2%;
+    left: 85%;
+
+    color:#FFFFFF;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+.new-peed-file-input {
+    width: 100%;
+    margin-bottom: 10px;
+    display: none; /* 기본 file input 요소 숨김 */
+}
+
+.new-peed-file-label {
+    display: inline-block;
+    width: 89%;
+    margin-top: 30px;
+    background-color: blue;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.new-peed-file-preview {
+    width: 90%;
+    margin-top: 5%;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.new-peed-description {
+    width: 90%;
+    height: 100px;
+
+    margin-top: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.new-peed-submit-button {
+    width: 91%;
+    background-color: blue;
+    color:#FFFFFF;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

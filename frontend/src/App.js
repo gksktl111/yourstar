@@ -1,23 +1,32 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/ex/Sidebar";
 import {Route, Routes, useLocation} from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import Mail from "./pages/Mail";
+import Message from "./pages/Message";
 import PlayList from "./pages/PlayList";
 import Setting from "./pages/Setting";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import MusicPlayer from "./components/MusicPlayer";
+import MusicPlayer from "./components/ex/MusicPlayer";
+import SearchResults from "./components/PlayList/SearchResults";
+import AdminRoutes from "./utils/AdminRoutes";
+import NewPeed from "./components/NewPeed/NewPeed"
 
 function App() {
     const location = useLocation();
 
-    // 로그인 페이지에서는 사이드바와 뮤직 플레이어를 렌더링하지 않습니다.
+    // 해당페이지에서는 사이드바와 뮤직 플레이어를 렌더링하지 않습니다.
     if (location.pathname === "/login") {
         return (
             <Routes>
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage/>}/>
+            </Routes>
+        );
+    } else if (location.pathname === "/admin") {
+        return (
+            <Routes>
+                <Route path="/admin" element={<div>asdsadsad</div>}/>
             </Routes>
         );
     }
@@ -26,15 +35,21 @@ function App() {
         <>
             <Sidebar>
                 <Routes>
-                    <Route path="/login" element={<LoginPage/>}/>
-
+                    {/*사용자 로그인 하면 해당 페이지*/}
                     <Route path={"/"} element={<PrivateRoutes/>}>
                         <Route path="/" element={<Home/>}/>
-                        <Route path="/profile" element={<Profile/>}/>
-                        <Route path="/mail" element={<Mail/>}/>
-                        <Route path="/playList" element={<PlayList/>}/>
-                        <Route path="/setting" element={<Setting/>}/>
+                        <Route path="profile" element={<Profile/>}/>
+                        <Route path="message" element={<Message/>}/>
+                        <Route path="playList" element={<PlayList/>}/>
+                        <Route path="newPeed" element={<NewPeed/>}/>
+                        <Route path="setting" element={<Setting/>}/>
+                        <Route path="search" element={<SearchResults/>}/>
                     </Route>
+                    
+                    {/*관리자 로그인 하면 해당 페이지*/}
+                    <Route path={"/admin"} element={<AdminRoutes/>}>
+                        <Route path="/admin" element={<Home/>}/>
+                    </Route >
                 </Routes>
             </Sidebar>
             <MusicPlayer/>

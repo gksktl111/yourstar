@@ -17,6 +17,9 @@ const IdFindModal = () => {
     // 메일 발송 스테이트
     const [showEmailSend, setShowEmailSend] = useState(false);
 
+    // 로딩 상태
+    const [isLoading, setIsLoading] = useState(false);
+
     const style1 = {
         color: "red"
     }
@@ -26,9 +29,11 @@ const IdFindModal = () => {
 
     // 이메일 검사후 메일발송
     const emailCheck = async () => {
-        await axios.post('/user/mailcheck', {
-            email: inputEmailValue,
-        }).then((response) => {
+        // 로딩시작
+        setIsLoading(true);
+        await axios.post('/user/findid', {
+            userEmail: inputEmailValue,
+        }).then((response   ) => {
             if (response.data === "success") {
                 setEmailSearchResult("확인 되었습니다!");
                 setShowEmailSend("임시ID를 보냈습니다!")
@@ -38,6 +43,9 @@ const IdFindModal = () => {
             }
         }).catch(function (error) {
             console.log('실패함',error)
+        }).finally(() => {
+            // 로딩끝
+            setIsLoading(false)
         })
     }
 
@@ -68,6 +76,13 @@ const IdFindModal = () => {
                         }
                     }}
                 />
+
+                {/* 로딩 중 상태 표시*/}
+                {isLoading && (
+                    <div className="loading-spinner">
+                        <p>Loading...</p>
+                    </div>
+                )}
 
                 {/*인풋1의 결과 출력*/}
                 <div className="login_find_modal_input1_result">

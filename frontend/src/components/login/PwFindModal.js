@@ -3,6 +3,7 @@ import './PwFindModal.css';
 import {IoClose} from "react-icons/io5";
 import {useDispatch} from "react-redux";
 import {pwFindModalOff} from "../../store/Store";
+import axios from "axios";
 
 const PwFindModal = () => {
     const dispatch = useDispatch();
@@ -26,42 +27,47 @@ const PwFindModal = () => {
     // 메일발송 관련 스테이트
     // on/off
     const [showSend, setShowSend] = useState(false);
-    
 
-    // 회원정보 검사
-    const handleIdSearch = () => {
-        // 회원정보 인풋의 내용을 가져옴
-        // 나중에 서버에서 사용자 정보 가져오기
 
-        // console.log(inputValue)
-        if (inputIdValue === "gksktl111") {
-            setShowInputResult(true);
-            setShowEmail(true);
-            setIdSearchResult("확인 되었습니다!");
-        } else {
-            setShowInputResult(true);
-            setShowEmail(false)
-            setIdSearchResult(<span style={{color : "red"}}>회원 정보가 없습니다.</span>);
-        }
+    // id 검사
+    const handleIdSearch = async () => {
+        // post 주소는 바뀔수있음
+        await axios.post('/user/findid', {
+            id: inputIdValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                    setShowInputResult(true);
+                    setShowEmail(true);
+                    setIdSearchResult("확인 되었습니다!");
+            } else {
+                    setShowInputResult(true);
+                    setShowEmail(false)
+                    setIdSearchResult(<span style={{color : "red"}}>회원 정보가 없습니다.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함',error)
+        })
     };
 
-    // 이메일로 검사를 보냄
-    const handleEmailSearch = () => {
-        // 서버에서 질문 가져와서 검사 후 아이디 까지 가져오기
-        // 나중에 서버에서 사용자 정보 가져오기
-
-        // 이메일이 맞는지 확인
-        // 확인 후 맞으면 메일 발송
-        if (inputEmailValue === "gksktl111@naver.com") {
-            setShowInputResult(true);
-            setShowEmail(true);
-            setShowSend(true);
-            setEmailResult("확인 되었습니다!");
-        } else {
-            setShowInputResult(true);
-            setShowSend(false)
-            setEmailResult(<span style={{color : "red"}}>다시 확인해주세요.</span>);
-        }
+    // 이메일로 pw 보냄
+    const handleEmailSearch = async () => {
+        // post 주소는 바뀔수있음
+        await axios.post('/user/findid', {
+            email: inputEmailValue,
+        }).then((response) => {
+            if (response.data === "success") {
+                    setShowInputResult(true);
+                    setShowEmail(true);
+                    setShowSend(true);
+                    setEmailResult("메일을 발송했습니다!");
+            } else {
+                    setShowInputResult(true);
+                    setShowSend(false)
+                    setEmailResult(<span style={{color : "red"}}>다시 확인해주세요.</span>);
+            }
+        }).catch(function (error) {
+            console.log('실패함',error)
+        })
     };
 
     return (
