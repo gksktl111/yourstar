@@ -13,6 +13,16 @@ const NewPeed = () => {
 
     const [fileUrl, setFileUrl] = useState("");
 
+    // 한국 시간 가져오기
+    const getKST = () => {
+        const offset = 9 * 60; // 한국 표준시는 UTC+9 이므로, offset은 9시간(분 단위)입니다.
+        const now = new Date(); // 현재 시간을 가져옵니다.
+        const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000; // UTC 시간을 구합니다.
+        return new Date(utc + offset * 60 * 1000); // UTC 시간에 offset을 더하여 KST를 구합니다.
+    }
+
+    const kst = getKST();
+
     useEffect(() => {
         // 파일 변경 시에만 URL이 변함
         if (file) {
@@ -32,16 +42,22 @@ const NewPeed = () => {
 
     const handleSubmit = async () => {
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('description', description);
+        formData.append('userId', localStorage.getItem("token"));
+        formData.append('contents', description);
+        formData.append('meta', file);
+        formData.append('postTime', kst);
 
-        console.log(file);
-        console.log(description)
+        // console.log(localStorage.getItem("token"));
+        // console.log(file);
+        // console.log(description)
+        // console.log('Current KST:', kst);
 
         try {
-            await axios.post('/api/peeds', formData);
+            await axios.post('/post/writePost', formData);
+            alert('성곡적으로 게시물을 작성했습니다!')
             dispatch(newPeedModalOff());
         } catch (error) {
+            alert('게시물 작성에 실패했습니다')
             console.error(error);
         }
     };

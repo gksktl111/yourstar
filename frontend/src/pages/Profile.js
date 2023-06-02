@@ -62,7 +62,6 @@ const Profile = () => {
     };
 
 
-
     return (
         <>
             <header className="profile_header">
