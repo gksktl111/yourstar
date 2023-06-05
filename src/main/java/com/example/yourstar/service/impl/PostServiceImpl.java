@@ -4,18 +4,26 @@ import com.example.yourstar.data.dao.PostDao;
 import com.example.yourstar.data.dto.PostUpdateDto;
 import com.example.yourstar.data.dto.PostWriteFormDto;
 import com.example.yourstar.data.entity.PostEntity;
+import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.repository.PostRepository;
+import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.PostService;
 import com.example.yourstar.service.exception.PostNotFoundException;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private PostDao postDao;
 
@@ -28,9 +36,17 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostEntity writePost(PostWriteFormDto postWriteFormDto) {
+    public String writePost(PostWriteFormDto postWriteFormDto) {
         PostEntity postEntity = new PostEntity();
-        postEntity.setUserId(postWriteFormDto.getUserId());
+
+        Optional<UserEntity> userEntityOpt = userRepository.findById(postWriteFormDto.getUserId());
+
+        if(userEntityOpt.isPresent()) {
+            postEntity.setUserEntity(userEntityOpt.get());
+        } else {
+            // 사용자가 찾을 수 없으면 오류 메시지를 반환하거나 적절한 처리 수행
+            return "user not found";
+        }
         postEntity.setPostTime(new Timestamp(System.currentTimeMillis())); //현재 시간을 사용해 postTime 필드값을 설정
         postEntity.setContents(postWriteFormDto.getContents());
         postEntity.setMeta(postWriteFormDto.getMeta()); //데이터베이스에서 Blob 형식의 데이터를 저장하는데 사용하는 형식으로 설정
@@ -39,11 +55,15 @@ public class PostServiceImpl implements PostService{
         postEntity.setShareCount(0);
         postEntity.setCategory("default"); // 카테고리 정보는 기본값(default)으로 설정
 
+        System.out.println("포스트 작성");
+
+
         try {
-            return postRepository.save(postEntity);
+            postRepository.save(postEntity); //postEntity 정보를 업데이트하고 저장
+            return "success";
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "failed";
         }
     }
 

@@ -6,7 +6,7 @@ import com.example.yourstar.data.entity.PostEntity;
 
 public interface PostService {
 
-    PostEntity writePost(PostWriteFormDto postWriteFormDto);
+    String writePost(PostWriteFormDto postWriteFormDto);
 
     String updatePost(PostUpdateDto postUpdateDto); //게시글 업데이트 기능
 

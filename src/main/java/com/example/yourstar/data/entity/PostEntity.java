@@ -1,6 +1,7 @@
 package com.example.yourstar.data.entity;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -11,15 +12,14 @@ import java.sql.Timestamp;
 @Data
 @Table(name = "post")
 public class PostEntity {
-    // userEntity를 참조함
-    @ManyToOne UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
     @Id
     @Column(name = "post_id", columnDefinition = "bigint")
     long postId;
-
-    @Column(name = "user_id")
-    String userId;
 
     @Column(name = "contents")
     String contents;
@@ -42,4 +42,6 @@ public class PostEntity {
 
     @Column(name = "category")
     String category;
+
 }
+
