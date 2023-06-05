@@ -22,17 +22,10 @@ public class PostController {
     }
 
 
-    @PostMapping(value = "/writePost", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//글 작성
+    @PostMapping(value = "/writePost", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String writePost(@RequestPart("postWriteFormDto") PostWriteFormDto postWriteFormDto,
                             @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
-                            @RequestPart(value = "videoFile", required = false) MultipartFile videoFile) throws IOException {
-
-        // 이미지와 비디오 파일이 모두 없는 경우 처리
-        if (imageFile == null && videoFile == null) {
-            return "failed";
-        }
-
-        // 이미지와 비디오 파일이 모두 있는 경우 처리
+                            @RequestPart(value = "videoFile", required = false) MultipartFile videoFile) {
         if (imageFile != null && videoFile != null) {
             return "failed";
         }
@@ -45,9 +38,14 @@ public class PostController {
             postWriteFormDto.setVideoFile(videoFile);
         }
 
-        if (postService.writePost(postWriteFormDto).equals("success")) {
-            return "success";
-        } else {
+        try {
+            if (postService.writePost(postWriteFormDto).equals("success")) {
+                return "success";
+            } else {
+                return "failed";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
             return "failed";
         }
     }

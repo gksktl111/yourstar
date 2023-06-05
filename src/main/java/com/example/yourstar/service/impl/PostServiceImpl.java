@@ -33,15 +33,13 @@ public class PostServiceImpl implements PostService{
     public String writePost(PostWriteFormDto postWriteFormDto) {
         PostEntity postEntity = new PostEntity();
         postEntity.setUserId(postWriteFormDto.getUserId());
-        postEntity.setPostTime(new Timestamp(System.currentTimeMillis())); //현재 시간을 사용해 postTime 필드값을 설정
+        postEntity.setPostTime(new Timestamp(System.currentTimeMillis()));
         postEntity.setContents(postWriteFormDto.getContents());
-        postEntity.setMeta(postWriteFormDto.getMeta()); //데이터베이스에서 Blob 형식의 데이터를 저장하는데 사용하는 형식으로 설정
         postEntity.setLikeCount(0);
         postEntity.setViewCount(0);
         postEntity.setShareCount(0);
-        postEntity.setCategory("default"); // 카테고리 정보는 기본값(default)으로 설정
+        postEntity.setCategory("default");
 
-        // 이미지 및 동영상 파일을 Blob 형식의 데이터로 변환하고 저장
         try {
             if (postWriteFormDto.getImageFile() != null) {
                 byte[] imageBytes = postWriteFormDto.getImageFile().getBytes();
@@ -57,7 +55,7 @@ public class PostServiceImpl implements PostService{
         }
 
         try {
-            postRepository.save(postEntity); //postEntity 정보를 업데이트하고 저장
+            postRepository.save(postEntity);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
