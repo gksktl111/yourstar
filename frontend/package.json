@@ -20,6 +20,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.6.2",
     "styled-components": "^5.3.9",
     "web-vitals": "^2.1.4"
   },
@@ -30,7 +31,7 @@
     "eject": "react-scripts eject",
     "clearcache": "rm -rf node_modules/ && rm -rf package-lock.json && npm cache clear --force && npm install && npm start"
   },
-  "proxy": "http://localhost:8081",
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": [
       "react-app",

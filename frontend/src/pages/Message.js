@@ -93,6 +93,9 @@ const Message = () => {
     // 채팅창 포커스 관리
     const messagesEndRef = useRef(null);
 
+    const socket = io("/chat/{receiver}"); // 서버 URL을 여기에 작성하세요
+
+
     useEffect(() => {
         if (selectedUser) {
             setChatContent(chatData[selectedUser]);

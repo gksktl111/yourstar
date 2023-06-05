@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './NewPeed.css';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
-import {newPeedModalOff} from '../../store/Store';
+import {newPeedModalOff, signUpModalOff} from '../../store/Store';
 import {IoClose} from 'react-icons/io5';
 
 const NewPeed = () => {
@@ -45,21 +45,26 @@ const NewPeed = () => {
         formData.append('userId', localStorage.getItem("token"));
         formData.append('contents', description);
         formData.append('meta', file);
-        formData.append('postTime', kst);
 
         // console.log(localStorage.getItem("token"));
         // console.log(file);
         // console.log(description)
         // console.log('Current KST:', kst);
 
-        try {
-            await axios.post('/post/writePost', formData);
-            alert('성곡적으로 게시물을 작성했습니다!')
-            dispatch(newPeedModalOff());
-        } catch (error) {
-            alert('게시물 작성에 실패했습니다')
-            console.error(error);
-        }
+        // 컨트롤러 연결해보기
+        await axios.post('/post/writePost', formData,
+            // FormData를 보내려면 헤더에 content-type을 추가해야 합니다.
+            { headers: { 'Content-Type': 'multipart/form-data' } }
+        ).then((response) => {
+            if (response.data === "success") {
+                alert("정상적으로 게시물이 작성되었습니다!");
+                dispatch(signUpModalOff());
+            } else {
+                alert("게시물 작성에 실패하였습니다");
+            }
+        }).catch(function (error) {
+            console.log('실패함', error)
+        });
     };
 
     return (
