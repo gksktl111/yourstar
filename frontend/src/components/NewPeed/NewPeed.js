@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import {newPeedModalOff, signUpModalOff} from '../../store/Store';
 import {IoClose} from 'react-icons/io5';
+import {useNavigate} from "react-router-dom";
 
 const NewPeed = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,6 @@ const NewPeed = () => {
         }
     }, [file]);
 
-
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
             setFile(e.target.files[0]);
@@ -42,30 +42,58 @@ const NewPeed = () => {
 
     const handleSubmit = async () => {
         const formData = new FormData();
-        formData.append('userId', localStorage.getItem("token"));
-        formData.append('contents', description);
-        formData.append('meta', file);
 
-        // console.log(localStorage.getItem("token"));
-        // console.log(file);
-        // console.log(description)
-        // console.log('Current KST:', kst);
+        const postWriteFormDto = {
+            contents: description,
+            imageFile: null,
+            videoFile: null,
+        };
+
+        console.log(postWriteFormDto);
+
+        if (file.type.startsWith("image")) {
+            postWriteFormDto.imageFile = file;
+        } else if (file.type.startsWith("video")) {
+            postWriteFormDto.videoFile = file;
+        }
+
+        formData.append("userId", postWriteFormDto.userId);
+        formData.append("contents", postWriteFormDto.contents);
+
+        if (postWriteFormDto.imageFile !== null) {
+            formData.append("imageFile", postWriteFormDto.imageFile);
+        }
+
+        if (postWriteFormDto.videoFile !== null) {
+            formData.append("videoFile", postWriteFormDto.videoFile);
+        }
+
+        console.log(formData.get("contents"));
+        console.log(formData.get("imageFile"));
+        console.log(formData.get("videoFile"));
 
         // 컨트롤러 연결해보기
-        await axios.post('/post/writePost', formData,
-            // FormData를 보내려면 헤더에 content-type을 추가해야 합니다.
-            { headers: { 'Content-Type': 'multipart/form-data' } }
-        ).then((response) => {
-            if (response.data === "success") {
-                alert("정상적으로 게시물이 작성되었습니다!");
-                dispatch(signUpModalOff());
-            } else {
-                alert("게시물 작성에 실패하였습니다");
-            }
-        }).catch(function (error) {
-            console.log('실패함', error)
-        });
+        await axios
+            .post("/post/writePost", formData, {
+                // FormData를 보내려면 헤더에 content-type을 추가해야 합니다.
+                headers: { "Content-Type": "multipart/form-data",
+                            authorization : localStorage.getItem("token")},
+            })
+            .then((response) => {
+                console.log(response.data)
+                if (response.data === "success") {
+                    alert("정상적으로 게시물이 작성되었습니다!");
+                    console.log(signUpModalOff());
+                    dispatch(newPeedModalOff());
+                } else {
+                    alert("게시물 작성에 실패하였습니다");
+                }
+            })
+            .catch(function (error) {
+                console.log("실패함", error);
+            });
     };
+
 
     return (
         <div className="modal_background">
@@ -97,20 +125,6 @@ const NewPeed = () => {
                             </div>
                         </>
                     )}
-                    {file && fileType && fileType.startsWith("audio/") && (
-                        <>
-                            <audio
-                                src={fileUrl}
-                                className="new-peed-file-preview"
-                                controls
-                            />
-                            <div className="new-peed-file-name">
-                                파일이름 : {file.name}
-                            </div>
-                        </>
-                    )}
-
-
                 </div>
                 <div className="new-peed-modal-right">
                     <textarea

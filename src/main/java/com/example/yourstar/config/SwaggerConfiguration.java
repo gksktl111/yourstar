@@ -14,7 +14,9 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 @EnableSwagger2
@@ -24,6 +26,8 @@ public class SwaggerConfiguration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .consumes(getAllConsumeContentTypes())
+                .produces(getAllProduceContentTypes())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -31,6 +35,20 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .securitySchemes(Arrays.asList(apiKey()))
                 .securityContexts(Arrays.asList(securityContext()));
+    }
+
+    private Set<String> getAllConsumeContentTypes() {
+        Set<String> consumes = new HashSet<>();
+        consumes.add("application/json");
+        consumes.add("multipart/form-data");
+        consumes.add("application/octet-stream");
+        return consumes;
+    }
+
+    private Set<String> getAllProduceContentTypes() {
+        Set<String> produces = new HashSet<>();
+        produces.add("application/json");
+        return produces;
     }
 
     private ApiKey apiKey() {

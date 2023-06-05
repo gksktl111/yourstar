@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 public class PostEntity {
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    UserEntity user;
 
     @Id
     @Column(name = "post_id", columnDefinition = "bigint")
@@ -23,6 +23,9 @@ public class PostEntity {
 
     @Column(name = "contents")
     String contents;
+
+    @Column(name = "user_id")
+    String userId;
 
     @Lob
     @Column(name = "meta")
@@ -42,6 +45,5 @@ public class PostEntity {
 
     @Column(name = "category")
     String category;
-
 }
 

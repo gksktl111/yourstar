@@ -23,7 +23,7 @@ public class PostDaoImpl implements PostDao {
     @Override
     public PostEntity updatePost(PostEntity post, UserEntity user, String contents) {
         post.setContents(contents);
-        post.setUserEntity(user);
+        post.setUserId(post.getUserId());
         post.setMeta(post.getMeta());
         return postRepository.save(post);
     }

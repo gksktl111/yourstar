@@ -4,21 +4,13 @@ import com.example.yourstar.data.dto.*;
 import com.example.yourstar.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-
 @RequestMapping("/post")
-@Controller
+@RestController
 public class PostController {
 
     private PostService postService;
@@ -28,31 +20,48 @@ public class PostController {
         this.postService = postService;
     }
 
-    public Blob multipartFileToBlob(MultipartFile file) throws IOException, SQLException {
-        byte[] fileContent = file.getBytes();
-        Blob blob = new SerialBlob(fileContent);
-        return blob;
-    }
+    @PostMapping(value = "/writePost")
+    public String writePost(Authentication authentication,
+                            @RequestParam("contents") String contents,
+                            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
+                            @RequestPart(value = "videoFile", required = false) MultipartFile videoFile) {
 
-    @PostMapping(value = "/writePost", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String writePost(@RequestPart("userId") String userId,
-                            @RequestPart("contents") String contents,
-                            @RequestPart("meta") MultipartFile meta) throws SQLException, IOException {
-
-        System.out.println("포스트 넣기");
+        System.out.println("데이터는 넘어옴");
+        System.out.println(authentication.getName());
+        System.out.println(contents);
+        System.out.println(imageFile);
+        System.out.println(videoFile);
 
         PostWriteFormDto postWriteFormDto = new PostWriteFormDto();
-        postWriteFormDto.setUserId(userId);
+
+        postWriteFormDto.setUserId(authentication.getName());
         postWriteFormDto.setContents(contents);
 
-        // 메타 파일을 Blob으로 변환
-        Blob metaBlob = multipartFileToBlob(meta);
-        postWriteFormDto.setMeta(metaBlob);
+        if (imageFile != null && videoFile != null) {
+            return "failed";
+        }
 
-        if (postService.writePost(postWriteFormDto).equals("success")) {
-            return "success";
-        } else {
-            System.out.println("failed");
+        if (imageFile != null) {
+            postWriteFormDto.setImageFile(imageFile);
+        }
+
+        if (videoFile != null) {
+            postWriteFormDto.setVideoFile(videoFile);
+        }
+
+        System.out.println("트라이 직전 까지옴");
+        
+        try {
+            if (postService.writePost(postWriteFormDto).equals("success")) {
+                System.out.println("성공");
+                return "success";
+            } else {
+                System.out.println("실패");
+                return "failed";
+            }
+        } catch (Exception e) {
+            System.out.println("캐치");
+            e.printStackTrace();
             return "failed";
         }
     }

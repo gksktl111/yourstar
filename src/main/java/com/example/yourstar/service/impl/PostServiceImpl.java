@@ -13,7 +13,11 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialBlob;
+import javax.transaction.Transactional;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -21,9 +25,6 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private PostDao postDao;
 
@@ -34,39 +35,66 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
         this.postDao = postDao;
     }
-
     @Override
+    @Transactional
     public String writePost(PostWriteFormDto postWriteFormDto) {
         PostEntity postEntity = new PostEntity();
-
-        Optional<UserEntity> userEntityOpt = userRepository.findById(postWriteFormDto.getUserId());
-
-        if(userEntityOpt.isPresent()) {
-            postEntity.setUserEntity(userEntityOpt.get());
-        } else {
-            // 사용자가 찾을 수 없으면 오류 메시지를 반환하거나 적절한 처리 수행
-            return "user not found";
-        }
-        postEntity.setPostTime(new Timestamp(System.currentTimeMillis())); //현재 시간을 사용해 postTime 필드값을 설정
+        System.out.println(postRepository.count());
+        postEntity.setPostId(postRepository.count());
+        System.out.println("서비스 setID찍기전 로그"+postWriteFormDto.getUserId());
+        postEntity.setUserId(postWriteFormDto.getUserId());
+        System.out.println("서비스 setID찍은후 로그"+postEntity.getUserId());
+        postEntity.setPostTime(new Timestamp(System.currentTimeMillis()));
         postEntity.setContents(postWriteFormDto.getContents());
-        postEntity.setMeta(postWriteFormDto.getMeta()); //데이터베이스에서 Blob 형식의 데이터를 저장하는데 사용하는 형식으로 설정
         postEntity.setLikeCount(0);
         postEntity.setViewCount(0);
         postEntity.setShareCount(0);
-        postEntity.setCategory("default"); // 카테고리 정보는 기본값(default)으로 설정
+        postEntity.setCategory("default");
 
-        System.out.println("포스트 작성");
-
+        System.out.println("서비스파트 들어옴");
+        
+        if (postWriteFormDto.getImageFile() != null && !postWriteFormDto.getImageFile().isEmpty()) {
+            // 이미지 파일이 있을 경우, meta 필드에 이미지 데이터를 저장
+            try {
+                byte[] imageBytes = postWriteFormDto.getImageFile().getBytes();
+                Blob imageBlob = new SerialBlob(imageBytes);
+                postEntity.setMeta(imageBlob);
+                System.out.println("SETMETA 성공");
+            } catch (IOException e) {
+                System.out.println("IOE 에러");
+                // 예외 처리를 적절하게 수행합니다.
+                e.printStackTrace();
+            } catch (SQLException e) {
+                System.out.println("SQL 에러");
+                // 예외 처리를 적절하게 수행합니다.
+                e.printStackTrace();
+            }
+        }
+        if (postWriteFormDto.getVideoFile() != null && !postWriteFormDto.getVideoFile().isEmpty()) {
+            // 동영상 파일이 있을 경우, meta 필드에 동영상 데이터를 저장
+            try {
+                byte[] videoBytes = postWriteFormDto.getVideoFile().getBytes();
+                Blob videoBlob = new SerialBlob(videoBytes);
+                postEntity.setMeta(videoBlob);
+            } catch (IOException e) {
+                // 예외 처리를 적절하게 수행합니다.
+                e.printStackTrace();
+            } catch (SQLException e) {
+                // 예외 처리를 적절하게 수행합니다.
+                e.printStackTrace();
+            }
+        }
 
         try {
-            postRepository.save(postEntity); //postEntity 정보를 업데이트하고 저장
+            System.out.println("저장 시도");
+            postRepository.save(postEntity);
             return "success";
         } catch (Exception e) {
+            System.out.println("저장 실패");
             e.printStackTrace();
             return "failed";
         }
     }
-
     @Override
     public String updatePost(PostUpdateDto postUpdateDto) {
         PostEntity postEntity = postRepository.getById(postUpdateDto.getPostId());

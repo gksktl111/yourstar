@@ -3,7 +3,6 @@ import Picker from "emoji-picker-react";
 import './Message.css';
 import {BsEmojiSmile} from "react-icons/bs";
 import {SlNote} from "react-icons/sl";
-import {FiMail} from "react-icons/fi";
 
 const Message = () => {
 
@@ -93,7 +92,6 @@ const Message = () => {
     // 채팅창 포커스 관리
     const messagesEndRef = useRef(null);
 
-    const socket = io("/chat/{receiver}"); // 서버 URL을 여기에 작성하세요
 
 
     useEffect(() => {

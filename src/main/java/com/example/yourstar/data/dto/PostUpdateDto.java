@@ -15,6 +15,9 @@ public class PostUpdateDto {
     private String contents;
     private Blob meta;
 
+    private MultipartFile imageFile;
+    private MultipartFile videoFile;
+
     public String getPostId() {
         return userId;
     }

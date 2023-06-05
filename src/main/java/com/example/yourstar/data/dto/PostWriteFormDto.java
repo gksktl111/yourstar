@@ -21,6 +21,9 @@ public class PostWriteFormDto {
     private long shareCount;
     private String category;
 
+    private MultipartFile imageFile;
+    private MultipartFile videoFile;
+
     public String getUserId() {
         return userId;
     }
