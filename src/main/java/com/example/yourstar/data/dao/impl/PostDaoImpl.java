@@ -4,7 +4,9 @@ import com.example.yourstar.data.dao.PostDao;
 import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.repository.PostRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PostDaoImpl implements PostDao {
 
     private PostRepository postRepository;

@@ -3,11 +3,15 @@ package com.example.yourstar.controller;
 import com.example.yourstar.data.dto.*;
 import com.example.yourstar.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("/post")
+@Controller
 public class PostController {
 
     private PostService postService;
@@ -18,8 +22,29 @@ public class PostController {
     }
 
 
-    @PostMapping(value = "/writePost")//글 작성 및 등록
-    public String writePost(@RequestBody PostWriteFormDto postWriteFormDto) {
+    @PostMapping(value = "/writePost", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//글 작성
+    public String writePost(@RequestPart("postWriteFormDto") PostWriteFormDto postWriteFormDto,
+                            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
+                            @RequestPart(value = "videoFile", required = false) MultipartFile videoFile) throws IOException {
+
+        // 이미지와 비디오 파일이 모두 없는 경우 처리
+        if (imageFile == null && videoFile == null) {
+            return "failed";
+        }
+
+        // 이미지와 비디오 파일이 모두 있는 경우 처리
+        if (imageFile != null && videoFile != null) {
+            return "failed";
+        }
+
+        if (imageFile != null) {
+            postWriteFormDto.setImageFile(imageFile);
+        }
+
+        if (videoFile != null) {
+            postWriteFormDto.setVideoFile(videoFile);
+        }
+
         if (postService.writePost(postWriteFormDto).equals("success")) {
             return "success";
         } else {

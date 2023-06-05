@@ -11,12 +11,12 @@ import java.sql.Timestamp;
 @Table(name = "post")
 public class PostEntity {
 
+    @ManyToOne UserEntity user;
+
     @Id
-    @OneToMany
     @Column(name = "post_id", columnDefinition = "bigint")
     long postId;
 
-    @ManyToOne
     @Column(name = "user_id")
     String userId;
 
@@ -39,7 +39,6 @@ public class PostEntity {
     @Column(name = "share_count", columnDefinition = "bigint")
     long shareCount;
 
-    @ManyToOne
     @Column(name = "category")
     String category;
 }

@@ -7,10 +7,12 @@ import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.repository.PostRepository;
 import com.example.yourstar.service.PostService;
 import com.example.yourstar.service.exception.PostNotFoundException;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.io.IOException;
+import java.sql.*;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -28,7 +30,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostEntity writePost(PostWriteFormDto postWriteFormDto) {
+    public String writePost(PostWriteFormDto postWriteFormDto) {
         PostEntity postEntity = new PostEntity();
         postEntity.setUserId(postWriteFormDto.getUserId());
         postEntity.setPostTime(new Timestamp(System.currentTimeMillis())); //현재 시간을 사용해 postTime 필드값을 설정
@@ -39,11 +41,27 @@ public class PostServiceImpl implements PostService{
         postEntity.setShareCount(0);
         postEntity.setCategory("default"); // 카테고리 정보는 기본값(default)으로 설정
 
+        // 이미지 및 동영상 파일을 Blob 형식의 데이터로 변환하고 저장
         try {
-            return postRepository.save(postEntity);
+            if (postWriteFormDto.getImageFile() != null) {
+                byte[] imageBytes = postWriteFormDto.getImageFile().getBytes();
+                postEntity.setMeta(BlobProxy.generateProxy(imageBytes));
+            }
+            if (postWriteFormDto.getVideoFile() != null) {
+                byte[] videoBytes = postWriteFormDto.getVideoFile().getBytes();
+                postEntity.setMeta(BlobProxy.generateProxy(videoBytes));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "failed";
+        }
+
+        try {
+            postRepository.save(postEntity); //postEntity 정보를 업데이트하고 저장
+            return "success";
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "failed";
         }
     }
 
