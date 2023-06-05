@@ -3,6 +3,7 @@ package com.example.yourstar.data.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Blob;
 import java.sql.Timestamp;
 
@@ -10,6 +11,8 @@ import java.sql.Timestamp;
 @Data
 @Table(name = "post")
 public class PostEntity {
+    // userEntity를 참조함
+    @ManyToOne UserEntity user;
 
     @ManyToOne UserEntity user;
 

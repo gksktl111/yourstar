@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import "./Profile.css"
 import {IoMdSettings} from "react-icons/io";
-import {AiOutlinePlusCircle} from "react-icons/ai";
 
 const Profile = () => {
 
@@ -14,7 +13,6 @@ const Profile = () => {
     const Follow = 113;
 
     const handlePostClick = () => {
-
         setIsPost(true);
         setIsSaved(false);
         setIsPlaylist(false);
@@ -131,7 +129,6 @@ const Profile = () => {
                 {/*포스트 부분*/}
                 {/*포스트 부분*/}
                 {isPost ? (<>
-                        <AiOutlinePlusCircle className={"new-peed"}/>
                         <div className="profile_card_list">
                             {Object.values(peedEx).map((item, index) => {
                                 return (

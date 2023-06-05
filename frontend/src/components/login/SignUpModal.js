@@ -83,10 +83,10 @@ const SignUpModal = () => {
 
         // TODO: 서버와 통신해서 이메일 중복 검사 진행
         // 여기 바꿔야됨
-        await axios.post('/user/findid', {
-            email: inputEmailValue,
+        await axios.post('/user/checkEmail', {
+            userEmail: inputEmailValue,
         }).then((response) => {
-            if (response.data === "success") {
+            if (response.data === false) {
                 setEmailSearchResult("확인 되었습니다!");
             } else {
                 setEmailSearchResult(<span style={style2}>존재하는 회원정보입니다.</span>);
@@ -107,10 +107,10 @@ const SignUpModal = () => {
         }
 
         // TODO: 서버와 통신해서 전화번호 중복 검사
-        await axios.post('/user/number', {
-            email: inputEmailValue,
+        await axios.post('/user/checkPhone', {
+            phone: inputNumberValue,
         }).then((response) => {
-            if (response.data === "success") {
+            if (response.data === false) {
                 setNumberSearchResult("확인 되었습니다!");
             } else {
                 setNumberSearchResult(<span style={style2}>중복되는 번호 입니다.</span>);
@@ -132,10 +132,10 @@ const SignUpModal = () => {
         }
 
         // TODO: 중복 검사 로직
-        await axios.post('/user/checkid', {
-            email: inputEmailValue,
+        await axios.post('/user/checkId', {
+            userId: inputIdValue,
         }).then((response) => {
-            if (response.data === "success") {
+            if (response.data === false) {
                 setIdSearchResult("확인 되었습니다!");
             } else {
                 setIdSearchResult(<span style={style3}>중복되는 아이디 입니다.</span>);
@@ -225,14 +225,14 @@ const SignUpModal = () => {
         // TODO 입력에 문제가 없단면 서버로 데이터를 전송해 저장하고 완료 메시지를 띄운후 창 닫기
 
         // 컨트롤러 연결해보기
-        await axios.post('/user/findid', {
-            email: inputEmailValue,
-            number: inputNumberValue,
+        await axios.post('/user/signup', {
             id: inputIdValue,
-            pw: inputPwValue,
             name: inputNameValue,
+            email: inputEmailValue,
+            pw: inputPwValue,
             gender: selectGenderValue,
-            age : inputAgeValue
+            age : inputAgeValue,
+            phone: inputNumberValue
         }).then((response) => {
             if (response.data === "success") {
                 alert("회원가입을 축합니다!");
