@@ -11,5 +11,6 @@ public interface UserService {
     String FindId(String userEmail); // 아이디 찾아서 이메일로 전송
     String update(String userId,UserUpdateDto userUpdateDto);
     String deleteUser(String userId); // 유저 삭제
-    String updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto);
+
+
 }

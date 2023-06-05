@@ -32,9 +32,10 @@ public class ChatController {
             // 프런트엔드에서는 "/queue/messages/[yourUsername]" 주소를 구독하면 메시지를 받을 수 있습니다.
     @MessageMapping("/chat/{receiver}")
     public void handleChatMessage(Authentication authentication, @DestinationVariable String receiver, ChatMessageDto message) {
-        String destination = "/queue/messages/" + receiver;
-        message.setSender(authentication.getName());
+        String destination = "/queue/messages/" + receiver; // 주소 설정
+        message.setSender(authentication.getName()); // 메세지 전송하는 사람 설정
         message.setSentAt(LocalDateTime.now()); // 메시지 전송 시간 설정
+        message.setReceiver(receiver); // 메세지 받는사람 설정
         chatService.saveChatMessage(message);  // 메시지 저장
         template.convertAndSend(destination, message); // destination 경로에 mwssages 전달(클라이언트에 메시지 전송)
     }

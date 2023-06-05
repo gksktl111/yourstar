@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -36,11 +33,14 @@ public class UserEntity {
     @Column(name = "user_age")
     int userAge;
 
-
     @Column(name = "phone")
     String phone;
 
     @Column(name = "join_date")
     Timestamp joinDate;
+
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private UserProfileEntity userProfileEntity;
+
 }
 

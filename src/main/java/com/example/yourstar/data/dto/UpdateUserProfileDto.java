@@ -22,4 +22,5 @@ public class UpdateUserProfileDto {
             this.profileImage = null;
         }
     }
+
 }
