@@ -30,9 +30,7 @@ const PeedCard = () => {
     const [saveComment, setSaveComment] = useState("");
 
     // 피드 옵션 관련
-    let state = useSelector((state) => {
-        return state
-    });
+    let state = useSelector((state) => {return state});
     let dispatch = useDispatch();
 
     // 좋아요 클릭
