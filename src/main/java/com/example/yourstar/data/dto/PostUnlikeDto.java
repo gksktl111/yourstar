@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserIdDto {
-    private String userId;
+public class PostUnlikeDto {
+    private long postId;
+    private long likeCount;
 }

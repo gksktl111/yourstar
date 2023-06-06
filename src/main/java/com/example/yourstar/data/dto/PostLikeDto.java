@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhoneDto {
-    private String phone;
+public class PostLikeDto {
+    private long postId;
+    private long likeCount;
 }

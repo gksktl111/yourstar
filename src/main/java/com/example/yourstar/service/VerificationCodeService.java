@@ -1,6 +1,6 @@
 package com.example.yourstar.service;
 
-import com.example.yourstar.data.dto.CheckCodeDto;
+import com.example.yourstar.data.dto.user.CheckCodeDto;
 
 public interface VerificationCodeService {
     String sendEmail(String userEmail); // 이메일 전송

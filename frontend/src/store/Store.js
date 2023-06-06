@@ -69,6 +69,22 @@ let isCommentModalOpen = createSlice({
         }
     }
 })
+
+// 새피드 만들기 오픈
+let isNewPeedModalOpen = createSlice({
+    name : "isNewPeedModalOpen",
+    initialState : false,
+    reducers : {
+        newPeedModalOn(){
+            return true
+        },
+        newPeedModalOff(){
+            return false
+        }
+    }
+})
+
+
 // 아이디 찾기 액션
 export let {idFindModalOn, idFindModalOff} = isIdFindModalOpen.actions
 
@@ -84,6 +100,9 @@ export let {optionModalOn, optionModalOff} = isOptionModalOpen.actions
 // 피드 코멘트 액션
 export let {commentModalOn, commentModalOff} = isCommentModalOpen.actions
 
+// 뉴피드 액션
+export let {newPeedModalOn, newPeedModalOff} = isNewPeedModalOpen.actions
+
 
 export default configureStore({
     reducer: {
@@ -91,6 +110,7 @@ export default configureStore({
         isPwFindModalOpen : isPwFindModalOpen.reducer,
         isSignUpModalOpen : isSignUpModalOpen.reducer,
         isOptionModalOpen : isOptionModalOpen.reducer,
-        isCommentModalOpen : isCommentModalOpen.reducer
+        isCommentModalOpen : isCommentModalOpen.reducer,
+        isNewPeedModalOpen : isNewPeedModalOpen.reducer
     }
 })

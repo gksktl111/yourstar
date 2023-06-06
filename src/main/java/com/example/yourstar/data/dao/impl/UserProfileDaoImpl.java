@@ -1,7 +1,7 @@
 package com.example.yourstar.data.dao.impl;
 
 import com.example.yourstar.data.dao.UserProfileDao;
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
+import com.example.yourstar.data.dto.profile.UpdateUserProfileDto;
 import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.data.repository.FollowRepository;
 import com.example.yourstar.data.repository.UserProfileRepository;
@@ -17,9 +17,15 @@ public class UserProfileDaoImpl implements UserProfileDao {
         this.followRepository = followRepository;
         this.userProfileRepository = userProfileRepository;
     }
+
     @Override
-    public Object[] getFollowCounts(String userId) {
-        return followRepository.getFollowCounts(userId);
+    public int getFollowerCounts(String userId) {
+        return followRepository.countByToUserId(userId);
+    }
+
+    @Override
+    public int getFollowingCounts(String userId) {
+        return followRepository.countByFromUserId(userId);
     }
 
     @Override

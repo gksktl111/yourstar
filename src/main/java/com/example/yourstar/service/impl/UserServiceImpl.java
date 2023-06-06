@@ -2,10 +2,9 @@ package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
-import com.example.yourstar.data.dto.UserLogInDto;
-import com.example.yourstar.data.dto.UserSignUpDto;
-import com.example.yourstar.data.dto.UserUpdateDto;
+import com.example.yourstar.data.dto.user.UserLogInDto;
+import com.example.yourstar.data.dto.user.UserSignUpDto;
+import com.example.yourstar.data.dto.user.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.service.UserService;

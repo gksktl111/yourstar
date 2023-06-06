@@ -1,6 +1,6 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.*;
+import com.example.yourstar.data.dto.user.*;
 import com.example.yourstar.data.repository.UserProfileRepository;
 import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.UserProfileService;

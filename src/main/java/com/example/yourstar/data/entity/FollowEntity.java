@@ -18,11 +18,9 @@ public class FollowEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int followId;
 
-    @ManyToOne
-    @Name(value = "from_user_id")
-    private UserEntity fromUserId;
+    @Column(name = "from_user_id")
+    private String fromUserId;
 
-    @ManyToOne
-    @Name(value = "to_user_id")
-    private UserEntity toUserId;
+    @Column(name = "to_user_id")
+    private String toUserId;
 }

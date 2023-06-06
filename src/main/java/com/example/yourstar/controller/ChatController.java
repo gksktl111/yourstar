@@ -1,7 +1,7 @@
 package com.example.yourstar.controller;
 
 import com.example.yourstar.data.dto.ChatMessageDto;
-import com.example.yourstar.data.dto.UserIdDto;
+import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

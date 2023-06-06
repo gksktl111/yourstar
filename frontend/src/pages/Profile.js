@@ -13,7 +13,6 @@ const Profile = () => {
     const Follow = 113;
 
     const handlePostClick = () => {
-
         setIsPost(true);
         setIsSaved(false);
         setIsPlaylist(false);
@@ -125,23 +124,23 @@ const Profile = () => {
                     플레이리스트
                 </a>
             </div>
-
             <div className="profile_bottom_section">
                 {/*각 버튼에 따라서 다른 화면을 보여줘야함*/}
                 {/*포스트 부분*/}
                 {/*포스트 부분*/}
-                {isPost ? (
-                    <div className="profile_card_list">
-                        {Object.values(peedEx).map((item, index) => {
-                            return (
-                                <div className="profile_card" key={index}>
-                                    <img className="profile_card_img"
-                                         src={`/assets/img/${index+1}.jpg`}
-                                         alt={"asd"}/>
-                                </div>
-                            );
-                        })}
-                    </div>
+                {isPost ? (<>
+                        <div className="profile_card_list">
+                            {Object.values(peedEx).map((item, index) => {
+                                return (
+                                    <div className="profile_card" key={index}>
+                                        <img className="profile_card_img"
+                                             src={`/assets/img/${index + 1}.jpg`}
+                                             alt={"asd"}/>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </>
                 ) : null}
                 {/*저장됨 부분*/}
                 {isSaved ? (
@@ -150,7 +149,7 @@ const Profile = () => {
                             return (
                                 <div className="profile_card" key={index}>
                                     <img className="profile_card_img"
-                                         src={`/assets/img/${index+5}.jpg`}
+                                         src={`/assets/img/${index + 5}.jpg`}
                                          alt={"asd"}/>
                                 </div>
                             );
@@ -164,7 +163,7 @@ const Profile = () => {
                             return (
                                 <div className="profile_card" key={index}>
                                     <img className="profile_card_img"
-                                         src={`/assets/img/${index+10}.jpg`}
+                                         src={`/assets/img/${index + 10}.jpg`}
                                          alt={"asd"}/>
                                 </div>
                             );

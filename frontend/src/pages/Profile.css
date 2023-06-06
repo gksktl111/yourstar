@@ -27,7 +27,6 @@
     width: 65%;
 
     margin-left: 10%;
-
 }
 
 .profile_info_top {
@@ -102,7 +101,7 @@
 }
 
 .profile_my_saved{
-    margin: 0 20%; /* 좌우 20px의 마진 */
+    margin: 0 22%;
 }
 
 .profile_my_post,
@@ -132,6 +131,16 @@
     margin: 0 auto;
 }
 
+.new-peed{
+    position: absolute;;
+    font-size: 40px;
+
+    margin-top: -5%;
+    margin-left: 70%;
+
+    cursor: pointer;
+}
+
 .profile_card_list {
     display: flex;
     flex-wrap: wrap;
@@ -155,3 +164,29 @@
 
 }
 
+/* 애니메이션 효과 추가 */
+@media (max-width: 600px) {
+    .profile_img{
+        width: 120px;
+        height: 120px;
+
+        margin-top: 70%;
+        margin-left: -10%;
+    }
+    .profile_edit,
+    .profile_option{
+        display: none;
+    }
+    .profile_info{
+        margin-top: 40px;
+    }
+    .profile_info_middle{
+        display: flex;
+        align-items: center;
+        height: 60%; /* 필요한 경우 높이를 조정하세요 */
+        font-size: 16px;
+    }
+    .profile_info_bottom{
+        display: none;
+    }
+}

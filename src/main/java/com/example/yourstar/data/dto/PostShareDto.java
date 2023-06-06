@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLogInDto {
-    private  String id;
-    private  String pw;
+public class PostShareDto {
+    private long postId;
+    private long shareCount;
 }

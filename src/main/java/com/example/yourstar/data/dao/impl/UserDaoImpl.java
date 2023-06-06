@@ -1,7 +1,6 @@
 package com.example.yourstar.data.dao.impl;
 
 import com.example.yourstar.data.dao.UserDao;
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.data.repository.UserProfileRepository;

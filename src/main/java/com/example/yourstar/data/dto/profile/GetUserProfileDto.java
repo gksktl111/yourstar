@@ -1,4 +1,4 @@
-package com.example.yourstar.data.dto;
+package com.example.yourstar.data.dto.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,8 @@ import java.util.List;
 public class GetUserProfileDto {
     private String profileImage;
     private String userName;
-    private int followCount;
+    private long postCount;
+    private int followingCount;
     private int followerCount;
     private String introduce;
     private List<IdImageDto> post;

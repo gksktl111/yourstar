@@ -3,7 +3,6 @@ import Picker from "emoji-picker-react";
 import './Message.css';
 import {BsEmojiSmile} from "react-icons/bs";
 import {SlNote} from "react-icons/sl";
-import {FiMail} from "react-icons/fi";
 
 const Message = () => {
 
@@ -92,6 +91,8 @@ const Message = () => {
 
     // 채팅창 포커스 관리
     const messagesEndRef = useRef(null);
+
+
 
     useEffect(() => {
         if (selectedUser) {
