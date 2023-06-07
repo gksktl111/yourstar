@@ -1,7 +1,6 @@
 package com.example.yourstar.data.dao.impl;
 
 import com.example.yourstar.data.dao.UserDao;
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.data.repository.UserProfileRepository;
@@ -21,8 +20,9 @@ public class UserDaoImpl implements UserDao {
         this.userProfileRepository = userProfileRepository;
     }
     @Override
-    public UserEntity saveUser(UserEntity userEntity) {
+    public UserEntity saveUser(UserEntity userEntity,UserProfileEntity userProfileEntity) {
         userRepository.save(userEntity);
+        userProfileRepository.save(userProfileEntity);
         return userEntity;
     }
 
@@ -45,22 +45,7 @@ public class UserDaoImpl implements UserDao {
         return userEntity;
     }
 
-    @Override
-    public void updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto) {
-        UserProfileEntity userProfileEntity;
-        if(userProfileRepository.findById(userId).orElse(null)==null){
-            userProfileEntity = new UserProfileEntity(userId,updateUserProfileDto.getIntroduce(), updateUserProfileDto.getProfileImage());
-            userProfileRepository.save(userProfileEntity);
-        }
-        userProfileEntity= userProfileRepository.findById(userId).orElse(null);
-        if(updateUserProfileDto.getProfileImage() != null){
-            userProfileEntity.setUserProfile(updateUserProfileDto.getProfileImage());
-        }
-        if(updateUserProfileDto.getIntroduce() != null){
-            userProfileEntity.setIntroduce(updateUserProfileDto.getIntroduce());
-        }
-        userProfileRepository.save(userProfileEntity);
-    }
+
 
     @Override
     public UserEntity findEmail(String userEmail) {

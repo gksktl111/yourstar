@@ -1,9 +1,8 @@
 package com.example.yourstar.service;
 
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
-import com.example.yourstar.data.dto.UserLogInDto;
-import com.example.yourstar.data.dto.UserSignUpDto;
-import com.example.yourstar.data.dto.UserUpdateDto;
+import com.example.yourstar.data.dto.user.UserLogInDto;
+import com.example.yourstar.data.dto.user.UserSignUpDto;
+import com.example.yourstar.data.dto.user.UserUpdateDto;
 
 public interface UserService {
     String signUp(UserSignUpDto userSignUpDto); // 회원 가입 기능
@@ -11,5 +10,6 @@ public interface UserService {
     String FindId(String userEmail); // 아이디 찾아서 이메일로 전송
     String update(String userId,UserUpdateDto userUpdateDto);
     String deleteUser(String userId); // 유저 삭제
-    String updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto);
+
+
 }

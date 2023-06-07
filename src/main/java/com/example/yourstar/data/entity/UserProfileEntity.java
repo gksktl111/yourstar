@@ -23,4 +23,8 @@ public class UserProfileEntity {
     @Lob
     @Column(name = "profile_image",columnDefinition = "BLOB")
     byte[] userProfile;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 }
