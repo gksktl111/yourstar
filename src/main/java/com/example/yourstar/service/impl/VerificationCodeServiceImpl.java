@@ -2,7 +2,7 @@ package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
-import com.example.yourstar.data.dto.CheckCodeDto;
+import com.example.yourstar.data.dto.user.CheckCodeDto;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.service.VerificationCodeService;
 import lombok.extern.slf4j.Slf4j;

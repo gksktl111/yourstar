@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PhoneDto {
-    private String phone;
+@NoArgsConstructor
+public class IdNameImageDto {
+    private String userId;
+    private String name;
+    private String image;
 }

@@ -1,4 +1,4 @@
-package com.example.yourstar.data.dto;
+package com.example.yourstar.data.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +16,4 @@ public class UserSignUpDto {
     private  String gender;
     private  int age;
     private  String phone;
-    private String introduce;
 }

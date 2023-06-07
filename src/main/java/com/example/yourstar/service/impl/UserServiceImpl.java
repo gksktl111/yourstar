@@ -2,11 +2,11 @@ package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.UserDao;
 import com.example.yourstar.data.dao.VerificationCodeDao;
-import com.example.yourstar.data.dto.UpdateUserProfileDto;
-import com.example.yourstar.data.dto.UserLogInDto;
-import com.example.yourstar.data.dto.UserSignUpDto;
-import com.example.yourstar.data.dto.UserUpdateDto;
+import com.example.yourstar.data.dto.user.UserLogInDto;
+import com.example.yourstar.data.dto.user.UserSignUpDto;
+import com.example.yourstar.data.dto.user.UserUpdateDto;
 import com.example.yourstar.data.entity.UserEntity;
+import com.example.yourstar.data.entity.UserProfileEntity;
 import com.example.yourstar.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +28,27 @@ public class UserServiceImpl implements UserService {
         this.verificationCodeDao =verificationCodeDao;
         this.passwordEncoder = passwordEncoder;
     }
+
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Override
     public String signUp(UserSignUpDto userSignUpDto) {
         try{
-            String userId = userSignUpDto.getId();
-            String userName= userSignUpDto.getName();
-            String userEmail = userSignUpDto.getEmail();
-            String userPw = passwordEncoder.encode(userSignUpDto.getPw());
-            String userGender = userSignUpDto.getGender();
-            int userAge = userSignUpDto.getAge();
-            String phone = userSignUpDto.getPhone();
-            Timestamp joinDate = new Timestamp(System.currentTimeMillis());
-            UserEntity userEntity = new UserEntity(userId,userName,userEmail,userPw,userGender,userAge,phone,joinDate);
-            userDao.saveUser(userEntity);
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUserId(userSignUpDto.getId());
+            userEntity.setUserName(userSignUpDto.getName());
+            userEntity.setUserEmail(userSignUpDto.getEmail());;
+            userEntity.setUserPw(passwordEncoder.encode(userSignUpDto.getPw()));
+            userEntity.setUserGender(userSignUpDto.getGender());
+            userEntity.setUserAge(userSignUpDto.getAge());
+            userEntity.setPhone(userSignUpDto.getPhone());
+            userEntity.setJoinDate(new Timestamp(System.currentTimeMillis()));
+
+            UserProfileEntity userProfileEntity = new UserProfileEntity();
+            userProfileEntity.setUserId(userSignUpDto.getId());
+
+            userDao.saveUser(userEntity,userProfileEntity);
             log.info("회원가입 : 성공");
             return "success";
         }catch (Exception e){
@@ -136,15 +141,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public String updateUserProfile(String userId, UpdateUserProfileDto updateUserProfileDto) {
-        try{
-            userDao.updateUserProfile(userId, updateUserProfileDto);
-            return "success";
-        }catch (Exception e){
-            e.printStackTrace();
-            return "failed";
-        }
 
-    }
 }
