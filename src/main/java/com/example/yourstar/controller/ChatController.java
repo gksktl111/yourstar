@@ -4,6 +4,7 @@ import com.example.yourstar.data.dto.ChatMessageDto;
 import com.example.yourstar.data.dto.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,13 +26,12 @@ public class ChatController {
         this.template = template;
         this.chatService = chatService;
     }
-
     // 이 메소드는 클라이언트가 "/app/chat/{receiver}"로 메시지를 보낼 때 호출됩니다.
             // {receiver} 변수(채팅 상대)는 DestinationVariable로 추출할 수 있습니다.
             // 해당 템플릿은 "/queue/messages/{receiver}"로 메시지를 전달합니다.
             // 프런트엔드에서는 "/queue/messages/[yourUsername]" 주소를 구독하면 메시지를 받을 수 있습니다.
     @MessageMapping("/chat/{receiver}")
-    public void handleChatMessage(Authentication authentication, @DestinationVariable String receiver, ChatMessageDto message) {
+    public void handleChatMessage(@NotNull Authentication authentication, @DestinationVariable String receiver, ChatMessageDto message) {
         String destination = "/queue/messages/" + receiver;
         message.setSender(authentication.getName());
         message.setSentAt(LocalDateTime.now()); // 메시지 전송 시간 설정

@@ -43,8 +43,10 @@ const PeedOption = () => {
                     {/*>*/}
                     {/*    팔로우 취소*/}
                     {/*</div>*/}
-                    <div className="peed_option_col">게시물로 이동</div>
-                    <div className="peed_option_col">공유</div>
+                    <a className="peed_option_col"
+                       href = {`http://localhost:3000/alsrb_1214`}
+                        style = {{color : 'black'}}
+                    >프로필로 이동</a>
                     <div className="peed_option_col">저장</div>
                     <div className="peed_option_col"
                          onClick={() => {dispatch(optionModalOff())}}>취소</div>

@@ -12,6 +12,7 @@ import MusicPlayer from "./components/ex/MusicPlayer";
 import SearchResults from "./components/PlayList/SearchResults";
 import AdminRoutes from "./utils/AdminRoutes";
 import NewPeed from "./components/NewPeed/NewPeed"
+import NewProfile from "./components/profile/NewProfile";
 
 function App() {
     const location = useLocation();
@@ -44,6 +45,8 @@ function App() {
                         <Route path="newPeed" element={<NewPeed/>}/>
                         <Route path="setting" element={<Setting/>}/>
                         <Route path="search" element={<SearchResults/>}/>
+                         {/*상대방 프로필*/}
+                        <Route path="*" element={<NewProfile/>}/>
                     </Route>
                     
                     {/*관리자 로그인 하면 해당 페이지*/}

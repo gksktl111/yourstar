@@ -1,10 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {Client} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 import Picker from "emoji-picker-react";
 import './Message.css';
 import {BsEmojiSmile} from "react-icons/bs";
 import {SlNote} from "react-icons/sl";
+import {ImExit} from "react-icons/im";
+import {useDispatch, useSelector} from "react-redux";
+import AddChatRoom from "../components/message/AddChatRoom";
+import {newChatModalOn} from "../store/Store";
 
 const Message = () => {
+    let state = useSelector((state) => {return state});
+    let dispatch = useDispatch();
 
     // 유저 관리 스테이트
     const [selectedUser, setSelectedUser] = useState(null);
@@ -13,9 +21,9 @@ const Message = () => {
     // 메시지 저장 스테이트
     const [inputMessage, setInputMessage] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    
+
     // 가상의 사용자 ID를 나타내는 상수를 추가합니다.
-    const MY_USER_ID = 1;
+    const MY_USER_ID = localStorage.getItem('token');
 
     // 유저 관리
     const [users, setUsers] = useState([
@@ -53,7 +61,17 @@ const Message = () => {
         ],
         2: [
             {content: "오늘 날씨가 좋네요.", senderId: 2},
-            {content: "맞아요, 날씨가 정말 좋아요.", senderId: 1}
+            {content: "맞아요, 날씨가 정말 좋아요.", senderId: 1},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+            {content: "오늘 날씨가 좋네요.", senderId: 2},
+
         ],
         3: [
             {content: "여행 가고 싶어요.", senderId: 3},
@@ -92,8 +110,6 @@ const Message = () => {
     // 채팅창 포커스 관리
     const messagesEndRef = useRef(null);
 
-
-
     useEffect(() => {
         if (selectedUser) {
             setChatContent(chatData[selectedUser]);
@@ -105,20 +121,23 @@ const Message = () => {
         setInputMessage(e.target.value);
     };
 
-    // 메시지 전송 핸들러
+    // 메시지 전송 핸들러 수정
     const sendMessage = (e) => {
         e.preventDefault();
-        if (inputMessage.trim() === '' || !selectedUser) return;
+        if (inputMessage.trim() === "" || !selectedUser || !client) return;
 
         const newMessage = {
             content: inputMessage,
-            senderId: MY_USER_ID,
+            receiverId: selectedUser,
         };
 
-        // 선택된 사용자와의 대화 내용 업데이트
-        setChatContent([...chatContent, newMessage]);
+        // 서버로 메시지 전송
+        client.publish({
+            destination: `/app/chat/${selectedUser}`,
+            body: JSON.stringify(newMessage),
+        });
 
-        setInputMessage('');
+        setInputMessage("");
     };
 
     // 현재 선택된 사용자 정보 받아오기
@@ -183,6 +202,53 @@ const Message = () => {
         setShowEmojiPicker(false);
     });
 
+    // WebSocket 관련 코드 추가
+    const [client, setClient] = useState(null);
+
+    useEffect(() => {
+        // 서버와의 WebSocket 연결 설정
+        const newClient = new Client({
+            // 서버의 WebSocket 엔드포인트 URL
+            webSocketFactory: () => new SockJS("http://localhost:8080/chat"),
+            debug: (str) => {
+                console.log(str);
+            },
+            onConnect: () => {
+                // 서버와 연결되면, 메시지 구독 설정
+                console.log("Connected!");
+                client.subscribe("/queue/messages", (message) => {
+                    // ... 메시지를 받았을 때 로직 수행 ...
+                });
+            },
+            onDisconnect: () => {
+                console.log("Disconnected!");
+            },
+        });
+
+        setClient(newClient);
+    }, []);
+
+    useEffect(() => {
+        if (client) {
+            client.activate(); // 서버와 연결 활성화
+        }
+
+        return () => {
+            if (client) {
+                client.deactivate(); // 컴포넌트 unmount 시, 연결 종료
+            }
+        };
+    }, [client]);
+
+    const exitCheck = () => {
+        const result = window.confirm("채팅방을 나가시겠습니까?");
+
+        if (!result) {
+            return;
+        }
+
+        alert("채팅방을 나갑니다.")
+    }
 
     return (
         <div className="message-layout">
@@ -194,7 +260,9 @@ const Message = () => {
                             als_rb_1214
                         </span>
                         {/*여기서 채팅창 추가하기*/}
-                        <SlNote style={{ fontSize : "25px" , marginLeft : "150px", cursor : "pointer"}}/>
+                        <SlNote
+                            onClick={() => {dispatch(newChatModalOn())}}
+                            style={{fontSize: "25px", marginLeft: "150px", cursor: "pointer"}}/>
                         <br/>
                     </div>
                     <span style={{fontSize: '15px', fontWeight: "bold"}}>
@@ -230,7 +298,10 @@ const Message = () => {
                             <div className="username">
                                 {currentSelectedUserInfo ? currentSelectedUserInfo.name : '대화 상대방 이름'}
                             </div>
-                            <div className="user-status">Active now</div>
+                        </div>
+                        <div className={"user-exit"}
+                             onClick={exitCheck}>
+                            <ImExit/>
                         </div>
                     </div>
                     <div className="message-content">
@@ -253,11 +324,11 @@ const Message = () => {
 
                     <div className="message-input">
                         <button type="button" onClick={toggleEmojiPicker}>
-                            <BsEmojiSmile style={{fontSize : "30px", marginRight : "20px"}}/>
+                            <BsEmojiSmile style={{fontSize: "30px", marginRight: "20px"}}/>
                         </button>
                         {showEmojiPicker && (
                             <div ref={emojiPickerRef} className="emoji-picker">
-                                <Picker onEmojiClick={addEmoji} />
+                                <Picker onEmojiClick={addEmoji}/>
                             </div>
                         )}
                         <textarea
@@ -284,6 +355,7 @@ const Message = () => {
                     메시지를 보낼 사람을 선택해 주세요!
                 </div>}
             </div>
+            {state.isNewChatModalOpen === true ? <AddChatRoom/> : null}
         </div>
     );
 };

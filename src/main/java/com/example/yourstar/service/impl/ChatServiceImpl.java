@@ -16,6 +16,7 @@ public class ChatServiceImpl implements ChatService {
     public ChatServiceImpl(ChatMessageRepository chatMessageRepository) {
         this.chatMessageRepository = chatMessageRepository;
     }
+
     @Override
     public void saveChatMessage(ChatMessageDto message) {
         ChatMessageEntity entity = new ChatMessageEntity();
@@ -26,7 +27,6 @@ public class ChatServiceImpl implements ChatService {
 
         chatMessageRepository.save(entity);
     }
-
 
     @Override
     public List<ChatMessageDto> getMessagesBetweenUsers(String sender, String receiver) {

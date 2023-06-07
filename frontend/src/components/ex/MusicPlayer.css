@@ -7,7 +7,88 @@
     height: 8%;
     align-items: center;
     justify-content: center;
-    background-color: #2a2a2a;
+    background-color: #1a1a1a;
+}
+
+.aa {
+    position: fixed;
+    display: flex;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    background-color: lightgrey;
+    transition: bottom 0.5s ease-out;
+}
+
+.open {
+    height: 99%;
+    bottom: 1%;
+}
+
+.music-img{
+    height: 93%;
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f1f1f;
+}
+.music-img img{
+    height: 80%;
+    width: 40%;
+}
+
+.music-list{
+    height: 93%;
+    width: 25%;
+    background-color: #1f1f1f;
+    overflow-y: auto;
+    max-height: 800px; /* 원하는 최대 높이로 변경할 수 있습니다. */
+}
+
+.music-list-title {
+    height: 8%;
+    width: 100%;
+    background-color: #1f1f1f;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow : 0px 3px 2px 0px rgba(0, 0, 0, 0.16);
+    position: sticky; /* 여기를 추가하세요 */
+    top: 0; /* 여기도 추가하세요 */
+}
+
+
+.music-list-title h4{
+    margin: 20px 0px;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+/* 추가된 부분 */
+.song-item:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.song-info {
+    margin-left: 10px;
+    color: #FFFFFF;
+}
+
+.song-delete{
+    margin-left: auto;
+    margin-right: 20px;
+
+    font-size: 20px;
+
+    color: #FFFFFF;
 }
 
 .shuffle,
