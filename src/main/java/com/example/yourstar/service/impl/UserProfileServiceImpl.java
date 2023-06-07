@@ -57,8 +57,9 @@ public class UserProfileServiceImpl implements UserProfileService {
         log.info("프로필 주인 : {}",userId);
         GetUserProfileDto userProfileDto = new GetUserProfileDto();
         UserProfileEntity userProfileEntity = userProfileRepository.getById(userId);
-        log.info("[getFollowingCount] : {}",userProfileDao.getFollowingCounts(userId));
-        log.info("[getFollowersCount] : {}",userProfileDao.getFollowerCounts(userId));
+        UserEntity user = userRepository.getById(userId);
+        log.info("[getFollowingCount] : {}",userProfileDao.getFollowingCounts(user));
+        log.info("[getFollowersCount] : {}",userProfileDao.getFollowerCounts(user));
 
         if (userProfileEntity.getUserProfile() != null) {
             userProfileDto.setProfileImage(Base64.getEncoder().encodeToString(userProfileEntity.getUserProfile()));
@@ -68,8 +69,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfileDto.setUserName(userProfileEntity.getUserEntity().getUserName());
         userProfileDto.setIntroduce(userProfileEntity.getIntroduce());
         userProfileDto.setPostCount(postRepository.countByUserId(userId));
-        userProfileDto.setFollowingCount(userProfileDao.getFollowingCounts(userId));
-        userProfileDto.setFollowerCount(userProfileDao.getFollowerCounts(userId));
+        userProfileDto.setFollowingCount(userProfileDao.getFollowingCounts(user));
+        userProfileDto.setFollowerCount(userProfileDao.getFollowerCounts(user));
         return userProfileDto;
     }
 

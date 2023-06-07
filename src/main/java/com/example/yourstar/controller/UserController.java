@@ -81,15 +81,19 @@ public class UserController {
         return userService.deleteUser(authentication.getName());
     }
 
-    @PostMapping(value = "/checkId") // 아이디 유무 체크
+    // 아이디 유무 체크
+    @PostMapping(value = "/checkId")
     public boolean checkUserId(@RequestBody UserIdDto userIdDto){
         return userRepository.existsById(userIdDto.getUserId());
     }
+
+    // 이메일 유무 체크
     @PostMapping(value = "/checkEmail")
     public  boolean checkEmail(@RequestBody UserEmailDto userEmailDto){
         return userRepository.existsByUserEmail(userEmailDto.getUserEmail());
     }
 
+    // 핸드폰 유무 체크
     @PostMapping(value = "/checkPhone")
     public  boolean checkPhone(@RequestBody PhoneDto phoneDto){
         return userRepository.existsByPhone(phoneDto.getPhone());
