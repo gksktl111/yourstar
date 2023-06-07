@@ -1,8 +1,8 @@
 package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.PostDao;
-import com.example.yourstar.data.dto.PostUpdateDto;
-import com.example.yourstar.data.dto.PostWriteFormDto;
+import com.example.yourstar.data.dto.post.PostUpdateDto;
+import com.example.yourstar.data.dto.post.PostWriteFormDto;
 import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.repository.PostRepository;
 import com.example.yourstar.service.PostService;

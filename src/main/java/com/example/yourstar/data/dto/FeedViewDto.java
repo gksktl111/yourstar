@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDeleteDto {
+public class FeedViewDto {
+    private String userId;
     private long postId;
 }

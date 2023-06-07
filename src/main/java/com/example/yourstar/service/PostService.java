@@ -1,7 +1,7 @@
 package com.example.yourstar.service;
 
-import com.example.yourstar.data.dto.PostUpdateDto;
-import com.example.yourstar.data.dto.PostWriteFormDto;
+import com.example.yourstar.data.dto.post.PostUpdateDto;
+import com.example.yourstar.data.dto.post.PostWriteFormDto;
 import com.example.yourstar.data.entity.PostEntity;
 
 import java.io.IOException;

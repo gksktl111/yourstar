@@ -1,4 +1,4 @@
-package com.example.yourstar.data.dto;
+package com.example.yourstar.data.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
