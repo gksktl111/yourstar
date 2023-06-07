@@ -1,6 +1,6 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.*;
+import com.example.yourstar.data.dto.post.*;
 import com.example.yourstar.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,7 +48,7 @@ public class PostController {
         }
 
         System.out.println("트라이 직전 까지옴");
-        
+
         try {
             if (postService.writePost(postWriteFormDto).equals("success")) {
                 System.out.println("성공");
