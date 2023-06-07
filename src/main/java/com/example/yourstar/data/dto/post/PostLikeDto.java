@@ -1,4 +1,4 @@
-package com.example.yourstar.data.dto;
+package com.example.yourstar.data.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostUnlikeDto {
+public class PostLikeDto {
     private long postId;
     private long likeCount;
 }

@@ -1,10 +1,8 @@
 package com.example.yourstar.data.entity;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Blob;
 import java.sql.Timestamp;
 

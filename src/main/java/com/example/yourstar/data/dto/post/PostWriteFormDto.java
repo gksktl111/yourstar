@@ -1,4 +1,4 @@
-package com.example.yourstar.data.dto;
+package com.example.yourstar.data.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,19 +6,25 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostUpdateDto {
+public class PostWriteFormDto {
     private String userId;
     private String contents;
     private Blob meta;
+    private Timestamp postTime;
+    private long likeCount;
+    private long viewCount;
+    private long shareCount;
+    private String category;
 
     private MultipartFile imageFile;
     private MultipartFile videoFile;
 
-    public String getPostId() {
+    public String getUserId() {
         return userId;
     }
 }
