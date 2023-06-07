@@ -7,6 +7,7 @@ import com.example.yourstar.data.entity.ChatRoomEntity;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.repository.ChatMessageRepository;
 import com.example.yourstar.data.repository.ChatRoomRepository;
+import com.example.yourstar.data.repository.FollowRepository;
 import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +23,13 @@ public class ChatServiceImpl implements ChatService {
     private ChatMessageRepository chatMessageRepository;
     private UserRepository userRepository;
     private ChatRoomRepository chatRoomRepository;
+    private FollowRepository followRepository;
 
-    public ChatServiceImpl(ChatMessageRepository chatMessageRepository,UserRepository userRepository,ChatRoomRepository chatRoomRepository) {
+    public ChatServiceImpl(ChatMessageRepository chatMessageRepository,UserRepository userRepository,ChatRoomRepository chatRoomRepository,FollowRepository followRepository) {
         this.chatMessageRepository = chatMessageRepository;
         this.userRepository = userRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.followRepository = followRepository;
     }
     @Override
     public void saveChatMessage(ChatMessageDto message) {
@@ -91,6 +94,26 @@ public class ChatServiceImpl implements ChatService {
         chatRoomEntity.setUser2(userRepository.getById(user2));
         chatRoomEntity.setMakeRoomTime(new Timestamp(System.currentTimeMillis()));
         chatRoomRepository.save(chatRoomEntity);
+    }
+
+    @Override
+    public List<IdNameImageDto> getFollowList(String userId) {
+        UserEntity userEntity = userRepository.getById(userId);
+        List<UserEntity> resultUserEntityList = followRepository.findFollowedUsersByFromUserId(userEntity);
+        List<IdNameImageDto> IdNameImageDtoList = resultUserEntityList.stream()
+                .map(followUserEntity -> {
+                    IdNameImageDto idNameImageDto = new IdNameImageDto();
+                    idNameImageDto.setUserId(followUserEntity.getUserId());
+                    idNameImageDto.setName(followUserEntity.getUserName());
+                    if (followUserEntity.getUserProfileEntity().getUserProfile() != null){
+                        idNameImageDto.setImage(Base64.getEncoder().encodeToString(followUserEntity.getUserProfileEntity().getUserProfile()));
+                    }else {
+                        idNameImageDto.setImage(null);
+                    }
+                    return idNameImageDto;
+                })
+                .collect(Collectors.toList());
+        return IdNameImageDtoList;
     }
 
     // 채팅 메시지 Entity를 Dto로 변환하는 도움 메소드

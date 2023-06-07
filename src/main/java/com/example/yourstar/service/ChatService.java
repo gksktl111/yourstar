@@ -14,4 +14,6 @@ public interface ChatService {
     List<IdNameImageDto> getChatRoom(String userId); // 채팅목록 가져오기
 
     void makeChatRoom(String user1, String user2); // 채팅방 만들기
+
+    List<IdNameImageDto> getFollowList(String userId); // 팔로우 목록 가져오기
 }
