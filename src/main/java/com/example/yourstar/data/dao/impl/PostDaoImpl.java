@@ -30,8 +30,8 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public PostEntity deletePost(long postId) {
-        PostEntity post = postRepository.findById(String.valueOf(postId)).orElseThrow();
-        postRepository.deleteById(String.valueOf(postId));
+        PostEntity post = postRepository.findById(postId).orElseThrow();
+        postRepository.deleteById(postId);
         return post;
     }
 

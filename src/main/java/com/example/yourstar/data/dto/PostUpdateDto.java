@@ -18,7 +18,5 @@ public class PostUpdateDto {
     private MultipartFile imageFile;
     private MultipartFile videoFile;
 
-    public String getPostId() {
-        return userId;
-    }
+    public long postId;
 }

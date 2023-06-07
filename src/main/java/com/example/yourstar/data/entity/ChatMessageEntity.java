@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,15 +20,17 @@ public class ChatMessageEntity {
     @Name(value = "chat_msg_id")
     private Long chatMsgId; // 메세지 id
 
-    @Name(value = "sender")
-    private String sender; // 보내는 사람
+    @ManyToOne
+    @JoinColumn(name = "sender")
+    private UserEntity sender; // 보내는 사람
 
-    @Name(value = "receiver")
-    private String receiver; // 받는 사람
+    @ManyToOne
+    @JoinColumn(name = "receiver")
+    private UserEntity receiver; // 받는 사람
 
     @Name(value = "content")
     private String content; // 내용
 
     @Name(value = "sent_at")
-    private LocalDateTime sentAt; // 보낸 시간
+    private Timestamp sentAt; // 보낸 시간
 }

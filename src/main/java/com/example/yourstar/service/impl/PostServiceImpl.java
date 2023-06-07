@@ -22,7 +22,6 @@ public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
 
-
     private PostDao postDao;
 
     private PostEntity postEntity;
@@ -114,7 +113,7 @@ public class PostServiceImpl implements PostService {
     @Override //데이터베이스에서 글 삭제
     public String deletePost(long postId) {
         try {
-            postRepository.deleteById(String.valueOf(postId)); //형변환 실패 방지를 위해 string 객체로 래핑
+            postRepository.deleteById(postId); //형변환 실패 방지를 위해 string 객체로 래핑
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +124,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity likePost(long postId) {
         //postId로 데이터베이스 서치
-        PostEntity postEntity = postRepository.getById(String.valueOf(postId));
+        PostEntity postEntity = postRepository.getById(postId);
 
         //조회한 게시물이 없을 시 오류
         if (postEntity == null) {
@@ -142,7 +141,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity unlikePost(long postId) {
         //postId로 데이터베이스 서치
-        PostEntity postEntity = postRepository.getById(String.valueOf(postId));
+        PostEntity postEntity = postRepository.getById(postId);
 
         //조회한 게시물이 없을 시 오류
         if (postEntity == null) {
@@ -159,7 +158,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity viewPost(long postId) {
         //postId로 데이터베이스 서치
-        PostEntity postEntity = postRepository.getById(String.valueOf(postId));
+        PostEntity postEntity = postRepository.getById(postId);
 
         //조회한 게시물이 없을 시 오류
         if (postEntity == null) {
@@ -176,7 +175,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity sharePost(long postId) {
         //postId로 데이터베이스 서치
-        PostEntity postEntity = postRepository.getById(String.valueOf(postId));
+        PostEntity postEntity = postRepository.getById(postId);
 
         //조회한 게시물이 없을 시 오류
         if (postEntity == null) {
@@ -193,7 +192,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity unsharePost(long postId) {
         // postId 에 해당하는 게시물을 데이터베이스에서 조회합니다.
-        PostEntity postEntity = postRepository.getById(String.valueOf(postId));
+        PostEntity postEntity = postRepository.getById(postId);
 
         //조회한 게시물이 없을 시 오류
         if (postEntity == null) {

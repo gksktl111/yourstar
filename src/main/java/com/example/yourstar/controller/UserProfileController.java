@@ -1,8 +1,6 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.profile.GetUserProfileDto;
-import com.example.yourstar.data.dto.profile.PageDto;
-import com.example.yourstar.data.dto.profile.UpdateUserProfileDto;
+import com.example.yourstar.data.dto.profile.*;
 import com.example.yourstar.data.repository.UserProfileRepository;
 import com.example.yourstar.service.UserProfileService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -32,9 +32,28 @@ public class UserProfileController {
         return  userProfileService.updateUserProfile(authentication.getName(), updateUserProfileDto);
     }
 
-    // 프로필 메인
-    @PostMapping(value = "/getUserProfile")
-    public GetUserProfileDto getUserProfileImage(Authentication authentication, @RequestBody PageDto pageDto) {
-        return userProfileService.getUserProfile("gksktl111",pageDto.getPage());
+    // 프로필 정보 가져오기
+    @PostMapping(value = "/getUserprofile")
+    public GetUserProfileDto getUserProfileImage(Authentication authentication) {
+        return userProfileService.getUserProfile("gksktl111");
+    }
+
+    // 유저가 올린 post 가져오기
+    @PostMapping(value = "/getUserPost")
+    public List<IdImageDto> getUserPost(Authentication authentication, @RequestBody PageDto pageDto) {
+        return userProfileService.getUserPost("gksktl111",pageDto.getPage());
+    }
+
+
+    // post 저장하기
+    @PostMapping(value = "/postsave")
+    public String postSave(Authentication authentication, @RequestBody PostDto postDto){
+        return userProfileService.savePost(authentication.getName(),postDto.getPostId());
+    }
+
+    // 저장한 post 가져오기
+    @PostMapping(value = "/getpostsave")
+    public List<IdImageDto> getPostSave(Authentication authentication, @RequestBody PageDto pageDto) {
+        return userProfileService.getPostSave(authentication.getName(),pageDto.getPage());
     }
 }
