@@ -35,6 +35,7 @@ public class UserProfileController {
     // 프로필 정보 가져오기
     @PostMapping(value = "/getUserprofile")
     public GetUserProfileDto getUserProfileImage(Authentication authentication) {
+        log.info("token:{}",authentication.getName());
         return userProfileService.getUserProfile(authentication.getName());
     }
 

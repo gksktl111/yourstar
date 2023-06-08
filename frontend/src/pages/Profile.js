@@ -35,13 +35,31 @@ const Profile = () => {
     const loadProfile = async () => {
         console.log(localStorage.getItem("token"))
 
-        await axios.post('/getUserprofile', {
-            Authorization : localStorage.getItem("token"),
+        //
+        // private String profileImage;
+        // private String userName;
+        // private long postCount;
+        // private int followingCount;
+        // private int followerCount;
+        // private String introduce;
+
+        await axios.post('/getUserprofile', {}, {
+            headers: {authorization : localStorage.getItem("token")},
         }).then((response) => {
             if (response.data !== null) {
                 console.log(response.data)
-            } else {
-                //setEmailSearchResult(<span style={style2}>존재하는 회원정보입니다.</span>);
+
+                // response data를 객체로 저장
+                const dataList = {
+                    profileImage: response.data.profileImage,
+                    userName: response.data.userName,
+                    postCount: response.data.postCount,
+                    followingCount: response.data.followingCount,
+                    followerCount: response.data.followerCount,
+                    introduce: response.data.introduce,
+                };
+
+                setProfileInfo(dataList);
             }
         }).catch(function (error) {
             console.log('실패함', error)
@@ -58,7 +76,7 @@ const Profile = () => {
             <header className="profile_header">
                 <div className="profile_img_div">
                     <img className="profile_img"
-                         src={profileInfo.profileImage || "/assets/img/basic_img.jpg"}
+                         src={profileInfo.profileImage ? `data:image/jpeg;base64,${profileInfo.profileImage}` : "/assets/img/basic_img.jpg"}
                          alt={"asd"}/>
                 </div>
                 <div className="profile_info">
