@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IdImageDto {
     private long id;
-    private String image;
+    private String meta;
 }

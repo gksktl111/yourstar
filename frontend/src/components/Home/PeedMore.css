@@ -190,7 +190,8 @@ li{
 }
 
 .peed_more_comment_icon,
-.peed_more_share_icon{
+.peed_more_share_icon,
+.peed_more_save_icon{
     font-size: 30px;
 
     background-color: white;
@@ -203,12 +204,6 @@ li{
 .peed_more_save_icon{
     font-size: 30px;
 
-    background-color: white;
-
-    margin-top: 10px;
-    margin-left: auto;
-
-    border: none;
 }
 
 
@@ -232,6 +227,8 @@ li{
 }
 
 .peed_more_time{
+    height: 20px;
+
     font-size: 10px;
 
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);

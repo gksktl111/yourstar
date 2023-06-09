@@ -14,6 +14,8 @@ const Sidebar = ({children}) => {
     let state =  useSelector((state) => {return state});
     const dispatch = useDispatch();
 
+    // 여기서 토큰 줘서 아이디 이름 받아오기
+    
     const menuItem = [
         {
             path: "/",

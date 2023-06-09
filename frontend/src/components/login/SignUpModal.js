@@ -167,7 +167,7 @@ const SignUpModal = () => {
         }
     }
 
-    // 이름 확인
+    // 닉네임 확인
     const handleNameCheck = () => {
         // 5~20자의 영문 대 소문자, 숫자, 언더바만 사용 가능합니다.
         const Regex = /^[\w]{5,20}$/;

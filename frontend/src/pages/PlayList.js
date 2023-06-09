@@ -18,7 +18,7 @@ const PlayList = () => {
     }));
 
     // 초기 차트 목록
-    const songs = Array.from({length: 30}, (_, i) => ({
+    const songs = Array.from({length: 10}, (_, i) => ({
         title: `어떤 노래 ${i + 1}`,
         artist: `가수 ${String.fromCharCode(65 + i)}`,
         rank: i + 1,
@@ -29,7 +29,7 @@ const PlayList = () => {
 
     // 차트 불러오기
     const loadMoreSongs = () => {
-        const newSongs = Array.from({length: 70}, (_, i) => ({
+        const newSongs = Array.from({length: 20}, (_, i) => ({
             title: `어떤 노래 ${loadedSongs.length + i + 1}`,
             artist: `가수 ${String.fromCharCode(65 + (loadedSongs.length + i) % 26)}`,
             rank: loadedSongs.length + i + 1,
@@ -46,7 +46,7 @@ const PlayList = () => {
         if (!expanded) {
             loadMoreSongs();
         } else {
-            setLoadedSongs(loadedSongs.slice(0, 30));
+            setLoadedSongs(loadedSongs.slice(0, 10));
         }
     };
 
@@ -102,18 +102,44 @@ const PlayList = () => {
         ));
     };
 
-    // 음악 차트 헤더 렌더링
+    // 전체 체크박스 상태 및 각 노 체크박스 상태 관리
+    const [allChecked, setAllChecked] = useState(false);
+    const [songChecked, setSongChecked] = useState(() => songs.map(() => false));
+
+    // 상단 전체 체크박스 클릭 핸들러
+    const onCheckAll = () => {
+        const newAllChecked = !allChecked;
+        setAllChecked(newAllChecked);
+        setSongChecked(songChecked.map(() => newAllChecked));
+    };
+
+// 노래 체크박스 클릭 핸들러
+    const onCheckSong = (index) => {
+        const newSongChecked = [...songChecked];
+        newSongChecked[index] = !newSongChecked[index];
+        setSongChecked(newSongChecked);
+
+        // 모든 노래 체크박스가 체크되었는지 확인하고 상단 전체 체크박스 상태를 변경
+        const areAllChecked = newSongChecked.every((isChecked) => isChecked);
+        setAllChecked(areAllChecked);
+    };
+
+
+// 음악 차트 헤더 렌더링
     const renderChartHeader = () => {
         return (
             <div className="chart-header">
-                <input className="checkbox-header" type={"checkbox"}/>
+                <input className="checkbox-header"
+                       type={"checkbox"}
+                       checked={allChecked}
+                       onChange={onCheckAll}/>
                 <span className="rank-header">순위</span>
                 <span className="track-album-header">곡/앨범</span>
                 <span className="artist-header">제목/아티스트</span>
                 <div className="list-controls-header">
-                    <span style={{marginRight : "7px"}}>듣기</span>
-                    <span>목록추가</span>
-                    <span>내 리스트</span>
+                    <span style={{marginRight: "12px"}}>듣기</span>
+                    <span style={{marginRight: "9px"}}>목록추가</span>
+                    <span style={{marginRight: "5px"}}>내 리스트</span>
                     <span>더보기</span>
                 </div>
             </div>
@@ -125,7 +151,9 @@ const PlayList = () => {
     const renderMusicChart = () => {
         return loadedSongs.map((song, i) => (
             <div key={i} className="chart-item">
-                <input type={"checkbox"}/>
+                <input type={"checkbox"}
+                       checked={songChecked[i]}
+                       onChange={() => onCheckSong(i)}/>
                 <span className="rank">{song.rank}</span>
                 <div className="cover_wrapper">
                     <img src={`/assets/img/${song.rank}.jpg`} alt={song.title + " cover"} className="cover_image"/>
@@ -142,7 +170,7 @@ const PlayList = () => {
                     </span>
 
                     <span className="icons-right">
-                        <RiPlayListAddFill style={{marginRight : "10px"}}/>
+                        <RiPlayListAddFill style={{marginRight: "10px"}}/>
                     </span>
 
                     <span className="icons-right">
@@ -205,7 +233,7 @@ const PlayList = () => {
 
             {/* 수정된 부분 : 음악 차트 추가 */}
             <div className="music-chart">
-                <h2>오늘 TOP 100</h2>
+                <h2>오늘 TOP 30</h2>
                 <div style={{marginBottom: "300px"}}>
                     {renderChartHeader()}
                     <div className="chart-container">{renderMusicChart()}</div>

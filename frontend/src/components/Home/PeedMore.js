@@ -67,8 +67,10 @@ const PeedMore = () => {
                         <img src="/assets/img/3.jpg" alt="오류" className="peed_more_profile"/>
 
                         {/*여기서 개인별 프로필 주소 
-                        여기서 프로필 주소를 서버로 넘겨서 해당 프로필 정보를 가져와서 보여줌*/}
-                        <a href="http://localhost:3000/aad" className="peed_more_name">
+                        여기서 프로필 주소를 서버로 넘겨서 해당 프로필 정보를 가져와서 보여줌
+                        여기서 닉네임 누르면 해당 프로필로 이동
+                        */}
+                        <a href={`http://localhost:3000/alsrb_1214`} className="peed_more_name">
                             alsrb_1214
                         </a>
 
@@ -134,9 +136,6 @@ const PeedMore = () => {
                         </button>
                         <button className='peed_more_comment_icon'>
                             <AiOutlineComment/>
-                        </button>
-                        <button className='peed_more_share_icon'>
-                            <AiOutlineShareAlt/>
                         </button>
                         <button className="peed_more_save_icon" onClick={handleSaveClick}>
                             {isSaved ?

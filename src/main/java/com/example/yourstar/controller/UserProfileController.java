@@ -35,12 +35,14 @@ public class UserProfileController {
     // 프로필 정보 가져오기
     @PostMapping(value = "/getUserprofile")
     public GetUserProfileDto getUserProfileImage(Authentication authentication) {
+        log.info("token:{}",authentication.getName());
         return userProfileService.getUserProfile(authentication.getName());
     }
 
     // 유저가 올린 post 가져오기
     @PostMapping(value = "/getUserPost")
     public List<IdImageDto> getUserPost(Authentication authentication, @RequestBody PageDto pageDto) {
+        log.info("받은 페이지 : {}",pageDto.getPage());
         return userProfileService.getUserPost(authentication.getName(),pageDto.getPage());
     }
 

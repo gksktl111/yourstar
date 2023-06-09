@@ -5,6 +5,7 @@ import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -26,7 +27,6 @@ public class ChatController {
         this.template = template;
         this.chatService = chatService;
     }
-
     // 이 메소드는 클라이언트가 "/app/chat/{receiver}"로 메시지를 보낼 때 호출됩니다.
             // {receiver} 변수(채팅 상대)는 DestinationVariable로 추출할 수 있습니다.
             // 해당 템플릿은 "/queue/messages/{receiver}"로 메시지를 전달합니다.

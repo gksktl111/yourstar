@@ -76,7 +76,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public List<IdImageDto> getUserPost(String userId, int page) {
-        Pageable pageable = PageRequest.of(page, 2, Sort.by("postTime").descending());
+        Pageable pageable = PageRequest.of(page, 6, Sort.by("postTime").descending());
         Page<PostEntity> postPage = postRepository.findByUserIdOrderByPostTimeDesc(userId, pageable);
         List<PostEntity> postList = postPage.getContent();
 
@@ -85,7 +85,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                     IdImageDto idImageDto = new IdImageDto();
                     idImageDto.setId(postEntity.getPostId());
                     try {
-                        idImageDto.setImage(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1, (int) postEntity.getMeta().length())));
+                        idImageDto.setMeta(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1, (int) postEntity.getMeta().length())));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -123,7 +123,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                     IdImageDto idImageDto = new IdImageDto();
                     idImageDto.setId(postSaveEntity.getPostEntity().getPostId());
                     try {
-                        idImageDto.setImage(Base64.getEncoder().encodeToString(postSaveEntity.getPostEntity().getMeta().getBytes(1, (int) postSaveEntity.getPostEntity().getMeta().length())));
+                        idImageDto.setMeta(Base64.getEncoder().encodeToString(postSaveEntity.getPostEntity().getMeta().getBytes(1, (int) postSaveEntity.getPostEntity().getMeta().length())));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
