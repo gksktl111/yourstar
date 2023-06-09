@@ -4,6 +4,8 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Component
@@ -16,7 +18,7 @@ public class JwtUtil {
     public  String generateToken(String userId) {
         String token = Jwts.builder()
                 .setSubject(userId)
-                .setExpiration(new Date(System.currentTimeMillis() + expriedTime)) // 만료 시간 설정
+                .setExpiration(Date.from(Instant.now().plus(expriedTime, ChronoUnit.MILLIS))) // 만료 시간 설정
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         return token;

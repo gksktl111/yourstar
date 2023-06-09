@@ -1,7 +1,7 @@
 package com.example.yourstar.service.impl;
 
-import com.example.yourstar.data.dto.ChatMessageDto;
-import com.example.yourstar.data.dto.IdNameImageDto;
+import com.example.yourstar.data.dto.chat.ChatMessageDto;
+import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.entity.ChatMessageEntity;
 import com.example.yourstar.data.entity.ChatRoomEntity;
 import com.example.yourstar.data.entity.UserEntity;
