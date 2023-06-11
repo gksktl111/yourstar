@@ -1,11 +1,10 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.ChatMessageDto;
-import com.example.yourstar.data.dto.IdNameImageDto;
+import com.example.yourstar.data.dto.chat.ChatMessageDto;
+import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

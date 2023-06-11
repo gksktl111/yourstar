@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, String> {
     UserEntity findByUserEmail(String eMail); // 해당 이메일의 정보 DB에서 가져오기
+
+    UserEntity findByUserId(String UserId);
     boolean existsByUserEmail(String userEmail); // 이메일 유무 확인
     boolean existsByPhone(String phone); // 전 전화번호 유부 확인
     @Modifying
@@ -19,6 +21,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     void updateById(String userId, String email, String pw, String phone, String introduce);
     @Query("SELECT new com.example.yourstar.data.dto.GetAllUserDto(u.userId, u.userName, u.userEmail, u.userGender, u.userAge, u.phone, u.joinDate) FROM UserEntity u")
     List<GetAllUserDto> getAllUser();
-
 }
 

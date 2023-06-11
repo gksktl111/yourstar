@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentUpdateDto {
+public class CommentLikeDetailDto {
+    private Long commentLikeId;
+    private Long commentsId;
     private String userId;
-    private String text;
-    private long commentsId;
-    private long postId;
-    private long commentsLikeCount;
+    private Boolean status; // 좋아요 상태를 나타내는 필드 추가
 }

@@ -5,10 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class IdNameImageDto {
+@AllArgsConstructor
+public class FeedViewDto {
     private String userId;
-    private String name;
-    private String image;
+    private long postId;
 }

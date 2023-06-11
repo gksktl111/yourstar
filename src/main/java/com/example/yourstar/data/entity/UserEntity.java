@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "user")
 public class UserEntity {
 
@@ -42,5 +44,7 @@ public class UserEntity {
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private UserProfileEntity userProfileEntity;
 
+    @OneToMany(mappedBy = "toUserId")
+    private List<FollowEntity> followers;
 }
 
