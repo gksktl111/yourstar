@@ -4,11 +4,17 @@ import com.example.yourstar.data.dao.CommentDao;
 import com.example.yourstar.data.entity.CommentEntity;
 import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.entity.UserEntity;
+import com.example.yourstar.data.repository.CommentLikeRepository;
 import com.example.yourstar.data.repository.CommentRepository;
-import com.example.yourstar.data.repository.PostRepository;
+import com.example.yourstar.data.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommentDaoImpl implements CommentDao {
+
     private CommentRepository commentRepository;
+
+    private CommentLikeRepository commentLikeRepository;
 
     public CommentDaoImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
@@ -20,29 +26,18 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public CommentEntity updatePost(CommentEntity comment, UserEntity user, String contents) {
-        comment.setContents(contents);
+    public CommentEntity updateComment(PostEntity post, UserEntity user, CommentEntity comment, String texts) {
+        comment.setText(comment.getText());
         comment.setUserId(comment.getUserId());
-        comment.setMeta(comment.getMeta());
         return commentRepository.save(comment);
     }
 
     @Override
-    public CommentEntity deletePost(long postId) {
-        CommentEntity comment = commentRepository.findById(commentId).orElseThrow();
-        commentRepository.deleteById(postId);
+    public CommentEntity deleteComment(long commentsId) {
+        CommentEntity comment = commentRepository.findById(commentsId).orElseThrow();
+        commentRepository.deleteById(commentsId);
         return comment;
     }
 
-    @Override
-    public CommentEntity likePost(CommentEntity comment, long likeCount) {
-        comment.setLikeCount(likeCount);
-        return commentRepository.save(comment);
-    }
 
-    @Override
-    public CommentEntity unlikePost(CommentEntity comment, long likeCount) {
-        comment.setLikeCount(likeCount);
-        return commentRepository.save(comment);
-    }
 }

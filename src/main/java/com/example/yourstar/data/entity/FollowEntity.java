@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "follow")
 public class FollowEntity {
     @Id
-    @Name(value = "follow_id")
+    @Column(name = "follow_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int followId;
 

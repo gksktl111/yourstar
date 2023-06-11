@@ -16,7 +16,7 @@ public class FeedViewDaoImpl implements FeedViewDao {
     public FeedViewDaoImpl(FeedViewRepository feedViewRepository) { this.feedViewRepository = feedViewRepository; }
 
     @Override
-    public List<FeedViewEntity> findAllByUser_Followers_UserId(String userId, Pageable pageable) {
-        return feedViewRepository.findAllByUser_Followers_UserId(userId, pageable);
+    public List<FeedViewEntity> findAllByToUserId(String userId, Pageable pageable) {
+        return feedViewRepository.findAllByToUserId(userId, pageable);
     }
 }

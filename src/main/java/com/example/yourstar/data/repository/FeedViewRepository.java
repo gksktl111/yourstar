@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface FeedViewRepository extends JpaRepository<FeedViewEntity, Long> {
-    List<FeedViewEntity> findAllByUser_Followers_UserId(String userId, Pageable pageable);
+    List<FeedViewEntity> findAllByToUserId(String userId, Pageable pageable);
 }

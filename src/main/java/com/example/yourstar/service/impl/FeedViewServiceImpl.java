@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class FeedViewServiceImpl implements FeedViewService {
 
     private FeedViewRepository feedViewRepository;
@@ -30,7 +32,7 @@ public class FeedViewServiceImpl implements FeedViewService {
     @Override
     public List<FeedViewDto> fetchFeedByUserIdWithPagination(String userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("postEntity.createdAt").descending());
-        List<FeedViewEntity> feedPage = feedViewDao.findAllByUser_Followers_UserId(userId, pageable);
+        List<FeedViewEntity> feedPage = feedViewDao.findAllByToUserId(userId, pageable);
         return feedPage.stream().map(feed -> new FeedViewDto(feed.getUser().getUserId(), feed.getPostId())).collect(Collectors.toList());
     }
 }

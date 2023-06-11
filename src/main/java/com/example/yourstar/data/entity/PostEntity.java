@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,6 +15,9 @@ public class PostEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     UserEntity user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentEntity> comments;
 
     @Id
     @Column(name = "post_id", columnDefinition = "bigint")
