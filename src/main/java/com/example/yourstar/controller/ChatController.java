@@ -51,8 +51,10 @@ public class ChatController {
 
     // 채팅방 만들기
     @PostMapping("/makechatroom")
-    public String makechatroom(Authentication authentication, UserIdDto userIdDto) {
+    public String makechatroom(Authentication authentication,@RequestBody UserIdDto userIdDto) {
         try {
+            log.info("넘어온 데이터{}",authentication.getName());
+            log.info("넘어온 데이터{}",userIdDto.getUserId());
             chatService.makeChatRoom(authentication.getName(),userIdDto.getUserId());
             return "success";
         }catch (Exception e){
@@ -64,7 +66,7 @@ public class ChatController {
     // 채팅방 목록 가져오기
     @PostMapping("/getchatroom")
     public List<IdNameImageDto> getchatroom(Authentication authentication ) {
-            return chatService.getChatRoom(authentication.getName());
+        return chatService.getChatRoom(authentication.getName());
     }
 
     // 팔로우 목록 리턴
