@@ -1,6 +1,7 @@
 package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dto.chat.ChatMessageDto;
+import com.example.yourstar.data.dto.chat.GetPastMsgDto;
 import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.entity.ChatMessageEntity;
 import com.example.yourstar.data.entity.ChatRoomEntity;
@@ -44,11 +45,24 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<ChatMessageDto> getMessagesBetweenUsers(String sender, String receiver) {
+    public List<GetPastMsgDto> getMessagesBetweenUsers(String sender, String receiver) {
         UserEntity senderEntity = userRepository.getById(sender);
         UserEntity receiverEntity = userRepository.getById(receiver);
-        List<ChatMessageEntity> entities = chatMessageRepository.findBySenderAndReceiver(senderEntity, receiverEntity);
-        return entities.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+        List<ChatMessageEntity> chatMessageEntityList = chatMessageRepository.findBySenderAndReceiver(senderEntity, receiverEntity);
+        if (chatMessageEntityList.isEmpty()){
+            return null;
+        }else{
+            List<GetPastMsgDto> getPastMsgDtoList = chatMessageEntityList.stream()
+                    .map(chatMessageEntity ->{
+                        GetPastMsgDto getPastMsgDto = new GetPastMsgDto();
+                        getPastMsgDto.setSender(chatMessageEntity.getSender().getUserId());
+                        getPastMsgDto.setContent(chatMessageEntity.getContent());
+                        getPastMsgDto.setSentAt(chatMessageEntity.getSentAt());
+                        return getPastMsgDto;
+                    })
+                    .collect(Collectors.toList());
+            return getPastMsgDtoList;
+        }
     }
 
     @Override

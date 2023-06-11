@@ -1,6 +1,7 @@
 package com.example.yourstar.controller;
 
 import com.example.yourstar.data.dto.chat.ChatMessageDto;
+import com.example.yourstar.data.dto.chat.GetPastMsgDto;
 import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
@@ -42,7 +43,7 @@ public class ChatController {
 
     // 채팅 내용 리턴
     @PostMapping("/past-messages")
-    public List<ChatMessageDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
+    public List<GetPastMsgDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
         log.info("채팅 유저(나) : {}",authentication.getName()); // 로그인한 유저(jwt로 구분)
         log.info("채팅 상대방 유저 : {}",otherPerson.getUserId()); // 상대방 유저
         return chatService.getMessagesBetweenUsers(otherPerson.getUserId(),authentication.getName());

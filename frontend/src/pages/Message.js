@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {newChatModalOn} from "../store/Store";
 import AddChatRoom from "../components/message/AddChatRoom";
 import axios from "axios";
+import SockJS from 'sockjs-client';
+import { Client } from 'stompjs';
 
 const Message = () => {
     let state = useSelector((state) => state);
@@ -165,14 +167,38 @@ const Message = () => {
                     time: chat.sentAt,
                 }));
 
+                console.log(chats);
+
                 setChatData(chats);
             })
             .catch(function (error) {
                 console.log("실패함", error);
             });
     };
+    //
+    // // 채팅 보내기
+    // const subscribeQueue = () => {
+    //     // YOUR_USERNAME에 해당하는 값을 설정하세요.
+    //     const YOUR_USERNAME = 'als_rb_1214';
+    //
+    //     // 서버와 웹소켓 연결을 시작하고 주소를 구독하여 메시지 받기
+    //     let socket = new SockJS('/websocket');
+    //     let stompClient = Client.over(socket);
+    //
+    //     stompClient.connect({}, function () {
+    //         stompClient.subscribe('/queue/messages/' + YOUR_USERNAME, function (message) {
+    //             if (message.body) {
+    //                 const receivedMessage = JSON.parse(message.body);
+    //                 setChatContent((prevChatContent) => [...prevChatContent, receivedMessage]);
+    //             }
+    //         });
+    //     });
+    // }
 
-
+    useEffect(() => {
+        subscribeQueue();
+    }, []);
+    
     // 프로필 데이터들을 호출하는 useEffect
     useEffect(() => {
         loadChatRoom();
@@ -236,23 +262,23 @@ const Message = () => {
                             <div className="user-status">Active now</div>
                         </div>
                     </div>
-                    {/*<div className="message-content">*/}
-                    {/*    {chatContent.map((message, index) => {*/}
-                    {/*        // 자신의 말풍선인지 확인하고 클래스를 적용합니다.*/}
-                    {/*        const isFromMyself = message.senderId === MY_USER_ID;*/}
-                    {/*        return (*/}
-                    {/*            <div*/}
-                    {/*                key={index}*/}
-                    {/*                className={`message-bubble ${*/}
-                    {/*                    isFromMyself ? "myself" : "other-user"*/}
-                    {/*                }`}*/}
-                    {/*            >*/}
-                    {/*                {message.content}*/}
-                    {/*            </div>*/}
-                    {/*        );*/}
-                    {/*    })}*/}
-                    {/*    <div ref={messagesEndRef}></div>*/}
-                    {/*</div>*/}
+                    <div className="message-content">
+                        {chatContent.map((message, index) => {
+                            // 자신의 말풍선인지 확인하고 클래스를 적용합니다.
+                            const isFromMyself = message.senderId === MY_USER_ID;
+                            return (
+                                <div
+                                    key={index}
+                                    className={`message-bubble ${
+                                        isFromMyself ? "myself" : "other-user"
+                                    }`}
+                                >
+                                    {message.content}
+                                </div>
+                            );
+                        })}
+                        <div ref={messagesEndRef}></div>
+                    </div>
 
                     <div className="message-input">
                         <button type="button" onClick={toggleEmojiPicker}>
