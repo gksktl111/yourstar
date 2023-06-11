@@ -5,7 +5,6 @@ import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -51,7 +50,7 @@ public class ChatController {
 
     // 채팅방 만들기
     @PostMapping("/makechatroom")
-    public String makechatroom(Authentication authentication, UserIdDto userIdDto) {
+    public String makechatroom(Authentication authentication,@RequestBody UserIdDto userIdDto) {
         try {
             chatService.makeChatRoom(authentication.getName(),userIdDto.getUserId());
             return "success";

@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MusicIdTitleDto {
+@NoArgsConstructor
+public class SavePlayListDto {
+    private long playListInfoId;
     private long musicId;
-    private String musicTitle;
-    private String singer;
-    private String musicImage;
+    private int playListIndex;
 }

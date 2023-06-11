@@ -1,17 +1,18 @@
 package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dto.music.*;
-import com.example.yourstar.data.entity.AlbumEntity;
 import com.example.yourstar.data.entity.AlbumInfoEntity;
 import com.example.yourstar.data.entity.MusicEntity;
-import com.example.yourstar.data.repository.AlbumInfoRepository;
-import com.example.yourstar.data.repository.AlbumRepository;
-import com.example.yourstar.data.repository.MusicRepository;
+import com.example.yourstar.data.entity.PlayLIstInfoEntity;
+import com.example.yourstar.data.entity.PlayListEntity;
+import com.example.yourstar.data.repository.*;
 import com.example.yourstar.service.MusicService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,13 +22,17 @@ import java.util.stream.Collectors;
 public class MusicServiceImpl implements MusicService {
     private AlbumInfoRepository albumInfoRepository;
     private MusicRepository musicRepository;
-    private AlbumRepository albumRepository;
+    private PlayListRepository playListRepository;
+    private PlayListInfoRepository playListInfoRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public  MusicServiceImpl(AlbumInfoRepository albumInfoRepository,MusicRepository musicRepository,AlbumRepository albumRepository){
+    public  MusicServiceImpl(AlbumInfoRepository albumInfoRepository,MusicRepository musicRepository,PlayListRepository playListRepository,PlayListInfoRepository playListInfoRepository,UserRepository userRepository){
         this.albumInfoRepository = albumInfoRepository;
         this.musicRepository = musicRepository;
-        this.albumRepository = albumRepository;
+        this.playListRepository = playListRepository;
+        this.playListInfoRepository = playListInfoRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -47,21 +52,16 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public String saveMusic(SaveMusicDto saveMusicDto) {
+    public String saveAlbumMusic(SaveMusicDto saveMusicDto) {
         try {
             MusicEntity musicEntity = new MusicEntity();
-            AlbumEntity albumEntity = new AlbumEntity();
 
             musicEntity.setMusicTitle(saveMusicDto.getMusicTitle());
             musicEntity.setLyrics(saveMusicDto.getLyrics());
             musicEntity.setSoundSource(saveMusicDto.getSoundSourceByte());
-
-            albumEntity.setMusicEntity(musicEntity);
-            albumEntity.setAlbumInfoEntity(albumInfoRepository.getById(saveMusicDto.getAlbumInfoId()));
-            albumEntity.setMusicIndex(saveMusicDto.getMusicIndex());
+            musicEntity.setAlbumInfoEntity(albumInfoRepository.getById(saveMusicDto.getAlbumInfoId()));
 
             musicRepository.save(musicEntity);
-            albumRepository.save(albumEntity);
             return "success";
         }catch (Exception e){
             e.printStackTrace();
@@ -93,27 +93,29 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public GetAlbumDto getAlbum(long albumId) {
-        log.info("1111");
+
         AlbumInfoEntity albumInfoEntity = albumInfoRepository.getById(albumId);
         GetAlbumDto getAlbumDto = new GetAlbumDto();
         getAlbumDto.setAlbumTitle(albumInfoEntity.getAlbumTitle());
         getAlbumDto.setSinger(albumInfoEntity.getAlbumSinger());
         getAlbumDto.setAlbumImage(Base64.getEncoder().encodeToString(albumInfoEntity.getAlbumImage()));
         getAlbumDto.setAlbumReleaseDate(albumInfoEntity.getAlbumReleaseDate());
-        log.info("2222");
-        List<AlbumEntity> albumEntityList = albumRepository.findByAlbumInfoEntity(albumInfoEntity);
-        log.info("3333");
-        List<MusicIdTitleDto> musicIdTitleDtoList = albumEntityList.stream()
-                .map(albumEntity -> {
+
+        List<MusicEntity> musicEntityList = musicRepository.findByAlbumInfoEntityOrderByHitsAsc(albumInfoEntity);
+
+        List<MusicIdTitleDto> musicIdTitleDtoList = musicEntityList.stream()
+                .map(musicEntity -> {
                     MusicIdTitleDto musicIdTitleDto = new MusicIdTitleDto();
-                    musicIdTitleDto.setMusicId(albumEntity.getMusicEntity().getMusicId());
-                    musicIdTitleDto.setMusicTitle(albumEntity.getMusicEntity().getMusicTitle());
+                    musicIdTitleDto.setMusicId(musicEntity.getMusicId());
+                    musicIdTitleDto.setMusicTitle(musicEntity.getMusicTitle());
+                    musicIdTitleDto.setSinger(albumInfoEntity.getAlbumSinger());
+                    musicIdTitleDto.setMusicImage(Base64.getEncoder().encodeToString(albumInfoEntity.getAlbumImage()));
                     return musicIdTitleDto;
                 })
                 .collect(Collectors.toList());
-        log.info("4444");
+
         getAlbumDto.setMusicInfo(musicIdTitleDtoList);
-        log.info("5555");
+
         return getAlbumDto;
     }
 
@@ -128,10 +130,129 @@ public class MusicServiceImpl implements MusicService {
         getMusicDto.setSoundSource(Base64.getEncoder().encodeToString(musicEntity.getSoundSource()));
         getMusicDto.setLyrics(musicEntity.getLyrics());
 
-        AlbumInfoEntity albumInfoEntity = albumRepository.findDistinctAlbumInfoEntityByMusicEntity(musicEntity);
+        AlbumInfoEntity albumInfoEntity = albumInfoRepository.getById(musicEntity.getAlbumInfoEntity().getAlbumInfoId());
         getMusicDto.setSinger(albumInfoEntity.getAlbumSinger());
         getMusicDto.setMusicImage(Base64.getEncoder().encodeToString(albumInfoEntity.getAlbumImage()));
 
+        musicEntity.setHits(musicEntity.getHits()+1);
+        musicRepository.save(musicEntity);
         return getMusicDto;
+    }
+
+    @Override
+    public String savePlayListInfo(String userId,SavePlayListInfoDto savePlayListInfoDto) {
+        try {
+            PlayLIstInfoEntity playLIstInfoEntity = new PlayLIstInfoEntity();
+            playLIstInfoEntity.setPlayListTitle(savePlayListInfoDto.getPlayListTitle());
+            playLIstInfoEntity.setPlayListImage(savePlayListInfoDto.getPlayListImageByte());
+            playLIstInfoEntity.setPlayListMakeDate(new Timestamp(System.currentTimeMillis()));
+            playLIstInfoEntity.setPlayListMakeUser(userRepository.getById(userId));
+            playListInfoRepository.save(playLIstInfoEntity);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    @Override
+    public List<GetMyPlayListDto> getMyPlayList(String userId) {
+        List<PlayLIstInfoEntity> playLIstInfoEntityList = playListInfoRepository.findByPlayListMakeUserOrderByPlayListMakeDateDesc(userRepository.getById(userId));
+
+        List<GetMyPlayListDto> getMyPlayListDtoList = playLIstInfoEntityList.stream()
+                .map(playLIstInfoEntity -> {
+                    GetMyPlayListDto getMyPlayListDto = new GetMyPlayListDto();
+                    getMyPlayListDto.setPlayListId(playLIstInfoEntity.getPlayListInfoId());
+                    getMyPlayListDto.setPlayListTitle(playLIstInfoEntity.getPlayListTitle());
+                    getMyPlayListDto.setPlayListMakeDate(playLIstInfoEntity.getPlayListMakeDate());
+                    getMyPlayListDto.setPlayListMakeUser(playLIstInfoEntity.getPlayListMakeUser().getUserId());
+                    try {
+                        getMyPlayListDto.setPlayListImage(Base64.getEncoder().encodeToString(playLIstInfoEntity.getPlayListImage()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return getMyPlayListDto;
+                })
+                .collect(Collectors.toList());
+        return getMyPlayListDtoList;
+    }
+
+    @Override
+    public String saveAPlayListMusic(SavePlayListDto savePlayListDto) {
+        try {
+            PlayLIstInfoEntity playLIstInfoEntity = playListInfoRepository.getById(savePlayListDto.getPlayListInfoId());
+            MusicEntity musicEntity = musicRepository.getById(savePlayListDto.getMusicId());
+
+            PlayListEntity playListEntity = new PlayListEntity();
+            playListEntity.setPlayLIstInfoEntity(playLIstInfoEntity);
+            playListEntity.setMusicEntity(musicEntity);
+            playListEntity.setPlayListIndex(savePlayListDto.getPlayListIndex());
+
+            playListRepository.save(playListEntity);
+
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    @Override
+    public String deletePlayListMusic(DeletePLMusicDto deletePLMusicDto) {
+        try {
+            PlayLIstInfoEntity playLIstInfoEntity = playListInfoRepository.getById(deletePLMusicDto.getPlayListId());
+            MusicEntity musicEntity = musicRepository.getById(deletePLMusicDto.getMusicId());
+
+            playListRepository.deleteByMusicEntityAndPlayListInfoEntity(musicEntity,playLIstInfoEntity);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+
+    }
+
+    @Override
+    public GetPLMusicDto getPlayListMusic(long playListId) {
+        PlayLIstInfoEntity playLIstInfoEntity = playListInfoRepository.getById(playListId);
+        GetPLMusicDto getPLMusicDto = new GetPLMusicDto();
+        getPLMusicDto.setPlayListTitle(playLIstInfoEntity.getPlayListTitle());
+        getPLMusicDto.setPlayListImage(Base64.getEncoder().encodeToString(playLIstInfoEntity.getPlayListImage()));
+        getPLMusicDto.setPlayListMakeUser(playLIstInfoEntity.getPlayListMakeUser().getUserId());
+        getPLMusicDto.setPlayListMakeDate(playLIstInfoEntity.getPlayListMakeDate());
+
+        List<PlayListEntity> playListEntityList = playListRepository.findByPlayLIstInfoEntityOrderByPlayListIndexAsc(playLIstInfoEntity);
+
+        List<MusicIdTitleDto> musicIdTitleDtoList = playListEntityList.stream()
+                .map(playListEntity -> {
+                    MusicIdTitleDto musicIdTitleDto = new MusicIdTitleDto();
+                    musicIdTitleDto.setMusicId(playListEntity.getMusicEntity().getMusicId());
+                    musicIdTitleDto.setMusicTitle(playListEntity.getMusicEntity().getMusicTitle());
+                    musicIdTitleDto.setSinger(playListEntity.getMusicEntity().getAlbumInfoEntity().getAlbumSinger());
+                    musicIdTitleDto.setMusicImage(Base64.getEncoder().encodeToString(playListEntity.getMusicEntity().getAlbumInfoEntity().getAlbumImage()));
+                    return musicIdTitleDto;
+                })
+                .collect(Collectors.toList());
+
+        getPLMusicDto.setMusicInfo(musicIdTitleDtoList);
+
+        return getPLMusicDto;
+    }
+
+    @Override
+    public List<GetMusicRankDto> getMusicRank(int page) {
+        List<MusicEntity> musicEntityList = musicRepository.findAllByOrderByHitsDesc(PageRequest.of(page, 10));
+        List<GetMusicRankDto> getMusicRankDtoList = musicEntityList.stream()
+                .map(musicEntity -> {
+                    GetMusicRankDto getMusicRankDto = new GetMusicRankDto();
+                    getMusicRankDto.setMusicId(musicEntity.getMusicId());
+                    getMusicRankDto.setImage(Base64.getEncoder().encodeToString(musicEntity.getAlbumInfoEntity().getAlbumImage()));
+                    getMusicRankDto.setMusicTitle(musicEntity.getMusicTitle());
+                    getMusicRankDto.setSinger(musicEntity.getAlbumInfoEntity().getAlbumSinger());
+                    getMusicRankDto.setAlbumId(musicEntity.getAlbumInfoEntity().getAlbumInfoId());
+                    return  getMusicRankDto;
+                })
+                .collect(Collectors.toList());
+        return getMusicRankDtoList;
     }
 }

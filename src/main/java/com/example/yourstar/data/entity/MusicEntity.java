@@ -29,4 +29,8 @@ public class MusicEntity {
 
     @Column(name = "hits")
     private int hits;
+
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    private AlbumInfoEntity albumInfoEntity;
 }

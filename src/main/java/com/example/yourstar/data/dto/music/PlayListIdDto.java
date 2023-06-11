@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MusicIdTitleDto {
-    private long musicId;
-    private String musicTitle;
-    private String singer;
-    private String musicImage;
+public class PlayListIdDto {
+    private long playListIdDto;
 }

@@ -15,6 +15,7 @@ public class SaveMusicDto {
     private String lyrics;
     private Long albumInfoId;
     private int musicIndex;
+    private long albumId;
 
     public void setAlbumImage(MultipartFile soundSource) {
         try {

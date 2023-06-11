@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MusicIdTitleDto {
+public class GetMusicRankDto {
     private long musicId;
+    private String image;
     private String musicTitle;
     private String singer;
-    private String musicImage;
+    private long albumId;
 }

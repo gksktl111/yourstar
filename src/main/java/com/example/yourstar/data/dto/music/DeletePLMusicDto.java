@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MusicIdTitleDto {
+public class DeletePLMusicDto {
+    private long playListId;
     private long musicId;
-    private String musicTitle;
-    private String singer;
-    private String musicImage;
 }
