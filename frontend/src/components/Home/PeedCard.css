@@ -39,7 +39,9 @@
 }
 
 .user_name{
-    font-size: 15px;
+    font-size: 14px;
+
+    color: black;
 
     cursor: pointer;
 }
@@ -94,7 +96,8 @@
 }
 
 .peed_comment_icon,
-.peed_share_icon{
+.peed_share_icon,
+.peed_save_icon{
     font-size: 30px;
 
     background-color: white;
@@ -105,13 +108,7 @@
 }
 
 .peed_save_icon{
-    font-size: 30px;
-
-    background-color: white;
-
-    margin-left: 268px;
-
-    border: none;
+    font-size: 28px;
 }
 
 

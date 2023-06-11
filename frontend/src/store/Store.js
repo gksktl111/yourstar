@@ -84,6 +84,20 @@ let isNewPeedModalOpen = createSlice({
     }
 })
 
+// 새채팅방 만들기 오픈
+let isNewChatModalOpen = createSlice({
+    name : "isNewChatModalOpen",
+    initialState : false,
+    reducers : {
+        newChatModalOn(){
+            return true
+        },
+        newChatModalOff(){
+            return false
+        }
+    }
+})
+
 
 // 아이디 찾기 액션
 export let {idFindModalOn, idFindModalOff} = isIdFindModalOpen.actions
@@ -103,6 +117,8 @@ export let {commentModalOn, commentModalOff} = isCommentModalOpen.actions
 // 뉴피드 액션
 export let {newPeedModalOn, newPeedModalOff} = isNewPeedModalOpen.actions
 
+// 뉴채팅방 액셕
+export let {newChatModalOn, newChatModalOff} = isNewChatModalOpen.actions
 
 export default configureStore({
     reducer: {
@@ -111,6 +127,7 @@ export default configureStore({
         isSignUpModalOpen : isSignUpModalOpen.reducer,
         isOptionModalOpen : isOptionModalOpen.reducer,
         isCommentModalOpen : isCommentModalOpen.reducer,
-        isNewPeedModalOpen : isNewPeedModalOpen.reducer
+        isNewPeedModalOpen : isNewPeedModalOpen.reducer,
+        isNewChatModalOpen : isNewChatModalOpen.reducer
     }
 })

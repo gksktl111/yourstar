@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface FollowRepository extends JpaRepository<FollowEntity,Integer> {
 
-    int countByFromUserId(String userId);
-    int countByToUserId(String userId);
+    int countByFromUserId(UserEntity userId);
+    int countByToUserId(UserEntity userId);
     @Query("SELECT f.toUserId FROM FollowEntity f WHERE f.fromUserId = :fromUserId")
     List<UserEntity> findFollowedUsersByFromUserId(@Param("fromUserId") UserEntity fromUserId);
 }

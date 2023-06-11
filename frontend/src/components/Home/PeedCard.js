@@ -30,9 +30,7 @@ const PeedCard = () => {
     const [saveComment, setSaveComment] = useState("");
 
     // 피드 옵션 관련
-    let state = useSelector((state) => {
-        return state
-    });
+    let state = useSelector((state) => {return state});
     let dispatch = useDispatch();
 
     // 좋아요 클릭
@@ -96,9 +94,12 @@ const PeedCard = () => {
                 {/*피드 상단*/}
                 <div className="peed_top_section">
                     <img src="/assets/img/3.jpg" alt="오류" className="peed_profile"/>
-                    <span className="user_name">alsrb_12</span>
-                    <BsDot/>
+                    <a href={`http://localhost:3000/alsrb_1214`} className="user_name">
+                        alsrb_1214
+                    </a>
+                    <BsDot style={{fontSize : "30px"}}/>
                     <time dateTime={publishedTime.toISOString()}>
+
                         {/*피드 올린후 경과시간 시간,일,주,달,년 으로 구분해야됨*/}
                         {elapsedHours}
                     </time>
@@ -107,7 +108,7 @@ const PeedCard = () => {
                                 dispatch(optionModalOn())
                             }
                             }>
-                        <BsThreeDots style={{paddingLeft: "35px"}}/>
+                        <BsThreeDots style={{paddingLeft: "10px"}}/>
                     </button>
                 </div>
                 {/*피드의 이미지나 영상 파트*/}
@@ -127,13 +128,10 @@ const PeedCard = () => {
                             }}>
                         <AiOutlineComment/>
                     </button>
-                    <button className='peed_share_icon'>
-                        <AiOutlineShareAlt/>
-                    </button>
                     <button className="peed_save_icon" onClick={handleSaveClick}>
                         {isSaved ?
-                            <BsBookmarkDashFill style={{paddingLeft: "11px"}}/> :
-                            <BsBookmarkDash style={{paddingLeft: "11px"}}/>}
+                            <BsBookmarkDashFill/> :
+                            <BsBookmarkDash/>}
                     </button>
                 </div>
 
@@ -150,7 +148,7 @@ const PeedCard = () => {
 
                 <div className="peed_text"
                      style={{
-                         maxHeight: showFullText || !isLongText ? 'none' : '2.7em'}}>
+                         maxHeight: showFullText || !isLongText ? 'none' : '2.5em'}}>
                     {/* 본문의 일부만 표시 시 */}
                     {!showFullText && (
                         <div style={{overflow: "hidden"}}>
@@ -163,7 +161,7 @@ const PeedCard = () => {
 
                     {/* 전체 본문 표시 */}
                     {peed_text.split('\n').map((text, index) => (
-                        <p key={index} style={{ marginBottom: '0' }}>
+                        <p key={index}>
                             {text}
                         </p>
                     ))}

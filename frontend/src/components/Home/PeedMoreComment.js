@@ -44,8 +44,6 @@ const PeedMoreComment = () => {
                 <spna className="comment_footer">
                     <time className={"comment_time"}>10시간</time>
                     <span className={"comment_like_sum"}>좋아요 8개</span>
-                    <span className={"comment_reply"}>답글 달기</span>
-
                     {/*다른 사람꺼면 신고,취소*/}
                     {/*본인꺼면 삭제,취소*/}
                     <span className={"comment_option"}>

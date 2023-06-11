@@ -57,8 +57,9 @@ public class UserProfileServiceImpl implements UserProfileService {
         log.info("프로필 주인 : {}",userId);
         GetUserProfileDto userProfileDto = new GetUserProfileDto();
         UserProfileEntity userProfileEntity = userProfileRepository.getById(userId);
-        log.info("[getFollowingCount] : {}",userProfileDao.getFollowingCounts(userId));
-        log.info("[getFollowersCount] : {}",userProfileDao.getFollowerCounts(userId));
+        UserEntity user = userRepository.getById(userId);
+        log.info("[getFollowingCount] : {}",userProfileDao.getFollowingCounts(user));
+        log.info("[getFollowersCount] : {}",userProfileDao.getFollowerCounts(user));
 
         if (userProfileEntity.getUserProfile() != null) {
             userProfileDto.setProfileImage(Base64.getEncoder().encodeToString(userProfileEntity.getUserProfile()));
@@ -68,14 +69,14 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfileDto.setUserName(userProfileEntity.getUserEntity().getUserName());
         userProfileDto.setIntroduce(userProfileEntity.getIntroduce());
         userProfileDto.setPostCount(postRepository.countByUserId(userId));
-        userProfileDto.setFollowingCount(userProfileDao.getFollowingCounts(userId));
-        userProfileDto.setFollowerCount(userProfileDao.getFollowerCounts(userId));
+        userProfileDto.setFollowingCount(userProfileDao.getFollowingCounts(user));
+        userProfileDto.setFollowerCount(userProfileDao.getFollowerCounts(user));
         return userProfileDto;
     }
 
     @Override
     public List<IdImageDto> getUserPost(String userId, int page) {
-        Pageable pageable = PageRequest.of(page, 2, Sort.by("postTime").descending());
+        Pageable pageable = PageRequest.of(page, 6, Sort.by("postTime").descending());
         Page<PostEntity> postPage = postRepository.findByUserIdOrderByPostTimeDesc(userId, pageable);
         List<PostEntity> postList = postPage.getContent();
 
@@ -84,7 +85,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                     IdImageDto idImageDto = new IdImageDto();
                     idImageDto.setId(postEntity.getPostId());
                     try {
-                        idImageDto.setImage(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1, (int) postEntity.getMeta().length())));
+                        idImageDto.setMeta(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1, (int) postEntity.getMeta().length())));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -122,7 +123,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                     IdImageDto idImageDto = new IdImageDto();
                     idImageDto.setId(postSaveEntity.getPostEntity().getPostId());
                     try {
-                        idImageDto.setImage(Base64.getEncoder().encodeToString(postSaveEntity.getPostEntity().getMeta().getBytes(1, (int) postSaveEntity.getPostEntity().getMeta().length())));
+                        idImageDto.setMeta(Base64.getEncoder().encodeToString(postSaveEntity.getPostEntity().getMeta().getBytes(1, (int) postSaveEntity.getPostEntity().getMeta().length())));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

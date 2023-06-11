@@ -51,7 +51,7 @@ main {
     font-size: 70px;
     height: 50px;
     margin-left: 30px;
-    color: #7946FF;
+    color: #000000;
     font-family: 'Cafe24Shiningstar', sans-serif;
 }
 
@@ -62,7 +62,8 @@ main {
     padding: 10px 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-
+    /*margin-left: 1rem;*/
+    /*font-size: 1rem;*/
     cursor: pointer;
 }
 

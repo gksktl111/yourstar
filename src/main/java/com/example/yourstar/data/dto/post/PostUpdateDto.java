@@ -18,5 +18,5 @@ public class PostUpdateDto {
     private MultipartFile imageFile;
     private MultipartFile videoFile;
 
-    public long postId;
+    private long postId;
 }
