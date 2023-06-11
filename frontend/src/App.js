@@ -48,7 +48,7 @@ function App() {
                          {/*상대방 프로필*/}
                         <Route path="*" element={<NewProfile/>}/>
                     </Route>
-                    
+
                     {/*관리자 로그인 하면 해당 페이지*/}
                     <Route path={"/admin"} element={<AdminRoutes/>}>
                         <Route path="/admin" element={<Home/>}/>
