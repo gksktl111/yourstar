@@ -33,11 +33,14 @@ const PeedCard = ({ product }) => {
 
     // 좋아요 여부
     const [isLiked, setIsLiked] = useState(false);
+
     // 피드 저장 여부
     const [isSaved, setIsSaved] = useState(false);
+
     // "더보기" 클릭 여부
     const [showFullText, setShowFullText] = useState(false);
     const [isLongText, setIsLongText] = useState(false);
+
     // 댓글 적기 시작하면 "게시" div 보여주기
     const [saveComment, setSaveComment] = useState("");
 
@@ -78,8 +81,8 @@ const PeedCard = ({ product }) => {
         return lineHeight * lines + extraHeight;
     };
 
-    // 본문 예시
-    const peed_text = "이 밴드 \n정말 좋아요! 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
+    // 본문
+    const peed_text = contents;
 
     // 피드텍스트 길이 계산 후 isLongText 상태 업데이트
     useEffect(() => {
@@ -93,7 +96,6 @@ const PeedCard = ({ product }) => {
         setIsLongText(peed_text.split("\n").length > 1 || element.scrollHeight > 60);
     }, []);
 
-
     return (
         <div className="peed_container">
             <div className='peed'
@@ -105,9 +107,11 @@ const PeedCard = ({ product }) => {
                  }}>
                 {/*피드 상단*/}
                 <div className="peed_top_section">
-                    <img src="/assets/img/3.jpg" alt="오류" className="peed_profile"/>
-                    <a href={`http://localhost:3000/alsrb_1214`} className="user_name">
-                        alsrb_1214
+                    <img className="peed_profile"
+                        src={`data:image/jpeg;base64,${userProFileImg}`}
+                         alt="오류"/>
+                    <a href={`http://localhost:8080/${name}`} className="user_name">
+                        {name}
                     </a>
                     <BsDot style={{fontSize : "30px"}}/>
                     <time dateTime={publishedTime.toISOString()}>
@@ -150,9 +154,9 @@ const PeedCard = ({ product }) => {
                 {/*좋아요를 인원 표시*/}
                 <div className="liked_user">
                     <span>
-                        <span style={{fontWeight: "bold", cursor: "pointer"}}>qweas123</span>
+                        <span style={{fontWeight: "bold", cursor: "pointer"}}>{name}</span>
                         <span> 님 외</span>
-                        <span style={{fontWeight: "bold", cursor: "pointer"}}> 여러 명</span>
+                        <span style={{fontWeight: "bold", cursor: "pointer"}}> {likeCount} 명</span>
                         <span>이 좋아합니다.</span>
                     </span>
                 </div>
