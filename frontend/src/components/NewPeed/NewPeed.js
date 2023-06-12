@@ -4,7 +4,6 @@ import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import {newPeedModalOff, signUpModalOff} from '../../store/Store';
 import {IoClose} from 'react-icons/io5';
-import {useNavigate} from "react-router-dom";
 
 const NewPeed = () => {
     const dispatch = useDispatch();

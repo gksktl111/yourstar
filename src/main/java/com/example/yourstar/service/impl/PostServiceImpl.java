@@ -5,7 +5,6 @@ import com.example.yourstar.data.dto.GetFeedViewDto;
 import com.example.yourstar.data.dto.post.PostUpdateDto;
 import com.example.yourstar.data.dto.post.PostWriteFormDto;
 import com.example.yourstar.data.entity.PostEntity;
-import com.example.yourstar.data.repository.PostLikeDetailRepository;
 import com.example.yourstar.data.repository.PostRepository;
 import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.PostService;
@@ -28,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
-    private PostLikeDetailRepository postLikeDetailRepository;
 
     private PostRepository postRepository;
     private UserRepository userRepository;
@@ -38,11 +36,10 @@ public class PostServiceImpl implements PostService {
     private PostEntity postEntity;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, PostDao postDao,UserRepository userRepository,PostLikeDetailRepository postLikeDetailRepository) {
+    public PostServiceImpl(PostRepository postRepository, PostDao postDao,UserRepository userRepository) {
         this.postRepository = postRepository;
         this.postDao = postDao;
         this.userRepository =userRepository;
-        this.postLikeDetailRepository = postLikeDetailRepository;
     }
     @Override
     @Transactional
@@ -61,7 +58,7 @@ public class PostServiceImpl implements PostService {
         postEntity.setCategory("default");
 
         System.out.println("서비스파트 들어옴");
-        
+
         if (postWriteFormDto.getImageFile() != null && !postWriteFormDto.getImageFile().isEmpty()) {
             // 이미지 파일이 있을 경우, meta 필드에 이미지 데이터를 저장
             try {
@@ -221,7 +218,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<GetFeedViewDto> getFeedView(String userId, int page) {
-        PageRequest pageable = PageRequest.of(page, 2, Sort.by(Sort.Direction.DESC, "postTime"));
+        PageRequest pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "postTime"));
         Page<PostEntity> postList = postRepository.findByUserNot(userRepository.getById(userId), pageable);
 
         List<PostEntity> postEntityList = postList.getContent();

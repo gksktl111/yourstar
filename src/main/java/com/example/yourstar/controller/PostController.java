@@ -4,6 +4,7 @@ import com.example.yourstar.data.dto.GetFeedViewDto;
 import com.example.yourstar.data.dto.post.*;
 import com.example.yourstar.data.dto.profile.PageDto;
 import com.example.yourstar.service.PostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @RequestMapping("/post")
 @RestController
 public class PostController {
@@ -152,6 +154,8 @@ public class PostController {
 
     @PostMapping(value = "/get_feed_view")
     public List<GetFeedViewDto> getFeedView(Authentication authentication, @RequestBody PageDto pageDto){
+        log.info("넘어오는 페이지값{}",pageDto.getPage());
+        log.info("토큰값{}",authentication.getName());
         return postService.getFeedView(authentication.getName(),pageDto.getPage());
     }
 }

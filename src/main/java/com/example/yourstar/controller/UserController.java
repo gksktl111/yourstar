@@ -90,6 +90,7 @@ public class UserController {
     }
     @PostMapping(value = "/myid")
     public String returnMyId(Authentication authentication){
+        log.info("토큰{}",authentication.getName());
         if (authentication == null){
             return null;
         }else {

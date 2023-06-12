@@ -48,4 +48,3 @@ public class PostEntity {
     @Column(name = "category")
     String category;
 }
-
