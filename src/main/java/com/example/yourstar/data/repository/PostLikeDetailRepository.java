@@ -1,5 +1,6 @@
 package com.example.yourstar.data.repository;
 
+import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.entity.PostLikeDetailEntity;
 import com.example.yourstar.data.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface PostLikeDetailRepository extends JpaRepository<PostLikeDetailEn
     List<PostLikeDetailEntity> findByPostId(Long postId);
     Optional<PostLikeDetailEntity> findByPostIdAndUserId(Long postId, String userId);
     Optional<UserEntity> findByUserId(String userId);
+
+    PostLikeDetailEntity findByPost(PostEntity postId);
 }

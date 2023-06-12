@@ -1,11 +1,15 @@
 package com.example.yourstar.controller;
 
+import com.example.yourstar.data.dto.GetFeedViewDto;
 import com.example.yourstar.data.dto.post.*;
+import com.example.yourstar.data.dto.profile.PageDto;
 import com.example.yourstar.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequestMapping("/post")
 @RestController
@@ -144,5 +148,10 @@ public class PostController {
             System.out.println("오류 발생 : " + e.getMessage());
             return "failed";
         }
+    }
+
+    @PostMapping(value = "/get_feed_view")
+    public List<GetFeedViewDto> getFeedView(Authentication authentication, @RequestBody PageDto pageDto){
+        return postService.getFeedView(authentication.getName(),pageDto.getPage());
     }
 }

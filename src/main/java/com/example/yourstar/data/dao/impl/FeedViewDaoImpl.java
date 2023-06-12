@@ -19,4 +19,5 @@ public class FeedViewDaoImpl implements FeedViewDao {
     public List<FeedViewEntity> findAllByToUserId(String userId, Pageable pageable) {
         return feedViewRepository.findAllByToUserId(userId, pageable);
     }
+
 }
