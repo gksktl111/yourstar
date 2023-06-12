@@ -7,8 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {newChatModalOn} from "../store/Store";
 import AddChatRoom from "../components/message/AddChatRoom";
 import axios from "axios";
-import SockJS from 'sockjs-client';
-import { Client } from 'stompjs';
+// import SockJS from 'sockjs-client';
+// import { Client } from 'stompjs';
 
 const Message = () => {
     let state = useSelector((state) => state);
@@ -23,7 +23,19 @@ const Message = () => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     // 가상의 사용자 ID를 나타내는 상수를 추가합니다.
-    const MY_USER_ID = 1;
+    const [myId,setMyId] = useState('');
+
+    const loadMyId = async () => {
+        await axios.post('/user/myid', {},{
+            headers: {authorization: localStorage.getItem("token")},
+        }).then((response) => {
+            console.log(response.data);
+
+            setMyId(response.data)
+        }).catch(function (error) {
+            console.log("실패함", error);
+        })
+    };
 
     // 채팅방 목록
     const [users, setUsers] = useState([]);
@@ -52,7 +64,7 @@ const Message = () => {
 
         const newMessage = {
             content: inputMessage,
-            senderId: MY_USER_ID,
+            senderId: myId,
         };
 
         // 선택된 사용자와의 대화 내용 업데이트
@@ -146,8 +158,7 @@ const Message = () => {
     // 내 채팅내용 불러오기
     const loadChatData = async (otherUser) => {
         setSelectedUser(otherUser);
-        console.log(otherUser);
-        console.log(otherUser.id);
+
         await axios
             .post(
                 "/past-messages",
@@ -175,6 +186,7 @@ const Message = () => {
                 console.log("실패함", error);
             });
     };
+
     //
     // // 채팅 보내기
     // const subscribeQueue = () => {
@@ -195,13 +207,14 @@ const Message = () => {
     //     });
     // }
 
-    useEffect(() => {
-        subscribeQueue();
-    }, []);
+    // useEffect(() => {
+    //     subscribeQueue();
+    // }, []);
     
     // 프로필 데이터들을 호출하는 useEffect
     useEffect(() => {
         loadChatRoom();
+        loadMyId();
     }, []);
 
     return (
@@ -265,7 +278,7 @@ const Message = () => {
                     <div className="message-content">
                         {chatContent.map((message, index) => {
                             // 자신의 말풍선인지 확인하고 클래스를 적용합니다.
-                            const isFromMyself = message.senderId === MY_USER_ID;
+                            const isFromMyself = (message.senderId === myId);
                             return (
                                 <div
                                     key={index}

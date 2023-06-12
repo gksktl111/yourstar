@@ -2,6 +2,7 @@ package com.example.yourstar.data.entity;
 
 import lombok.Data;
 
+import javax.net.ssl.SSLEngineResult;
 import javax.persistence.*;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -48,4 +49,3 @@ public class PostEntity {
     @Column(name = "category")
     String category;
 }
-

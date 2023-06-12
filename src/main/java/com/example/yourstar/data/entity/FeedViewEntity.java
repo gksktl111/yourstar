@@ -18,7 +18,11 @@ public class FeedViewEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "post_id", insertable = false, updatable = false)
-    PostEntity post;
+    PostEntity postEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    PostLikeDetailEntity postLikeDetailEntity;
 
     @ManyToOne
     @JoinColumn(name = "follow_id", referencedColumnName = "follow_id", insertable = false, updatable = false)
@@ -33,4 +37,7 @@ public class FeedViewEntity {
 
     @Column(name = "to_user_id")
     String toUserId;
+
+    @Column(name = "status")
+    private Boolean status;
 }

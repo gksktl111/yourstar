@@ -1,6 +1,8 @@
 package com.example.yourstar.service;
 
 import com.example.yourstar.data.dto.FeedViewDto;
+import com.example.yourstar.data.dto.post.PostWriteFormDto;
+import com.example.yourstar.data.dto.profile.PageDto;
 
 import java.util.List;
 

@@ -10,6 +10,7 @@ import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.PostLikeDetailService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PostLikeDetailServiceImpl implements PostLikeDetailService {
     private final PostRepository postRepository;
 
     private final UserRepository userRepository;
+
 
     @Autowired
     public PostLikeDetailServiceImpl(PostLikeDetailRepository postLikeDetailRepository,
@@ -42,7 +44,7 @@ public class PostLikeDetailServiceImpl implements PostLikeDetailService {
 
         UserEntity user = userOptional.orElseThrow(() -> new NotFoundException("User not found"));
 
-        PostLikeDetailEntity postLike = new PostLikeDetailEntity(post, user);
+        PostLikeDetailEntity postLike = new PostLikeDetailEntity();
         postLikeDetailRepository.save(postLike);
 
         post.setLikeCount(post.getLikeCount() + 1);

@@ -21,5 +21,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     void updateById(String userId, String email, String pw, String phone, String introduce);
     @Query("SELECT new com.example.yourstar.data.dto.GetAllUserDto(u.userId, u.userName, u.userEmail, u.userGender, u.userAge, u.phone, u.joinDate) FROM UserEntity u")
     List<GetAllUserDto> getAllUser();
+
 }
 

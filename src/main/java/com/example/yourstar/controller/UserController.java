@@ -99,5 +99,15 @@ public class UserController {
         return userRepository.existsByPhone(phoneDto.getPhone());
     }
 
+    @PostMapping(value = "/myid")
+    public String returnMyId(Authentication authentication){
+        log.info("토큰{}",authentication.getName());
+        if (authentication == null){
+            return null;
+        }else {
+            return authentication.getName();
+        }
+    }
+
 
 }
