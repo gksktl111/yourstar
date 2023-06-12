@@ -236,6 +236,7 @@ public class PostServiceImpl implements PostService {
                     getFeedViewDto.setPostId(postEntity.getPostId());
                     getFeedViewDto.setContents(postEntity.getContents());
                     getFeedViewDto.setLikeCount(postEntity.getLikeCount());
+                    getFeedViewDto.setPostTime((postEntity.getPostTime()));
                     try {
                         getFeedViewDto.setMeta(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1,(int)postEntity.getMeta().length())));
                     } catch (SQLException e) {
