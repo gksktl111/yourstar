@@ -45,6 +45,7 @@ const Home = () => {
                     contents: post.contents,
                     likeCount: post.likeCount,
                     likeStatus: post.likeStatus,
+                    postTime: post.postTime,
                 }));
 
                 console.log(newPost)

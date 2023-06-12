@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {commentModalOn, optionModalOn} from "../../store/Store";
 import PeedMore from "./PeedMore";
 
-const PeedCard = ({ product }) => {
+const PeedCard = ({product}) => {
     // 넘겨 받은 피드 정보들
     const {
         userId,
@@ -18,18 +18,19 @@ const PeedCard = ({ product }) => {
         contents,
         likeCount,
         likeStatus,
+        postTime
     } = product;
 
     // 게시글의 게시 시간
     // 국내 시간으로 변환 할려면 9시간 더해야됨
-    const publishedTime = new Date('2023-05-20T12:34:56Z');
+    const publishedTime = new Date(postTime);
 
     // 현재 시간
     const now = new Date();
 
     // 경과 시간 계산
     const elapsedTime = Math.floor((now.getTime() - publishedTime.getTime()) / 1000);
-    const elapsedHours = Math.floor(elapsedTime / 3600);
+    const elapsedHours = Math.floor(elapsedTime / (60 * 60 * 24));
 
     // 좋아요 여부
     const [isLiked, setIsLiked] = useState(false);
@@ -45,7 +46,9 @@ const PeedCard = ({ product }) => {
     const [saveComment, setSaveComment] = useState("");
 
     // 피드 옵션 관련
-    let state = useSelector((state) => {return state});
+    let state = useSelector((state) => {
+        return state
+    });
     let dispatch = useDispatch();
 
     // 좋아요 클릭
@@ -99,7 +102,7 @@ const PeedCard = ({ product }) => {
     return (
         <div className="peed_container">
             <div className='peed'
-                 // 본문의 길이 따라서 피드의 길이가 정해짐
+                // 본문의 길이 따라서 피드의 길이가 정해짐
                  style={{
                      height: showFullText
                          ? getTextHeight(peed_text) + 670
@@ -108,17 +111,20 @@ const PeedCard = ({ product }) => {
                 {/*피드 상단*/}
                 <div className="peed_top_section">
                     <img className="peed_profile"
-                        src={`data:image/jpeg;base64,${userProFileImg}`}
+                         src={userProFileImg ? `data:image/jpeg;base64,${userProFileImg}` : "/assets/img/profile.png"}
                          alt="오류"/>
                     <a href={`http://localhost:8080/${name}`} className="user_name">
                         {name}
                     </a>
-                    <BsDot style={{fontSize : "30px"}}/>
-                    <time dateTime={publishedTime.toISOString()}>
+                    <BsDot style={{fontSize: "30px"}}/>
 
-                        {/*피드 올린후 경과시간 시간,일,주,달,년 으로 구분해야됨*/}
+
+                    {console.log(meta.substr(0, 4))}
+
+
+                    <time dateTime={publishedTime.toISOString()}>
                         {elapsedHours}
-                    </time>
+                    </time>일
                     <button className='peed_option'
                             onClick={() => {
                                 dispatch(optionModalOn())
@@ -130,7 +136,20 @@ const PeedCard = ({ product }) => {
                 {/*피드의 이미지나 영상 파트*/}
                 <div className='peed_media_section'>
                     {/*서버에서 이미지 가져와서 넣기*/}
-                    <img src='/assets/img/1.jpg' className='peed_media'></img>
+                    {/*영상 파일이면 영상으로 출력 아니면 이미지로 출력*/}
+                    {meta.substr(0, 4) === "AAAA" ? (
+                        <video className="peed_media"
+                               id={postId} controls>
+                            <source src={`data:video/mp4;base64,${meta}`} type="video/mp4"/>
+                        </video>
+                    ) : (
+                        <img
+                            className="peed_media"
+                            id={postId}
+                            src={`data:image/jpeg;base64,${meta}`}
+                            alt="불러오기 실패 ㅜㅠ"
+                        />
+                    )}
                 </div>
                 {/*좋아요 댓글 공유 저장등 아이콘 모음*/}
                 <div className='peed_icon_section'>
@@ -164,7 +183,8 @@ const PeedCard = ({ product }) => {
 
                 <div className="peed_text"
                      style={{
-                         maxHeight: showFullText || !isLongText ? 'none' : '2.5em'}}>
+                         maxHeight: showFullText || !isLongText ? 'none' : '2.5em'
+                     }}>
                     {/* 본문의 일부만 표시 시 */}
                     {!showFullText && (
                         <div style={{overflow: "hidden"}}>
