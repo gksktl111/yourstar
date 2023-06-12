@@ -231,10 +231,15 @@ public class PostServiceImpl implements PostService {
                     GetFeedViewDto getFeedViewDto = new GetFeedViewDto();
                     getFeedViewDto.setUserId(postEntity.getUserId());
                     getFeedViewDto.setUserName(postEntity.getUser().getUserName());
-                    getFeedViewDto.setUserProFileImg(Base64.getEncoder().encodeToString(postEntity.getUser().getUserProfileEntity().getUserProfile()));
+                    if(postEntity.getUser().getUserProfileEntity().getUserProfile() != null){
+                        getFeedViewDto.setUserProFileImg(Base64.getEncoder().encodeToString(postEntity.getUser().getUserProfileEntity().getUserProfile()));
+                    }else {
+                        getFeedViewDto.setUserProFileImg(null);
+                    }
                     getFeedViewDto.setPostId(postEntity.getPostId());
                     getFeedViewDto.setContents(postEntity.getContents());
                     getFeedViewDto.setLikeCount(postEntity.getLikeCount());
+                    getFeedViewDto.setPostTime((postEntity.getPostTime()));
                     try {
                         getFeedViewDto.setMeta(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1,(int)postEntity.getMeta().length())));
                     } catch (SQLException e) {
