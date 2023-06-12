@@ -6,7 +6,6 @@ import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.entity.UserEntity;
 import com.example.yourstar.data.repository.CommentLikeRepository;
 import com.example.yourstar.data.repository.CommentRepository;
-import com.example.yourstar.data.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

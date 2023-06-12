@@ -23,7 +23,6 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
         this.userProfileRepository = userProfileRepository;
     }
-
     // 프로필 업로드
     @PostMapping(value = "/updateuserprofile",consumes = "multipart/form-data")
     public  String updateUserProfile(Authentication authentication, @ModelAttribute UpdateUserProfileDto updateUserProfileDto){
@@ -31,28 +30,23 @@ public class UserProfileController {
         log.info("자기소개 : {}", updateUserProfileDto.getIntroduce());
         return  userProfileService.updateUserProfile(authentication.getName(), updateUserProfileDto);
     }
-
     // 프로필 정보 가져오기
     @PostMapping(value = "/getUserprofile")
     public GetUserProfileDto getUserProfileImage(Authentication authentication) {
         log.info("token:{}",authentication.getName());
         return userProfileService.getUserProfile(authentication.getName());
     }
-
     // 유저가 올린 post 가져오기
     @PostMapping(value = "/getUserPost")
     public List<IdImageDto> getUserPost(Authentication authentication, @RequestBody PageDto pageDto) {
         log.info("받은 페이지 : {}",pageDto.getPage());
         return userProfileService.getUserPost(authentication.getName(),pageDto.getPage());
     }
-
-
     // post 저장하기
     @PostMapping(value = "/postsave")
     public String postSave(Authentication authentication, @RequestBody PostDto postDto){
         return userProfileService.savePost(authentication.getName(),postDto.getPostId());
     }
-
     // 저장한 post 가져오기
     @PostMapping(value = "/getpostsave")
     public List<IdImageDto> getPostSave(Authentication authentication, @RequestBody PageDto pageDto) {

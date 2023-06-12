@@ -40,7 +40,6 @@ public class ChatController {
         chatService.saveChatMessage(message);  // 메시지 저장
         template.convertAndSend(destination, message); // destination 경로에 mwssages 전달(클라이언트에 메시지 전송)
     }
-
     // 채팅 내용 리턴
     @PostMapping("/past-messages")
     public List<GetPastMsgDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
@@ -48,7 +47,6 @@ public class ChatController {
         log.info("채팅 상대방 유저 : {}",otherPerson.getUserId()); // 상대방 유저
         return chatService.getMessagesBetweenUsers(otherPerson.getUserId(),authentication.getName());
     }
-
     // 채팅방 만들기
     @PostMapping("/makechatroom")
     public String makechatroom(Authentication authentication,@RequestBody UserIdDto userIdDto) {
@@ -62,13 +60,11 @@ public class ChatController {
             return "failed";
         }
     }
-
     // 채팅방 목록 가져오기
     @PostMapping("/getchatroom")
     public List<IdNameImageDto> getchatroom(Authentication authentication ) {
         return chatService.getChatRoom(authentication.getName());
     }
-
     // 팔로우 목록 리턴
     @PostMapping("/getfollowlist")
     public List<IdNameImageDto> getFollowList(Authentication authentication ) {

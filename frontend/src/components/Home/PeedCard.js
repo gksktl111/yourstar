@@ -7,7 +7,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {commentModalOn, optionModalOn} from "../../store/Store";
 import PeedMore from "./PeedMore";
 
-const PeedCard = () => {
+const PeedCard = ({ product }) => {
+    // 넘겨 받은 피드 정보들
+    const {
+        userId,
+        name,
+        userProFileImg,
+        postId,
+        meta,
+        contents,
+        likeCount,
+        likeStatus,
+    } = product;
+
     // 게시글의 게시 시간
     // 국내 시간으로 변환 할려면 9시간 더해야됨
     const publishedTime = new Date('2023-05-20T12:34:56Z');
