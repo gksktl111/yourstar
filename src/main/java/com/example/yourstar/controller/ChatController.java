@@ -1,11 +1,11 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.ChatMessageDto;
-import com.example.yourstar.data.dto.IdNameImageDto;
+import com.example.yourstar.data.dto.chat.ChatMessageDto;
+import com.example.yourstar.data.dto.chat.GetPastMsgDto;
+import com.example.yourstar.data.dto.chat.IdNameImageDto;
 import com.example.yourstar.data.dto.user.UserIdDto;
 import com.example.yourstar.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -40,19 +40,19 @@ public class ChatController {
         chatService.saveChatMessage(message);  // 메시지 저장
         template.convertAndSend(destination, message); // destination 경로에 mwssages 전달(클라이언트에 메시지 전송)
     }
-
     // 채팅 내용 리턴
     @PostMapping("/past-messages")
-    public List<ChatMessageDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
+    public List<GetPastMsgDto> getPastMessages(@RequestBody UserIdDto otherPerson, Authentication authentication ) {
         log.info("채팅 유저(나) : {}",authentication.getName()); // 로그인한 유저(jwt로 구분)
         log.info("채팅 상대방 유저 : {}",otherPerson.getUserId()); // 상대방 유저
         return chatService.getMessagesBetweenUsers(otherPerson.getUserId(),authentication.getName());
     }
-
     // 채팅방 만들기
     @PostMapping("/makechatroom")
-    public String makechatroom(Authentication authentication, UserIdDto userIdDto) {
+    public String makechatroom(Authentication authentication,@RequestBody UserIdDto userIdDto) {
         try {
+            log.info("넘어온 데이터{}",authentication.getName());
+            log.info("넘어온 데이터{}",userIdDto.getUserId());
             chatService.makeChatRoom(authentication.getName(),userIdDto.getUserId());
             return "success";
         }catch (Exception e){
@@ -60,13 +60,11 @@ public class ChatController {
             return "failed";
         }
     }
-
     // 채팅방 목록 가져오기
     @PostMapping("/getchatroom")
     public List<IdNameImageDto> getchatroom(Authentication authentication ) {
-            return chatService.getChatRoom(authentication.getName());
+        return chatService.getChatRoom(authentication.getName());
     }
-
     // 팔로우 목록 리턴
     @PostMapping("/getfollowlist")
     public List<IdNameImageDto> getFollowList(Authentication authentication ) {

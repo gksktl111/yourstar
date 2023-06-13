@@ -7,30 +7,48 @@ import {useDispatch, useSelector} from "react-redux";
 import {commentModalOn, optionModalOn} from "../../store/Store";
 import PeedMore from "./PeedMore";
 
-const PeedCard = () => {
+const PeedCard = ({product}) => {
+    // 넘겨 받은 피드 정보들
+    const {
+        userId,
+        name,
+        userProFileImg,
+        postId,
+        meta,
+        contents,
+        likeCount,
+        likeStatus,
+        postTime
+    } = product;
+
     // 게시글의 게시 시간
     // 국내 시간으로 변환 할려면 9시간 더해야됨
-    const publishedTime = new Date('2023-05-20T12:34:56Z');
+    const publishedTime = new Date(postTime);
 
     // 현재 시간
     const now = new Date();
 
     // 경과 시간 계산
     const elapsedTime = Math.floor((now.getTime() - publishedTime.getTime()) / 1000);
-    const elapsedHours = Math.floor(elapsedTime / 3600);
+    const elapsedHours = Math.floor(elapsedTime / (60 * 60 * 24));
 
     // 좋아요 여부
     const [isLiked, setIsLiked] = useState(false);
+
     // 피드 저장 여부
     const [isSaved, setIsSaved] = useState(false);
+
     // "더보기" 클릭 여부
     const [showFullText, setShowFullText] = useState(false);
     const [isLongText, setIsLongText] = useState(false);
+
     // 댓글 적기 시작하면 "게시" div 보여주기
     const [saveComment, setSaveComment] = useState("");
 
     // 피드 옵션 관련
-    let state = useSelector((state) => {return state});
+    let state = useSelector((state) => {
+        return state
+    });
     let dispatch = useDispatch();
 
     // 좋아요 클릭
@@ -66,8 +84,8 @@ const PeedCard = () => {
         return lineHeight * lines + extraHeight;
     };
 
-    // 본문 예시
-    const peed_text = "이 밴드 \n정말 좋아요! 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다. 이 밴드 정말 좋아요! 추천합니다! 여러 줄의 본문이 길어질 수 있습니다.";
+    // 본문
+    const peed_text = contents;
 
     // 피드텍스트 길이 계산 후 isLongText 상태 업데이트
     useEffect(() => {
@@ -81,11 +99,10 @@ const PeedCard = () => {
         setIsLongText(peed_text.split("\n").length > 1 || element.scrollHeight > 60);
     }, []);
 
-
     return (
         <div className="peed_container">
             <div className='peed'
-                 // 본문의 길이 따라서 피드의 길이가 정해짐
+                // 본문의 길이 따라서 피드의 길이가 정해짐
                  style={{
                      height: showFullText
                          ? getTextHeight(peed_text) + 670
@@ -93,16 +110,21 @@ const PeedCard = () => {
                  }}>
                 {/*피드 상단*/}
                 <div className="peed_top_section">
-                    <img src="/assets/img/3.jpg" alt="오류" className="peed_profile"/>
-                    <a href={`http://localhost:3000/alsrb_1214`} className="user_name">
-                        alsrb_1214
+                    <img className="peed_profile"
+                         src={userProFileImg ? `data:image/jpeg;base64,${userProFileImg}` : "/assets/img/profile.png"}
+                         alt="오류"/>
+                    <a href={`http://localhost:8080/${name}`} className="user_name">
+                        {name}
                     </a>
-                    <BsDot style={{fontSize : "30px"}}/>
-                    <time dateTime={publishedTime.toISOString()}>
+                    <BsDot style={{fontSize: "30px"}}/>
 
-                        {/*피드 올린후 경과시간 시간,일,주,달,년 으로 구분해야됨*/}
+
+                    {console.log(meta.substr(0, 4))}
+
+
+                    <time dateTime={publishedTime.toISOString()}>
                         {elapsedHours}
-                    </time>
+                    </time>일
                     <button className='peed_option'
                             onClick={() => {
                                 dispatch(optionModalOn())
@@ -114,7 +136,20 @@ const PeedCard = () => {
                 {/*피드의 이미지나 영상 파트*/}
                 <div className='peed_media_section'>
                     {/*서버에서 이미지 가져와서 넣기*/}
-                    <img src='/assets/img/1.jpg' className='peed_media'></img>
+                    {/*영상 파일이면 영상으로 출력 아니면 이미지로 출력*/}
+                    {meta.substr(0, 4) === "AAAA" ? (
+                        <video className="peed_media"
+                               id={postId} controls>
+                            <source src={`data:video/mp4;base64,${meta}`} type="video/mp4"/>
+                        </video>
+                    ) : (
+                        <img
+                            className="peed_media"
+                            id={postId}
+                            src={`data:image/jpeg;base64,${meta}`}
+                            alt="불러오기 실패 ㅜㅠ"
+                        />
+                    )}
                 </div>
                 {/*좋아요 댓글 공유 저장등 아이콘 모음*/}
                 <div className='peed_icon_section'>
@@ -138,9 +173,9 @@ const PeedCard = () => {
                 {/*좋아요를 인원 표시*/}
                 <div className="liked_user">
                     <span>
-                        <span style={{fontWeight: "bold", cursor: "pointer"}}>qweas123</span>
+                        <span style={{fontWeight: "bold", cursor: "pointer"}}>{name}</span>
                         <span> 님 외</span>
-                        <span style={{fontWeight: "bold", cursor: "pointer"}}> 여러 명</span>
+                        <span style={{fontWeight: "bold", cursor: "pointer"}}> {likeCount} 명</span>
                         <span>이 좋아합니다.</span>
                     </span>
                 </div>
@@ -148,7 +183,8 @@ const PeedCard = () => {
 
                 <div className="peed_text"
                      style={{
-                         maxHeight: showFullText || !isLongText ? 'none' : '2.5em'}}>
+                         maxHeight: showFullText || !isLongText ? 'none' : '2.5em'
+                     }}>
                     {/* 본문의 일부만 표시 시 */}
                     {!showFullText && (
                         <div style={{overflow: "hidden"}}>

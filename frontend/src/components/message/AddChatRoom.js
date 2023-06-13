@@ -4,34 +4,14 @@ import {useDispatch} from 'react-redux';
 import {newChatModalOff} from '../../store/Store';
 import axios from "axios";
 
-// 일단 팔로워중에 검사
-const dummyUsers = [
-    {id: 'user1', name: '홍길동'},
-    {id: 'user2', name: '이순신'},
-    {id: 'user3', name: '유순'},
-    {id: 'user4', name: '홍길동'},
-    {id: 'user5', name: '이순신'},
-    {id: 'user6', name: '유순'},
-    {id: 'user7', name: '유순'},
-    {id: 'user8', name: '홍길동'},
-    {id: 'user9', name: '이순신'},
-    {id: 'user10', name: '유순'},
-    {id: 'user11', name: '홍길동'},
-    {id: 'user12', name: '이순신'},
-    {id: 'user13', name: '유순'},
-    {id: 'aser4', name: '홍길동'},
-    {id: 'aser5', name: '이순신'},
-    {id: 'aser6', name: '순'},
-    {id: 'iser7', name: '홍길동'},
-    {id: 'iser8', name: '이순신'},
-    {id: 'iser9', name: '유순'}
-];
 
 const AddChatRoom = () => {
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState('');
     const [foundUsers, setFoundUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState('');
+    const [followingUsers, setFollowingUsers] = useState([]);
+
 
     const handleModalOff = useCallback(
         (e) => {
@@ -45,8 +25,9 @@ const AddChatRoom = () => {
 
     const handleSearchChange = (e) => {
         setSearchText(e.target.value);
+        console.log(followingUsers);
         if (e.target.value) {
-            const found = dummyUsers.filter((user) => user.id.includes(e.target.value));
+            const found = followingUsers.filter(user => user.id && user.id.toLowerCase().includes(e.target.value.toLowerCase()));
             setFoundUsers(found);
         } else {
             setFoundUsers([]);
@@ -55,19 +36,28 @@ const AddChatRoom = () => {
 
     const handleUserSelect = (e) => {
         setSelectedUser(e.target.value);
+        console.log(selectedUser);
     };
-
-    // useState 추가
-    const [followingUsers, setFollowingUsers] = useState([]);
 
     // 팔로우 목록을 가져오는 함수
     const fetchFollowingUsers = async () => {
-        try {
-            const response = await axios.get("/following");
-            setFollowingUsers(response.data);
-        } catch (error) {
-            console.error("Error fetching following list:", error);
-        }
+        await axios.post('/getfollowlist', {}, {
+            headers: {authorization: localStorage.getItem("token")},
+        }).then((response) => {
+            console.log(response.data);
+
+            // 일단 팔로우목록 중에 검사
+            const users = response.data.map((user) => ({
+                id: user.userId,
+                name: user.name,
+                image: user.image,
+            }));
+
+            setFollowingUsers(users);
+
+        }).catch(function (error) {
+            console.log("실패함", error);
+        })
     };
 
     // 팔로우 목록을 가져오는 useEffect
@@ -78,11 +68,19 @@ const AddChatRoom = () => {
 
     // 채팅방 만들기
     const createChatRoom = async (otherUserId) => {
+        console.log(otherUserId)
         try {
-            const response = await axios.post("/makechatroom", {userId: otherUserId});
+            const response = await axios.post("/makechatroom", {
+                userId: otherUserId
+            },{
+                headers: {authorization: localStorage.getItem("token")},
+            });
             if (response.data === "success") {
+                alert("Chat room created successfully")
                 console.log("Chat room created successfully");
+                dispatch(newChatModalOff());
             } else {
+                alert("Failed to create chat room")
                 console.log("Failed to create chat room");
             }
         } catch (error) {
@@ -113,7 +111,7 @@ const AddChatRoom = () => {
                                 style={{display: "flex"}}
                                 key={user.id}>
                                 <img
-                                    src={"/assets/img/3.jpg"}
+                                    src={`data:image/jpeg;base64,${user.image}`}
                                     alt={"asdd"}/>
                                 <span>계정: {user.id}<br/>이름: {user.name}</span>
                                 <input
@@ -129,10 +127,7 @@ const AddChatRoom = () => {
                 )}
                 <button className="add_room_btn"
                         disabled={foundUsers.length === 0}
-                        onClick={() => {
-                            createChatRoom(selectedUser);
-                            dispatch(newChatModalOff());
-                        }}>
+                        onClick={() => createChatRoom(selectedUser)}>
                     채팅
                 </button>
             </div>

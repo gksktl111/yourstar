@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
+@Table(name = "comments")
 public class CommentEntity {
 
     @ManyToOne

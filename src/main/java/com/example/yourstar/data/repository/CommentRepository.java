@@ -1,7 +1,6 @@
 package com.example.yourstar.data.repository;
 
 import com.example.yourstar.data.entity.CommentEntity;
-import com.example.yourstar.data.entity.CommentLikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -9,12 +9,13 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeedViewDto {
+public class GetFeedViewDto {
     private String userId;
+    private String userName;
+    private String userProFileImg;
     private long postId;
-    private String contents;
     private String meta;
-    private Timestamp postTime;
+    private String contents;
     private long likeCount;
-    private Boolean status;
+    private Timestamp postTime;
 }

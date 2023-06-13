@@ -1,12 +1,13 @@
 package com.example.yourstar.controller;
 
-import com.example.yourstar.data.dto.comment.*;
+import com.example.yourstar.data.dto.comment.CommentDeleteDto;
+import com.example.yourstar.data.dto.comment.CommentUpdateDto;
+import com.example.yourstar.data.dto.comment.CommentWriteFormDto;
 import com.example.yourstar.data.entity.CommentEntity;
 import com.example.yourstar.service.CommentService;
 import com.example.yourstar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,4 +43,6 @@ public class CommentController {
         CommentEntity commentEntity = commentService.ToggleLikeComment(authentication.name(), commentId);
         return commentEntity != null ? ResponseEntity.ok(commentEntity) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+
 }

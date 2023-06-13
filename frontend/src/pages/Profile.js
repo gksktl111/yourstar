@@ -58,7 +58,7 @@ const Profile = () => {
             const magicNumbers = [
                 {type: 'image/jpeg', magic: '/9j/4'},
                 {type: 'image/png', magic: 'iVB'},
-                {type: 'video/mp4', magic: 'AAAAGGZ'},
+                {type: 'video/mp4', magic: 'AAAA'},
             ];
 
             const contentType = magicNumbers.find((content) => metaData.startsWith(content.magic));

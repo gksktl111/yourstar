@@ -8,10 +8,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "user")
 public class UserEntity {
 

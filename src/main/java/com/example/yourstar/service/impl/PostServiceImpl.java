@@ -1,13 +1,18 @@
 package com.example.yourstar.service.impl;
 
 import com.example.yourstar.data.dao.PostDao;
+import com.example.yourstar.data.dto.GetFeedViewDto;
 import com.example.yourstar.data.dto.post.PostUpdateDto;
 import com.example.yourstar.data.dto.post.PostWriteFormDto;
 import com.example.yourstar.data.entity.PostEntity;
 import com.example.yourstar.data.repository.PostRepository;
+import com.example.yourstar.data.repository.UserRepository;
 import com.example.yourstar.service.PostService;
 import com.example.yourstar.service.exception.PostNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -16,20 +21,25 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+    private UserRepository userRepository;
 
     private PostDao postDao;
 
     private PostEntity postEntity;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, PostDao postDao) {
+    public PostServiceImpl(PostRepository postRepository, PostDao postDao,UserRepository userRepository) {
         this.postRepository = postRepository;
         this.postDao = postDao;
+        this.userRepository =userRepository;
     }
     @Override
     @Transactional
@@ -48,7 +58,7 @@ public class PostServiceImpl implements PostService {
         postEntity.setCategory("default");
 
         System.out.println("서비스파트 들어옴");
-        
+
         if (postWriteFormDto.getImageFile() != null && !postWriteFormDto.getImageFile().isEmpty()) {
             // 이미지 파일이 있을 경우, meta 필드에 이미지 데이터를 저장
             try {
@@ -204,6 +214,38 @@ public class PostServiceImpl implements PostService {
 
         //수정 정보 저장
         return postRepository.save(postEntity);
+    }
+
+    @Override
+    public List<GetFeedViewDto> getFeedView(String userId, int page) {
+        PageRequest pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "postTime"));
+        Page<PostEntity> postList = postRepository.findByUserNot(userRepository.getById(userId), pageable);
+
+        List<PostEntity> postEntityList = postList.getContent();
+
+        List<GetFeedViewDto> getFeedViewDtoList = postEntityList.stream()
+                .map(postEntity -> {
+                    GetFeedViewDto getFeedViewDto = new GetFeedViewDto();
+                    getFeedViewDto.setUserId(postEntity.getUserId());
+                    getFeedViewDto.setUserName(postEntity.getUser().getUserName());
+                    if(postEntity.getUser().getUserProfileEntity().getUserProfile() != null){
+                        getFeedViewDto.setUserProFileImg(Base64.getEncoder().encodeToString(postEntity.getUser().getUserProfileEntity().getUserProfile()));
+                    }else {
+                        getFeedViewDto.setUserProFileImg(null);
+                    }
+                    getFeedViewDto.setPostId(postEntity.getPostId());
+                    getFeedViewDto.setContents(postEntity.getContents());
+                    getFeedViewDto.setLikeCount(postEntity.getLikeCount());
+                    getFeedViewDto.setPostTime((postEntity.getPostTime()));
+                    try {
+                        getFeedViewDto.setMeta(Base64.getEncoder().encodeToString(postEntity.getMeta().getBytes(1,(int)postEntity.getMeta().length())));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return getFeedViewDto;
+                })
+                .collect(Collectors.toList());
+        return getFeedViewDtoList;
     }
 
 }
