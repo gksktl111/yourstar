@@ -16,6 +16,7 @@ public interface PostLikeRepository extends JpaRepository<PostLikeEntity, Long> 
     @Query(value = "INSERT INTO post_like(post_id, user_id) VALUES(:postId, :userId)", nativeQuery = true)
     void insertPostLike(@Param("postId") long postId, @Param("userId") String userId); //postId와 userId 파라미터 전달로 포스트 좋아요 메소드 구현
 
-    //@Query("DELETE FROM PostLikeEntity pl WHERE pl.postEntity.id = :postId AND pl.userEntity.id = :userId")
-    void deleteByPostEntityPostIdAndUserEntityUserId(Long postId, String userId);//유저 아이디와 포스트 아이디로 조회해서 포스트나 혹은 유저가 조회되지 않을 경우 좋아요 자동으로 삭제됨
+    @Modifying
+    @Query(value = "DELETE FROM post_like WHERE post_id = :postId AND user_id = :userId", nativeQuery = true)
+    void deleteByPostEntityPostIdAndUserEntityUserId(@Param("postId")Long postId, @Param("userId")String userId);//유저 아이디와 포스트 아이디로 조회해서 포스트나 혹은 유저가 조회되지 않을 경우 좋아요 자동으로 삭제됨
 }
