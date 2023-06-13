@@ -24,6 +24,7 @@ public class CommentEntity {
 
     @Id
     @Column(name = "comments_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //트랜잭션이 실행될때마다 자동적으로 테이블의 id값이 1씩 증가
     long commentsId;
 
     @Column(name = "post_id")

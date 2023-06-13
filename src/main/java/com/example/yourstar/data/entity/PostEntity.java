@@ -21,6 +21,7 @@ public class PostEntity {
 
     @Id
     @Column(name = "post_id", columnDefinition = "bigint")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //트랜잭션이 실행될때마다 자동적으로 테이블의 id값이 1씩 증가
     long postId;
 
     @Column(name = "contents")
